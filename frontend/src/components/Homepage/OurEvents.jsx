@@ -1,4 +1,5 @@
 import React from "react";
+import { motion } from "framer-motion";
 import { Rectangle23, Rectangle27, Rectangle27_1 } from "../../Assets/images";
 
 const EventsSection = () => {
@@ -29,35 +30,78 @@ const EventsSection = () => {
     },
   ];
 
-  return (
-    <div className="max-w-7xl mx-auto px-4 py-12">
-      <h2 className="text-4xl font-bold text-center mb-12">Our Events</h2>
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        delayChildren: 0.3,
+        staggerChildren: 0.2
+      }
+    }
+  };
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        duration: 0.5
+      }
+    }
+  };
+
+  return (
+    <div className="max-w-7xl mx-auto px-3 md:px-20 py-12">
+      <motion.h2 
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="text-4xl font-bold text-center mb-12"
+      >
+        Our Events
+      </motion.h2>
+
+      <motion.div 
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12"
+      >
         {events.map((event, index) => (
-          <div key={index} className="relative group">
+          <motion.div 
+            key={index} 
+            variants={itemVariants}
+            className="relative group"
+          >
             <div className="rounded-2xl overflow-hidden bg-white">
               <div className="relative rounded-[2rem] overflow-hidden">
-                <img
+                <motion.img
+                  whileHover={{ scale: 1.05 }}
+                  transition={{ duration: 0.3 }}
                   src={event.image}
                   alt={event.title}
-                  className="w-full h-[250px] object-cover" // Increased height from 200px to 250px
+                  className="w-full h-[250px] object-cover"
                 />
-                <div className="absolute bottom-4 right-4 w-12 h-12 bg-white rounded-xl flex items-center justify-center group-hover:bg-[#FF4D00] transition-colors">
+                <motion.div 
+                  whileHover={{ rotate: 360 }}
+                  className="absolute bottom-4 right-4 w-12 h-12 bg-white rounded-xl flex items-center justify-center group-hover:bg-[#FF4D00] transition-colors"
+                >
                   <svg
                     width="24"
                     height="24"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
-                    className="text-[#1a237e] group-hover:text-white transition-colors rotate-[-45deg]" // Added rotate-[-45deg] for 45-degree upward rotation
+                    className="text-[#1a237e] group-hover:text-white transition-colors rotate-[-45deg]"
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
                   >
                     <path d="M5 12h14m-7-7 7 7-7 7" />
                   </svg>
-                </div>
+                </motion.div>
               </div>
 
               <div className="p-4">
@@ -66,7 +110,7 @@ const EventsSection = () => {
                     {event.title}
                   </h3>
                   <div className="flex items-center gap-2 ml-auto">
-                    <span className="text-sm text-gray-600">{event.date}</span>
+                    <span className="text-sm min-h-16 justify-center text-center text-gray-600">{event.date}</span>
                     {event.isOnline && (
                       <span className="text-[#00C944] text-sm">Online</span>
                     )}
@@ -78,15 +122,24 @@ const EventsSection = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
 
-      <div className="text-center">
-        <button className="text-xl font-medium hover:text-[#FF4D00] transition-colors">
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.6, duration: 0.5 }}
+        className="text-center"
+      >
+        <motion.button 
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          className="text-xl font-medium hover:text-[#FF4D00] transition-colors"
+        >
           More
-        </button>
-      </div>
+        </motion.button>
+      </motion.div>
     </div>
   );
 };

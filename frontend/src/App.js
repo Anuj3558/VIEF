@@ -7,6 +7,8 @@ import  HomePage  from './pages/HomePage';
 import { bgTexture } from './Assets/images';
 import WhyChooseUs from './pages/WhyChooseUs';
 import ContactPage from './pages/Contact';
+import EventDetailsPage from './pages/UpcomingEventDetails';
+import NewsletterPage from './pages/NewsLetter';
 
 
 function App() {
@@ -22,6 +24,10 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/why-us" element={<WhyChooseUs />} />
           <Route path="/contact" element={<ContactPage />} />
+          <Route path="/event/:id" element={<EventDetailsPage />} />
+          <Route path="/event/past" element={<EventDetailsPage />} />
+          <Route path="/news-letter" element={<NewsletterPage />} />
+          
         </Routes>
       </div>
       </div>

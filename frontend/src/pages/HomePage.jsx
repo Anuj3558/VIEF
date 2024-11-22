@@ -13,10 +13,11 @@ const  HomePage =()=>{
     return (
       <> 
         <Hero />
-        <ImageCarousel/>
+        
         <AnimatedCounters/>
         <StoriesSection />
         <GlimpseOfWork />
+        <ImageCarousel/>
         <EventsSection/>
         <SupportersSection/>
         
