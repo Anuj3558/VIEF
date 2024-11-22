@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { logoPng } from '../Assets/images';
+
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -83,9 +84,9 @@ const Navbar = () => {
     ));
 
   return (
-    <nav className="py-3 z-10 absolute bg-transparent w-full  text-white font-sans">
+    <nav className="py-3 z-20 absolute montserrat-light bg-transparent w-full text-white font-sans border-b border-white md:border-opacity-100 border-opacity-0">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-16 pb-3">
           <div className="hidden md:flex items-center space-x-4">
             {renderNavItems(leftNavItems)}
           </div>
@@ -147,7 +148,7 @@ const Navbar = () => {
       </div>
       {isOpen && (
         <motion.div
-          className="md:hidden"
+          className="md:hidden bg-gray-800 mt-3"
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3 }}
@@ -163,7 +164,6 @@ const Navbar = () => {
               </Link>
             ))}
           </div>
-          <div className='w-7 bg-white'>i</div>
         </motion.div>
       )}
     </nav>
@@ -171,3 +171,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
+

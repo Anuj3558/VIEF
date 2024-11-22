@@ -27,7 +27,7 @@ const Hero = () => {
                 <div className='space-y-3 text-4xl sm:text-5xl'>
                   <p className='flex flex-col lg:flex-row lg:items-center justify-center lg:justify-start'>
                     Launch Your Startup at
-                    <span className="text-[#1A2587] lg:ml-2">IIED:</span>
+                    <span className="text-[#1A2587] lg:ml-2 font-semibold">IIED:</span>
                   </p>
                   <p>India's Innovation Hub</p>
                 </div>
