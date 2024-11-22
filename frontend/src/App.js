@@ -9,6 +9,9 @@ import InnovationHub from "./pages/InnovationHub";
 import CareerSection from "./pages/Career";
 import WhyChooseUs from "./pages/WhyChooseUs";
 import ContactPage from "./pages/Contact";
+import NewsletterPage from "./pages/NewsLetter";
+import PastEventDetailsPage from "./pages/PastEventDeatils";
+import EventDetailsPage from "./pages/UpcomingEventDetails";
 
 function App() {
   return (
@@ -25,6 +28,9 @@ function App() {
             <Route path="/career" element={<CareerSection />} />
             <Route path="/why-us" element={<WhyChooseUs />} />
             <Route path="/contact" element={<ContactPage />} />
+            <Route path="/news-letter" element={<NewsletterPage />} />
+            <Route path="/event/past" element={<PastEventDetailsPage />} />
+            <Route path="/event/:id" element={<EventDetailsPage />} />
           </Routes>
         </div>
       </div>
