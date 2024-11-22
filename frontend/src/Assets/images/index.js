@@ -18,14 +18,33 @@
     import logoSvg from "./logo.svg"
     import wc1 from "./wc-1.png"
     import wc2 from "./wc-2.png"
-    
+   
+    //glimpse
     import Rectangle23 from "./GlimpseOfWork/Rectangle23.png";
     import Rectangle24 from "./GlimpseOfWork/Rectangle24.png";
     import Rectangle25 from "./GlimpseOfWork/Rectangle25.png";
     import Rectangle26 from "./GlimpseOfWork/Rectangle26.png";
 
+    //stories
     import MC from "./Stories section/MC.png"
     import COCA from "./Stories section/COCA.png"
+
+    //supporters
+    import DPToFSci from "./supporters/1-1.png"
+    import DST from "./supporters/4-1.png"
+    import MSHL from "./supporters/MeitY-Startup-Hub-Logo-FINAL_1.png";
+    import StartupIndia from "./supporters/Startup-India.png";
+
+    //caraocel
+    import Frame329 from "./Caraocel/Frame329.png";
+    import Rectangle8 from "./Caraocel/Rectangle8.png";
+    import Rectangle10 from "./Caraocel/Rectangle10.png";
+    import Rectangle11 from "./Caraocel/Rectangle11.png";
+
+    //our events
+    import Rectangle27 from "./ourevents/Rectangle27.png";
+    import Rectangle27_1 from "./ourevents/Rectangle27-1.png"
+
     export {
     contact,
       arrow,
@@ -51,5 +70,15 @@
       Rectangle25,
       Rectangle26,
       MC,
-      COCA
+      COCA,
+      DPToFSci,
+      DST,
+      MSHL,
+      StartupIndia,
+      Frame329,
+      Rectangle8,
+      Rectangle10,
+      Rectangle11,
+      Rectangle27,
+      Rectangle27_1,
     };
