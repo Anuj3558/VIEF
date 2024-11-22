@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { bgTexture } from "../../Assets/images";
 
 function Counter({ end, duration = 2000, prefix = "", suffix = "", label }) {
   const [count, setCount] = useState(0);
@@ -62,22 +63,26 @@ function Counter({ end, duration = 2000, prefix = "", suffix = "", label }) {
   return (
     <div
       id={`counter-${label.replace(/\s+/g, "-")}`}
-      className="flex flex-col items-center"
+      className="flex flex-col items-center text-center w-full sm:w-auto"
     >
-      <div className="text-[#FF4D00] text-4xl font-bold mb-2">
+      <div className="text-[#FF4D00] text-2xl sm:text-3xl md:text-4xl font-bold mb-1 sm:mb-2">
         {prefix}
         {count.toLocaleString()}
         {suffix}
       </div>
-      <div className="text-gray-600 text-sm">{label}</div>
+      <div className="text-gray-600 text-xs sm:text-sm px-2 sm:px-0">
+        {label}
+      </div>
     </div>
   );
 }
 
 export default function AnimatedCounters() {
   return (
-    <div className="w-full max-w-7xl mx-auto px-4">
-      <div className="flex flex-wrap justify-between items-start gap-4 py-12">
+
+    <div className="w-full max-w-5xl px-4 sm:px-6 lg:px-8 py-5 montserrat-light mx-auto">
+       
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 py-8 sm:py-12 place-items-center">
         <Counter end={100} suffix="+" label="Venture Incubation" />
         <Counter end={15070} suffix="+" label="Job Created" />
         <Counter end={12300} suffix="+" label="Entrepreneurs Engaged" />
@@ -88,6 +93,7 @@ export default function AnimatedCounters() {
           label="Combined Value Of Incubated Ventures"
         />
       </div>
-    </div>
+      </div>
+    
   );
 }

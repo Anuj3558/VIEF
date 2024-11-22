@@ -1,4 +1,4 @@
-    import aboutBg from "./about-bg.svg";
+    
     import arrow from "./arrow.svg";
     import award from "./award.png";
     import awardsBg from "./awards-bg.png";
@@ -26,7 +26,7 @@
     import MC from "./Stories section/MC.png"
     import COCA from "./Stories section/COCA.png"
     export {
-      aboutBg,
+    
       arrow,
       award,
       awardsBg,
