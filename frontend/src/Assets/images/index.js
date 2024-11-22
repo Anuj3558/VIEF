@@ -1,4 +1,4 @@
-    import aboutBg from "./about-bg.svg";
+    
     import arrow from "./arrow.svg";
     import award from "./award.png";
     import awardsBg from "./awards-bg.png";
@@ -45,7 +45,7 @@
     import Rectangle27_1 from "./ourevents/Rectangle27-1.png"
 
     export {
-      aboutBg,
+    
       arrow,
       award,
       awardsBg,

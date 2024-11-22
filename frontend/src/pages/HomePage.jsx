@@ -6,11 +6,12 @@ import StoriesSection from "../components/Homepage/StoriesSection.jsx";
 import EventsSection from "../components/Homepage/OurEvents.jsx";
 import SupportersSection from "../components/Homepage/OurSupporter.jsx";
 import ImageCarousel from "../components/Homepage/Caraocel.jsx";
+import { bgTexture } from "../Assets/images/index.js";
 
 
 const  HomePage =()=>{
     return (
-      <>
+      <> 
         <Hero />
         <ImageCarousel/>
         <AnimatedCounters/>
@@ -18,6 +19,8 @@ const  HomePage =()=>{
         <GlimpseOfWork />
         <EventsSection/>
         <SupportersSection/>
+        
+       
       </>
     );
 }
