@@ -44,8 +44,9 @@
     import Rectangle27 from "./ourevents/Rectangle27.png";
     import Rectangle27_1 from "./ourevents/Rectangle27-1.png"
 
+    import Rectangle62 from "./Rectangle62.png"
+
     export {
-    
       arrow,
       award,
       awardsBg,
@@ -80,4 +81,5 @@
       Rectangle11,
       Rectangle27,
       Rectangle27_1,
+      Rectangle62
     };
