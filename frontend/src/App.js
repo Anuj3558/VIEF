@@ -5,6 +5,8 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import  HomePage  from './pages/HomePage';
 import { bgTexture } from './Assets/images';
+import WhyChooseUs from './pages/WhyChooseUs';
+import ContactPage from './pages/Contact';
 
 
 function App() {
@@ -18,10 +20,12 @@ function App() {
       <div className="App">
         <Routes>
           <Route path="/" element={<HomePage />} />
-
+          <Route path="/why-us" element={<WhyChooseUs />} />
+          <Route path="/contact" element={<ContactPage />} />
         </Routes>
       </div>
       </div>
+      <Footer />
     </Router>
   );
 }
