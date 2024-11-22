@@ -84,7 +84,7 @@ const Navbar = () => {
     ));
 
   return (
-    <nav className="py-3 z-20 absolute montserrat-light bg-transparent w-full text-white font-sans border-b border-white md:border-opacity-100 border-opacity-0">
+    <nav className="py-3 z-20 absolute montserrat-light bg-black w-full text-white font-sans border-b border-white md:border-opacity-100 border-opacity-0">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 pb-3">
           <div className="hidden md:flex items-center space-x-4">

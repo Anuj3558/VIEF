@@ -4,6 +4,7 @@
     import awardsBg from "./awards-bg.png";
     import bgLanding from "./bg-landing.png"
     import bgTexture from "./bg-texture.svg";
+    import contact from "./ContactUs.jpeg"
     import c1 from "./c1.svg"
     import c2 from "./c2.svg"
     import c3 from "./c3.svg"
@@ -47,6 +48,7 @@
     import Rectangle62 from "./Rectangle62.png"
 
     export {
+    contact,
       arrow,
       award,
       awardsBg,
