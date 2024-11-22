@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Orbitron:wght@400..900&display=swap');
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -10,7 +11,62 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.montserrat-main {
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+  font-size: 16px;
+  font-weight: 200;
+  line-height: 1.5;
+  font-style: normal;
 }
+.montserrat-simple {
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+  font-size: 6px;
+  font-weight: 200;
+  line-height: 1.5;
+  font-style: normal;
+}
+@media (min-width: 640px) {
+  .montserrat-main {
+    font-size: 18px;
+  }
+}
+
+@media (min-width: 768px) {
+  .montserrat-main {
+    font-size: 20px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .montserrat-main {
+    font-size: 24px;
+  }
+}
+
+.montserrat-light {
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
+}
+
+@media (min-width: 640px) {
+  .montserrat-light {
+    font-size: 30px;
+  }
+}
+
+@media (min-width: 768px) {
+  .montserrat-light {
+    font-size: 26px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .montserrat-light {
+    font-size: 48px;
+  }
+}
+
