@@ -1,7 +1,9 @@
+'use client'
+
 import React from "react";
 import { motion } from "framer-motion";
-import VideoThumbnail from "./video-thumbnail.jsx";
-import { bgTexture, Rectangle23, Rectangle24, Rectangle25, Rectangle26 } from "../../Assets/images/index.js";
+import VideoThumbnail from "./video-thumbnail";
+import { Rectangle23, Rectangle24, Rectangle25, Rectangle26 } from "../../Assets/images";
 
 export default function WorkGlimpse() {
   const containerVariants = {
@@ -32,55 +34,50 @@ export default function WorkGlimpse() {
   };
 
   return (
-   
     <motion.div 
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true }}
       variants={containerVariants}
-      className="md:w-[1470px] mt-10 px-4 md:px-48 h-[75vh] flex flex-col justify-center"
+      className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20"
     >
       <motion.h2 
         variants={itemVariants}
-        className="mb-4 text-center text-2xl font-bold tracking-tighter md:text-4xl"
+        className="mb-8 text-center text-2xl font-bold tracking-tighter sm:text-3xl md:text-4xl"
       >
         Glimpse of our work
       </motion.h2>
       <motion.div 
         variants={containerVariants}
-        className="flex flex-col mt-5 gap-10 md:flex-row h-[calc(70vh-4rem)]"
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8"
       >
         <motion.div 
           variants={itemVariants} 
           whileHover="hover"
-          className="md:w-[85%]"
+          className="col-span-1 md:col-span-2 lg:col-span-2"
         >
           <VideoThumbnail
             src={Rectangle23}
             alt="Office workspace with computers and hanging lights"
-            className="md:h-[595px] w-full rounded-xl"
+            className="w-full h-full object-cover rounded-xl aspect-video"
           />
         </motion.div>
-        <motion.div 
-          variants={containerVariants}
-          className="flex flex-col gap-10 md:w-[35%]"
-        >
-          {[Rectangle24, Rectangle25, Rectangle26].map((img, index) => (
-            <motion.div 
-              key={index} 
-              variants={itemVariants}
-              whileHover="hover"
-            >
-              <VideoThumbnail
-                src={img}
-                alt={`Thumbnail ${index + 1}`}
-                className="aspect-[16/9] rounded-xl"
-              />
-            </motion.div>
-          ))}
-        </motion.div>
+        {[Rectangle24, Rectangle25, Rectangle26].map((img, index) => (
+          <motion.div 
+            key={index} 
+            variants={itemVariants}
+            whileHover="hover"
+            className="col-span-1"
+          >
+            <VideoThumbnail
+              src={img}
+              alt={`Thumbnail ${index + 1}`}
+              className="w-full h-full object-cover rounded-xl aspect-video"
+            />
+          </motion.div>
+        ))}
       </motion.div>
     </motion.div>
-
   );
 }
+

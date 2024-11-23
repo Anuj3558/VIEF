@@ -12,7 +12,7 @@ const NewsletterPage = () => {
           transition={{ duration: 0.6 }}
         >
           <img
-            src="/api/placeholder/1200/300"
+            src=""
             alt="Newsletter Background"
             className="absolute inset-0 w-full h-full object-cover brightness-50"
           />
@@ -50,7 +50,7 @@ const NewsletterPage = () => {
                     whileHover={{ scale: 1.02 }}
                   >
                     <img
-                      src="/api/placeholder/150/100"
+                      src=""
                       alt="News thumbnail"
                       className="w-[150px] h-[100px] rounded-lg object-cover"
                     />
@@ -75,7 +75,7 @@ const NewsletterPage = () => {
               >
                 <div className="relative h-[400px]">
                   <img
-                    src="/api/placeholder/600/400"
+                    src=""
                     alt="Cycling"
                     className="absolute inset-0 w-full h-full object-cover"
                   />
@@ -117,7 +117,7 @@ const NewsletterPage = () => {
                 >
                   <div className="relative h-[200px]">
                     <img
-                      src="/api/placeholder/400/200"
+                      src=""
                       alt={sport}
                       className="w-full h-full object-cover"
                     />
@@ -125,7 +125,7 @@ const NewsletterPage = () => {
                   <div className="p-4">
                     <div className="mb-4 flex items-center gap-2">
                       <img
-                        src="/api/placeholder/32/32"
+                        src=""
                         alt="Author"
                         className="w-8 h-8 rounded-full"
                       />

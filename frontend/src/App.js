@@ -12,6 +12,12 @@ import ContactPage from "./pages/Contact";
 import NewsletterPage from "./pages/NewsLetter";
 import PastEventDetailsPage from "./pages/PastEventDeatils";
 import EventDetailsPage from "./pages/UpcomingEventDetails";
+import EventsPage from "./pages/Events";
+import AboutUs from "./pages/AboutUs";
+import ApplyNowPage from "./pages/ApplyNow";
+import StartupsPage from "./pages/StartUps";
+import { Award } from "lucide-react";
+import Awards from "./pages/Awards";
 
 function App() {
   return (
@@ -26,11 +32,16 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/innovation-hub" element={<InnovationHub />} />
             <Route path="/career" element={<CareerSection />} />
-            <Route path="/why-us" element={<WhyChooseUs />} />
+            <Route path="/facilities" element={<WhyChooseUs />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/news-letter" element={<NewsletterPage />} />
             <Route path="/event/past" element={<PastEventDetailsPage />} />
             <Route path="/event/:id" element={<EventDetailsPage />} />
+            <Route path="/events" element={<EventsPage />} />
+            <Route path="/about-us" element={<AboutUs />} />
+            <Route path="/apply-now" element={<ApplyNowPage />} />
+            <Route path="/startup" element={<StartupsPage />} />
+            <Route path="/achievements" element={<Awards />} />
           </Routes>
         </div>
       </div>

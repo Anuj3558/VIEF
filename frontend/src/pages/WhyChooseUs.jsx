@@ -4,7 +4,7 @@ import { wc1, wc2 } from '../Assets/images'
 
 export default function WhyChooseUs() {
   return (
-    <div className="min-h-screen pt-10 bg-gray-50">
+    <div className="min-h-screen pt-6 bg-gray-50">
       {/* Hero Section */}
       <section className="relative">
         <div className="absolute inset-0 mt-11">
