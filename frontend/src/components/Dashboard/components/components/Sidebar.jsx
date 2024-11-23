@@ -15,7 +15,7 @@ const Sidebar = ({ setActiveSection, activeSection }) => {
     <motion.div 
       initial={{ x: -250 }}
       animate={{ x: 0 }}
-      className="w-64 h-screen bg-indigo-900 text-white p-6 fixed left-0 top-0"
+      className="w-64 mt-20 h-screen bg-indigo-900 text-white p-6 fixed left-0 top-0"
     >
       <motion.h1 
         initial={{ opacity: 0 }}
