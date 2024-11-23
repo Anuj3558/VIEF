@@ -1,161 +1,117 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { FaTrophy, FaUniversity, FaChevronRight, FaAward } from 'react-icons/fa';
+import React from "react";
+import {
+  Rectangele57,
+  Rectangle26,
+  Rectangle57,
+  Rectangle59,
+} from "../Assets/images";
 
-const Awards = () => {
-  const awards = [
-    {
-      id: 1,
-      title: 'Best Incubation Award',
-      description: "It's time to shine a spotlight on innovation and entrepreneurship! Join us at IITD-IC as we present an exhilarating Investors Meet, where the brightest minds collide. Don't just spectate, participate! If you are a startup who has developed the product and looking for scaling up your venture with backup from VCs, do submit your application.",
-    },
-    {
-      id: 2,
-      title: 'Innovation Excellence Award',
-      description: "Recognizing groundbreaking ideas and their impactful execution, this award celebrates startups that have demonstrated exceptional innovation in their field. From cutting-edge technology to novel business models, these ventures are reshaping industries and setting new standards for creativity and problem-solving.",
-    },
-    {
-      id: 3,
-      title: 'Sustainable Growth Award',
-      description: "This award honors startups that have shown remarkable growth while maintaining a strong focus on sustainability. These companies not only excel in their business metrics but also contribute positively to environmental and social causes, proving that profit and purpose can go hand in hand in the modern business landscape.",
-    }
-  ];
-
-  const universities = [
-    { id: 1, name: 'XYZ University' },
-    { id: 2, name: 'ABC Institute of Technology' },
-    { id: 3, name: 'PQR College of Engineering' },
-    { id: 4, name: 'LMN Business School' },
-    { id: 5, name: 'EFG University' },
-    { id: 6, name: 'RST Institute of Science' },
-    { id: 7, name: 'UVW College' },
-    { id: 8, name: 'HIJ Technical University' },
-    { id: 9, name: 'OPQ Management Institute' }
-  ];
-
-  const containerVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.6,
-        staggerChildren: 0.2
-      }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0
-    }
-  };
+const PartnershipGrid = () => {
+  const universities = Array(9).fill({
+    name: "XYZ University",
+    image: "/placeholder.svg?height=300&width=400",
+  });
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Hero Section */}
-      <div className="relative h-48 bg-gradient-to-r from-blue-600 to-blue-400 mb-12">
-        <div className="absolute top-0 right-0 w-full h-full">
-          <motion.div 
-            className="w-full h-full flex justify-end items-start p-8"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1 }}
-          >
-            <FaAward className="text-white text-6xl" />
-          </motion.div>
-        </div>
-        <motion.h1 
-          className="absolute bottom-8 left-8 text-4xl font-bold text-white"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
-        >
-          Awards
-        </motion.h1>
-      </div>
-
-      {/* Awards Section */}
-      <motion.div 
-        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16"
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-      >
-        {awards.map((award) => (
-          <motion.div 
-            key={award.id}
-            className="flex flex-col md:flex-row items-center gap-8 mb-12 bg-white rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow duration-300"
-            variants={itemVariants}
-          >
-            <div className="w-full md:w-1/3 h-64 bg-gradient-to-br from-yellow-400 to-yellow-200 rounded-lg flex items-center justify-center">
-              <FaTrophy className="text-yellow-700 text-6xl" />
+    <div className="max-w-7xl mx-auto mb-16 py-[4%]">
+      <h2 className="text-4xl font-bold text-center mb-12">
+        Partnership Collaboration
+      </h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {universities.map((uni, index) => (
+          <div key={index} className="relative rounded-2xl overflow-hidden">
+            <img
+              src={Rectangle26}
+              alt={uni.name}
+              className="w-full h-[250px] object-cover"
+            />
+            <div className="absolute bottom-4 left-4">
+              <span className="bg-[#FF4D00] text-white px-4 py-2 rounded-lg">
+                {uni.name}
+              </span>
             </div>
-            <div className="w-full md:w-2/3">
-              <h2 className="text-2xl font-semibold mb-4 text-blue-600">{award.title}</h2>
-              <p className="text-gray-600">{award.description}</p>
-            </div>
-          </motion.div>
+          </div>
         ))}
-        <div className="text-center">
-          <motion.button 
-            className="inline-flex items-center text-blue-600 font-medium hover:text-blue-800 transition-colors duration-300"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            More
-            <FaChevronRight className="ml-2" />
-          </motion.button>
-        </div>
-      </motion.div>
-
-      {/* Partnership Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
-        <motion.h2 
-          className="text-3xl font-bold mb-8 text-gray-800"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+      </div>
+      <div className="text-center mt-8">
+        <a
+          href="#"
+          className="text-xl font-medium hover:text-[#FF4D00] transition-colors"
         >
-          Partnership Collaboration
-        </motion.h2>
-        <motion.div 
-          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-        >
-          {universities.map((uni) => (
-            <motion.div 
-              key={uni.id}
-              className="relative rounded-lg overflow-hidden bg-gradient-to-br from-blue-100 to-blue-50 h-48 shadow-sm hover:shadow-md transition-shadow duration-300"
-              variants={itemVariants}
-              whileHover={{ scale: 1.02 }}
-            >
-              <div className="w-full h-full flex items-center justify-center">
-                <FaUniversity className="text-blue-400 text-5xl" />
-              </div>
-              <div className="absolute bottom-0 left-0 right-0 bg-blue-600 text-white px-4 py-2">
-                <p className="text-sm font-medium">{uni.name}</p>
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
-        <div className="text-center mt-8">
-          <motion.button 
-            className="inline-flex items-center text-blue-600 font-medium hover:text-blue-800 transition-colors duration-300"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            More
-            <FaChevronRight className="ml-2" />
-          </motion.button>
-        </div>
+          More
+        </a>
       </div>
     </div>
   );
 };
 
-export default Awards;
+const AwardCard = ({ image, title, description }) => {
+  return (
+    <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-8 bg-white rounded-2xl p-8 shadow-sm mb-8">
+      <div className="w-full md:w-1/3">
+        <img
+          src={Rectangle59}
+          alt={title}
+          className="w-full h-[250px] object-cover rounded-xl"
+        />
+      </div>
+      <div className="w-full md:w-2/3">
+        <h3 className="text-2xl font-bold mb-4 text-left">{title}</h3>
+        <p className="text-gray-600 leading-relaxed text-left">{description}</p>
+      </div>
+    </div>
+  );
+};
 
+const AwardsSection = () => {
+  const awards = [
+    {
+      title: "Best Incubation Award",
+      description:
+        "It's time to shine a spotlight on innovation and entrepreneurship! Join us at IIITD-IC as we present an exhilarating Investors Meet, where the brightest minds collide. Don't just spectate, participate! If you are a startup who has developed the product and looking for scaling up your venture with backup from VCs, do submit your application.",
+      image: "/placeholder.svg?height=200&width=300",
+    },
+    {
+      title: "Best Incubation Award",
+      description:
+        "It's time to shine a spotlight on innovation and entrepreneurship! Join us at IIITD-IC as we present an exhilarating Investors Meet, where the brightest minds collide. Don't just spectate, participate! If you are a startup who has developed the product and looking for scaling up your venture with backup from VCs, do submit your application.",
+      image: "/placeholder.svg?height=200&width=300",
+    },
+    {
+      title: "Best Incubation Award",
+      description:
+        "It's time to shine a spotlight on innovation and entrepreneurship! Join us at IIITD-IC as we present an exhilarating Investors Meet, where the brightest minds collide. Don't just spectate, participate! If you are a startup who has developed the product and looking for scaling up your venture with backup from VCs, do submit your application.",
+      image: "/placeholder.svg?height=200&width=300",
+    },
+  ];
+
+  return (
+    <div className=" mx-auto ">
+      {/* Hero Section */}
+      <div className="relative h-[300px] mb-16 md:pt-[4%]">
+        <img
+          src={Rectangle57}
+          alt="Career opportunities"
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-black/20" />
+        <div className="absolute inset-0 flex items-center">
+          <div className="container mx-auto px-4">
+            <h1 className="text-5xl text-left font-bold ">Awards</h1>
+          </div>
+        </div>
+      </div>
+
+      {/* Awards Section */}
+      <div className="space-y-8">
+        {awards.map((award, index) => (
+          <AwardCard key={index} {...award} />
+        ))}
+      </div>
+      {/* Partnership Section */}
+      <PartnershipGrid />
+    </div>
+  );
+};
+
+export default AwardsSection;

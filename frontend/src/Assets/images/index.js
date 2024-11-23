@@ -50,6 +50,23 @@
     //Scheme details
     import RectangleScheme from "./Scheme-details/RectangleScheme.png"
 
+    //awards
+    import Rectangle59 from "./Awards/Rectangle59.png";
+    import Rectangle57 from "./Awards/Rectangle57.png";
+
+    //newaletter
+    import cyclist from "./Newsletteer/cyclist-leads-actionfront-view-man-riding-bicycle-racing-road 1.png";
+    import boxingArena from "./Newsletteer/empty-boxing-arena-waiting-new-round-d-render-illustration 1.png";
+    import raceHose1 from "./Newsletteer/race-hose1.png";
+    import RectangleNews from "./Newsletteer/Rectangle62.png";
+    import Sportsman from "./Newsletteer/sportsman-drinking-water-training-stationary-bike 1.png";
+    import badminton from "./Newsletteer/badminton.png";
+    import basketball from "./Newsletteer/basketball.png";
+    import hockey from "./Newsletteer/hockey.png";
+    import profilePic1 from "./Newsletteer/img/avatar/unsplash_B5PLtlpR7YA-1.png";
+    import profilePic2 from "./Newsletteer/img/avatar/unsplash_B5PLtlpR7YA-2.png";
+    import profilePic3 from "./Newsletteer/img/avatar/unsplash_B5PLtlpR7YA.png"; 
+
     export {
       contact,
       arrow,
@@ -88,4 +105,17 @@
       Rectangle27_1,
       Rectangle62,
       RectangleScheme,
+      Rectangle57,
+      Rectangle59,
+      cyclist,
+      boxingArena,
+      raceHose1,
+      RectangleNews,
+      Sportsman,
+      badminton,
+      basketball,
+      hockey,
+      profilePic1,
+      profilePic2,
+      profilePic3,
     };

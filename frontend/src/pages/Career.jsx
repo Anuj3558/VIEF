@@ -55,7 +55,7 @@ const CareerSection = () => {
   return (
     <div>
       {/* Hero Section */}
-      <div className="relative h-[300px] mb-16">
+      <div className="relative h-[300px] mb-16 md:pt-[4%]">
         <img
           src={Rectangle62}
           alt="Career opportunities"

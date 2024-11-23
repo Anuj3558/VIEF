@@ -3,7 +3,7 @@ import { RectangleScheme } from "../Assets/images";
 
 const PreIncubation = () => {
   return (
-    <div className="max-w-7xl mx-auto">
+    <div className="max-w-7xl mx-auto md:pt-[4%]">
       {/* Hero Image Section */}
       <div className="relative rounded-2xl overflow-hidden mb-8">
         <img
@@ -13,7 +13,7 @@ const PreIncubation = () => {
         />
 
         {/* Apply Now Button */}
-        <div className="absolute inset-0 flex items-center justify-center">
+        <div className="absolute inset-0 flex  items-end bottom-5 justify-center">
           <button className="bg-[#1a237e] text-white px-12 py-3 rounded-lg text-xl font-medium hover:bg-[#1a237e]/90 transition-colors">
             Apply Now
           </button>
