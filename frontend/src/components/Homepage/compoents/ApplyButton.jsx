@@ -1,42 +1,27 @@
-import React from 'react'
-import { motion } from 'framer-motion'
+import React from 'react';
+import { motion } from 'framer-motion';
+import { AiOutlineArrowRight } from 'react-icons/ai'; // Import the arrow icon
 
-export default function ApplyButton({text}) {
+export default function ApplyButton({ text }) {
   return (
-    <motion.button 
-      className="bg-[#1a237e] hover:bg-[#1a237e]/90 text-white rounded-full px-5 py-3 flex items-center gap-3 montserrat-main text-lg relative overflow-hidden group"
- 
-    >
-      <span className="relative z-10">{text}</span>
-      <motion.div 
-        className="absolute inset-0 bg-white"
-        initial={{ scale: 0, opacity: 0 }}
-        whileHover={{ scale: 1, opacity: 0.1 }}
-        transition={{ type: "spring", stiffness: 300, damping: 20 }}
-      />
-      <motion.span 
-        className="bg-white rounded-full ml-2 p-3 flex items-center justify-center"
-        initial={{ x: -40, opacity: 0 }}
-        animate={{ x: 0, opacity: 1 }}
-        whileHover={{ rotate: 45 }}
-        transition={{ type: "spring", stiffness: 300, damping: 20 }}
+    <a href='/apply-now'>
+      <motion.button 
+        className="bg-[#FF4D00] hover:bg-[#FF4D10]/90 text-white rounded px-5 py-2 flex items-center gap-3 montserrat-main text-lg relative overflow-hidden group"
       >
-        <svg 
-          xmlns="http://www.w3.org/2000/svg" 
-          width="18" 
-          height="18" 
-          viewBox="0 0 24 24" 
-          fill="none" 
-          stroke="#1a237e" 
-          strokeWidth="2" 
-          strokeLinecap="round" 
-          strokeLinejoin="round"
-        >
-          <path d="M7 17L17 7"/>
-          <path d="M7 7h10v10"/>
-        </svg>
-      </motion.span>
-    </motion.button>
-  )
+        <span className="relative z-10 font-medium">{text}</span>
+        
+        {/* Arrow icon with tilt */}
+        <motion.div 
+          className="absolute inset-0"
+          initial={{ scale: 0, opacity: 0 }}
+          whileHover={{ scale: 1, opacity: 0.1 }}
+          transition={{ type: "spring", stiffness: 300, damping: 20 }}
+        />
+        
+        <AiOutlineArrowRight 
+          className="text-white text-2xl transform -rotate-45 group-hover:rotate-0 transition-transform duration-300"
+        />
+      </motion.button>
+    </a>
+  );
 }
-

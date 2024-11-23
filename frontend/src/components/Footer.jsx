@@ -14,7 +14,7 @@ const Footer = () => {
     },
     {
       title: 'Careers',
-      links: ['Jobs at IIED', 'Jobs as volunteer', 'Apply for Internship', 'Jobs at startups'],
+      links: ['Jobs at VIEF', 'Jobs as volunteer', 'Apply for Internship', 'Jobs at startups'],
     },
   ];
 
@@ -58,7 +58,7 @@ const Footer = () => {
           <div>
             <h3 className="font-semibold mb-4">Career</h3>
             <ul className="space-y-2">
-              <li><a href="#" className="text-gray-600 hover:text-gray-900">Jobs at IIED</a></li>
+              <li><a href="#" className="text-gray-600 hover:text-gray-900">Jobs at VIEF</a></li>
               <li><a href="#" className="text-gray-600 hover:text-gray-900">Join as volunteer</a></li>
               <li><a href="#" className="text-gray-600 hover:text-gray-900">Apply for internship</a></li>
               <li><a href="#" className="text-gray-600 hover:text-gray-900">Jobs at startup</a></li>
@@ -69,7 +69,7 @@ const Footer = () => {
           <div>
             <h3 className="font-semibold mb-4">Subscribe to our newsletter</h3>
             <p className="text-gray-600 mb-4">
-              IIED empowers aspiring entrepreneurs with the resources and support to turn ideas 
+              VIEF empowers aspiring entrepreneurs with the resources and support to turn ideas 
               into reality. Join our vibrant community, connect with mentors, and be the change 
               for India's future
             </p>
@@ -89,7 +89,7 @@ const Footer = () => {
         {/* Bottom Section */}
         <div className="mt-8 pt-8 border-t flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
           <p className="text-sm text-gray-600 text-center sm:text-left">
-            Copyright © 2024 IIED | All Rights Reserved
+            Copyright © 2024 VIEF | All Rights Reserved
           </p>
           <div className="flex space-x-4">
             <a href="#" className="text-gray-600 hover:text-gray-900">

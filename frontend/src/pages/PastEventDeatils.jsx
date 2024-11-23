@@ -104,7 +104,7 @@ const PastEventDetailsPage = () => {
             </div>
 
             {/* Event Description */}
-            <div className="bg-gray-300 text-white p-4 rounded-xl">
+            <div className="bg-gray-300 text-black p-4 rounded-xl">
               <p className="text-sm leading-relaxed">
                 We Are Thrilled To Announce A Significant Achievement For IIITD And Our Incubation Centre.
                 During The Recent Budget Session, Ms. Atishi Highlighted Several Key Aspects,

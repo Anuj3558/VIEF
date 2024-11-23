@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import ApplyButton from './compoents/ApplyButton';
-import bgLanding from '../../Assets/images/bg-landing.png';
+import bgLanding from '../../Assets/images/bg-landing.jpeg';
 
 const Hero = () => {
   return (
@@ -27,18 +27,18 @@ const Hero = () => {
                 <div className='space-y-3 text-4xl sm:text-5xl'>
                   <p className='flex flex-col lg:flex-row lg:items-center justify-center lg:justify-start'>
                     Launch Your Startup at
-                    <span className="text-[#1A2587] lg:ml-2 font-semibold">IIED:</span>
+                    <span className="text- lg:ml-2 font-semibold pl-3">  VIEF :</span>
                   </p>
                   <p>India's Innovation Hub</p>
                 </div>
               </motion.h1>
               <motion.p
-                className="mt-3 montserrat-main text-base text-gray-300 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0"
+                className="mt-3 montserrat-main  text-base text-gray-300 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0"
                 initial={{ opacity: 0, y: -30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
               >
-                IIED empowers aspiring entrepreneurs with the resources and support to turn ideas into reality. Join our vibrant community, connect with mentors, and be the change for India's future.
+                VIEF empowers aspiring entrepreneurs with the resources and support to turn ideas into reality. Join our vibrant community, connect with mentors, and be the change for India's future.
               </motion.p>
               <motion.div 
                 className="mt-5 sm:mt-8 flex justify-center lg:justify-start"

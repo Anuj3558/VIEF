@@ -3,6 +3,7 @@
 import React from "react"
 import { motion } from "framer-motion"
 import { ArrowUpRight } from 'lucide-react'
+import { Scheme, Scheme1 } from "../Assets/images"
 
 
 
@@ -14,7 +15,7 @@ const schemes = [
     deadline: "Deadline",
     description:
       "We Are Thrilled To Announce A Significant Achievement For IIITD And Our Incubation Centre. During The Recent Budget Session, Ms. Atishi Highlighted Several Key Aspects.",
-    image: "",
+    image: Scheme,
   },
   {
     title: "SEED INVESTMENT",
@@ -22,7 +23,7 @@ const schemes = [
     deadline: "Deadline",
     description:
       "We Are Thrilled To Announce A Significant Achievement For IIITD And Our Incubation Centre. During The Recent Budget Session, Ms. Atishi Highlighted Several.",
-    image: "",
+    image:Scheme1,
   },
   {
     title: "Award 2023-24",
@@ -30,7 +31,7 @@ const schemes = [
     deadline: "Deadline",
     description:
       "We Are Thrilled To Announce A Significant Achievement For IIITD And Our Incubation Centre. During The Recent Budget Session, Ms. Atishi Highlighted Several.",
-    image: "",
+    image: Scheme1,
   },
 ]
 

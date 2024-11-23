@@ -2,7 +2,7 @@
     import arrow from "./arrow.svg";
     import award from "./award.png";
     import awardsBg from "./awards-bg.png";
-    import bgLanding from "./bg-landing.png"
+    import bgLanding from "./bg-landing.jpeg"
     import bgTexture from "./bg-texture.svg";
     import contact from "./ContactUs.jpeg"
     import c1 from "./c1.svg"
@@ -16,9 +16,10 @@
     import linkedin from "./linkedin.png"
     import logoPng from "./logo.png"
     import logoSvg from "./logo.svg"
-    import wc1 from "./wc-1.png"
+    import wc1 from "./wc-1.jpeg"
     import wc2 from "./wc-2.png"
-   
+   import Pizza1 from "./supporters/Dominoz.jpg"
+   import Swiggy from "./supporters/Swiggy.jpg"
     //glimpse
     import Rectangle23 from "./GlimpseOfWork/Rectangle23.png";
     import Rectangle24 from "./GlimpseOfWork/Rectangle24.png";
@@ -66,8 +67,29 @@
     import profilePic1 from "./Newsletteer/img/avatar/unsplash_B5PLtlpR7YA-1.png";
     import profilePic2 from "./Newsletteer/img/avatar/unsplash_B5PLtlpR7YA-2.png";
     import profilePic3 from "./Newsletteer/img/avatar/unsplash_B5PLtlpR7YA.png"; 
+    import AboutUsbg from "./about-bg.jpg";
+import varunSIr from "./varunsir.jpg"
+import Event1 from "./Event1.jpg"
+import Event2 from "./Event2.jpg"
+import Event3 from "./Event3.jpg"
+import Event4 from "./Event4.jpg"
+import Event5 from "./Event5.jpg"
+
+import Scheme from "./Scheme.jpg"
+import Scheme1 from "./Scheme1.jpg"
 
     export {
+      Scheme,
+      Scheme1,
+      Pizza1,
+      Swiggy,
+      Event4,
+      Event5,
+      Event1,
+      Event2,
+      Event3,
+      AboutUsbg,
+      varunSIr,
       contact,
       arrow,
       award,

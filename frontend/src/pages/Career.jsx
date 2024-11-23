@@ -5,8 +5,8 @@ import { Rectangle62 } from "../Assets/images";
 const CategoryCard = ({ icon: Icon, title, subtitle, isActive }) => {
   return (
     <div
-      className={`flex items-center gap-4 p-6 rounded-xl cursor-pointer transition-all
-        ${isActive ? "bg-[#FF4D00] text-white" : "hover:bg-gray-50"}`}
+      className={`flex items-center gap-4 p-6 rounded-xl shadow-lg cursor-pointer transition-all
+        ${isActive ? "bg-[#FF4D00] text-white" : "hover:bg-[#ff9f76]"}`}
     >
       <Icon
         className={`w-6 h-6 ${isActive ? "text-white" : "text-[#FF4D00]"}`}
@@ -32,19 +32,26 @@ const CareerSection = () => {
     {
       icon: Megaphone,
       title: "Jobs at IIED",
-      subtitle: "58 Jobs Available",
+
       isActive: false,
     },
     {
       icon: Rocket,
       title: "Jobs at startup",
-      isActive: true,
+      isActive: false,
     },
     {
       icon: Target,
       title: "Apply for internship",
       isActive: false,
     },
+    {
+      icon: Users,
+      title: "Join as volunteer",
+      isActive: false,
+    },
+  ];
+  const categories1 = [
     {
       icon: Users,
       title: "Join as volunteer",
@@ -64,17 +71,25 @@ const CareerSection = () => {
         <div className="absolute inset-0 bg-black/20" />
         <div className="absolute inset-0 flex items-center">
           <div className="container mx-auto px-4">
-            <h1 className="text-5xl text-left font-bold ">Career</h1>
+            <h1 className="text-5xl text-left font-bold mt-14 ">Join us</h1>
           </div>
         </div>
       </div>
-
+      <div className="container mx-auto px-4 mb-16">
+        <div className="max-w-3xl mx-auto">
+          <div className="text-center mb-8">
+            <p className="text-[#FF4D00] mb-2">Opportunity to be an</p>
+            <h2 className="text-3xl font-bold mb-8">Investor</h2>
+            <button className="text-[#fff] px-6 text-xl py-3 rounded-md bg-[#FF4D00] hover:bg-[#FF3D11] mb-2">Apply as an Investor</button>
+          </div>
+        </div>
+      </div>
       {/* Categories Section */}
       <div className="container mx-auto px-4 mb-16">
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-8">
             <p className="text-[#FF4D00] mb-2">Opportunities for you</p>
-            <h2 className="text-3xl font-bold">Choose Categories</h2>
+            <h2 className="text-3xl font-bold">Career</h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">

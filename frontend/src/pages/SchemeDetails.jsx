@@ -1,5 +1,5 @@
 import React from "react";
-import { RectangleScheme } from "../Assets/images";
+import { RectangleScheme, Scheme } from "../Assets/images";
 
 const PreIncubation = () => {
   return (
@@ -7,7 +7,7 @@ const PreIncubation = () => {
       {/* Hero Image Section */}
       <div className="relative rounded-2xl overflow-hidden mb-8">
         <img
-          src={RectangleScheme}
+          src={Scheme}
           alt="Pre-incubation presentation"
           className="w-full h-[400px] object-cover"
         />

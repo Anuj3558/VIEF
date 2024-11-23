@@ -1,42 +1,41 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Link } from 'lucide-react';
-
-
+import { FaLinkedin } from "react-icons/fa";
+import { AboutUsbg, varunSIr, wc1 } from '../Assets/images';
 
 const PersonCard = ({ name, image, role, linkedin }) => (
   <motion.div
     initial={{ opacity: 0, y: 20 }}
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true }}
-    transition={{ duration: 0.5 }}
-    className="relative overflow-hidden rounded-lg bg-white shadow-md hover:shadow-lg transition-shadow duration-300"
+    transition={{ duration: 0.6, ease: "easeOut" }}
+    className="group relative overflow-hidden rounded-2xl bg-white shadow-lg hover:shadow-2xl transition-all duration-300"
   >
-    <img 
-      src={image} 
-      alt={name} 
-      className="w-full h-48 object-cover"
-    />
-    <motion.div 
-      initial={{ y: '100%' }}
-      whileHover={{ y: 0 }}
-      transition={{ type: 'tween' }}
-      className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-blue-900 to-blue-800 p-3 text-white"
-    >
-      <p className="text-sm font-medium">{name}</p>
-      <p className="text-xs text-blue-200 mb-2">{role}</p>
-      {linkedin && (
-        <a 
-          href={linkedin} 
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-1 text-blue-100 hover:text-white transition-colors duration-200"
-        >
-          <Link className="w-4 h-4" />
-          <span className="text-xs">LinkedIn</span>
-        </a>
-      )}
-    </motion.div>
+    <div className="aspect-[3/4] overflow-hidden">
+      <img 
+        src={image || wc1} 
+        alt={name} 
+        className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
+      />
+    </div>
+    <div className="absolute bottom-0 left-0 right-0 backdrop-blur-md bg-white/90 p-6 transform translate-y-0 transition-all duration-300">
+      <div className="flex justify-between items-center">
+        <div>
+          <p className="text-lg font-bold text-gray-900">{name}</p>
+          <p className="text-sm font-medium text-gray-600">{role}</p>
+        </div>
+        {linkedin && (
+          <a 
+            href={linkedin} 
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-gray-600 hover:text-gray-900 transition-colors duration-200"
+          >
+            <FaLinkedin className="text-3xl text-blue-600 hover:text-blue-700 transition-colors duration-200" />
+          </a>
+        )}
+      </div>
+    </div>
   </motion.div>
 );
 
@@ -45,11 +44,11 @@ const TeamSection = ({ title, members }) => (
     initial={{ opacity: 0 }}
     whileInView={{ opacity: 1 }}
     viewport={{ once: true }}
-    transition={{ duration: 0.5, delay: 0.2 }}
-    className="mb-16"
+    transition={{ duration: 0.7, delay: 0.2 }}
+    className="mb-24"
   >
-    <h2 className="text-2xl font-bold text-gray-800 mb-6">{title}</h2>
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+    <h2 className="text-4xl font-bold text-gray-900 text-center mb-12">{title}</h2>
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
       {members.map((member, index) => (
         <PersonCard key={index} {...member} />
       ))}
@@ -60,126 +59,112 @@ const TeamSection = ({ title, members }) => (
 const AboutUs = () => {
   const boardMembers = [
     {
-      name: "Satyam Mitgutye",
-      image: "",
+      name: "Mr Venkatesh Bharti",
+      image: varunSIr,
       role: "Board Member",
       linkedin: "https://www.linkedin.com/in/satyammitgutye/"
     },
     {
-      name: "Priya Sharma",
-      image: "",
+      name: "Satyam Mitgutye",
+      image: varunSIr,
       role: "Board Member",
-      linkedin: "https://www.linkedin.com/in/priyasharma/"
+      linkedin: "https://www.linkedin.com/in/satyammitgutye/"
     },
     {
-      name: "Rahul Gupta",
-      image: "",
+      name: "Satyam Mitgutye",
+      image: varunSIr,
       role: "Board Member",
-      linkedin: "https://www.linkedin.com/in/rahulgupta/"
+      linkedin: "https://www.linkedin.com/in/satyammitgutye/"
     },
     {
-      name: "Anita Desai",
-      image: "",
+      name: "Satyam Mitgutye",
+      image: varunSIr,
       role: "Board Member",
-      linkedin: "https://www.linkedin.com/in/anitadesai/"
-    },
-    {
-      name: "Vikram Patel",
-      image: "",
-      role: "Board Member",
-      linkedin: "https://www.linkedin.com/in/vikrampatel/"
+      linkedin: "https://www.linkedin.com/in/satyammitgutye/"
     }
   ];
 
   const advisors = [
     {
       name: "Dr. Neha Kapoor",
-      image: "",
+      image: varunSIr,
       role: "Advisor",
       linkedin: "https://www.linkedin.com/in/drnehakapoor/"
     },
     {
-      name: "Amit Verma",
-      image: "",
+      name: "Dr. Neha Kapoor",
+      image: varunSIr,
       role: "Advisor",
-      linkedin: "https://www.linkedin.com/in/amitverma/"
+      linkedin: "https://www.linkedin.com/in/drnehakapoor/"
     },
     {
-      name: "Sanjana Reddy",
-      image: "",
+      name: "Dr. Neha Kapoor",
+      image: varunSIr,
       role: "Advisor",
-      linkedin: "https://www.linkedin.com/in/sanjanareddy/"
+      linkedin: "https://www.linkedin.com/in/drnehakapoor/"
     },
     {
-      name: "Rajesh Kumar",
-      image: "",
+      name: "Dr. Neha Kapoor",
+      image: varunSIr,
       role: "Advisor",
-      linkedin: "https://www.linkedin.com/in/rajeshkumar/"
-    },
-    {
-      name: "Meera Iyer",
-      image: "",
-      role: "Advisor",
-      linkedin: "https://www.linkedin.com/in/meeraiyer/"
+      linkedin: "https://www.linkedin.com/in/drnehakapoor/"
     }
   ];
 
   const mentors = [
     {
       name: "Arjun Malhotra",
-      image: "",
+      image: varunSIr,
       role: "Mentor",
       linkedin: "https://www.linkedin.com/in/arjunmalhotra/"
     },
     {
-      name: "Kavita Joshi",
-      image: "",
+      name: "Arjun Malhotra",
+      image: varunSIr,
       role: "Mentor",
-      linkedin: "https://www.linkedin.com/in/kavitajoshi/"
+      linkedin: "https://www.linkedin.com/in/arjunmalhotra/"
     },
     {
-      name: "Suresh Raina",
-      image: "",
+      name: "Arjun Malhotra",
+      image: varunSIr,
       role: "Mentor",
-      linkedin: "https://www.linkedin.com/in/sureshraina/"
+      linkedin: "https://www.linkedin.com/in/arjunmalhotra/"
     },
     {
-      name: "Pooja Mehta",
-      image: "",
+      name: "Arjun Malhotra",
+      image: varunSIr,
       role: "Mentor",
-      linkedin: "https://www.linkedin.com/in/poojamehta/"
-    },
-    {
-      name: "Vivek Sharma",
-      image: "",
-      role: "Mentor",
-      linkedin: "https://www.linkedin.com/in/viveksharma/"
+      linkedin: "https://www.linkedin.com/in/arjunmalhotra/"
     }
   ];
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
       <motion.header 
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="bg-gradient-to-r from-blue-900 to-blue-800 text-white py-16"
+        transition={{ duration: 0.7 }}
+        className="relative pt-36"
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Background image for the header */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center opacity-"
+          style={{ backgroundImage: `url(${AboutUsbg})` }} 
+        />
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.h1 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.2, duration: 0.5 }}
-            className="text-4xl font-bold mb-6"
+            transition={{ delay: 0.3, duration: 0.7 }}
+            className="text-7xl font-bold mb-4 text-white"
           >
             About Us
           </motion.h1>
           <motion.p 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.4, duration: 0.5 }}
-            className="text-lg text-blue-100 max-w-3xl"
+            transition={{ delay: 0.5, duration: 0.7 }}
+            className="text-xl text-white max-w-3xl pt-6 pb-14  mx-auto leading-relaxed"
           >
             We are thrilled to announce a significant achievement for IIITD and
             our Incubation Centre. During the recent budget session, Ms. Atishi
@@ -187,17 +172,17 @@ const AboutUs = () => {
             in innovation and entrepreneurship.
           </motion.p>
         </div>
+        
       </motion.header>
-
-      {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <TeamSection title="Board Members" members={boardMembers} />
         <TeamSection title="Advisors Panel" members={advisors} />
         <TeamSection title="Mentors" members={mentors} />
+        <TeamSection title="Investors" members={mentors} />
       </main>
     </div>
   );
 };
 
 export default AboutUs;
-

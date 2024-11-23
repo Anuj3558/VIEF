@@ -34,12 +34,12 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="flex pt-20" >
+    <div className="flex    " >
       <Sidebar setActiveSection={setActiveSection} activeSection={activeSection} />
       <motion.main 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="flex-1 ml-64 bg-gray-50  min-h-screen"
+        className="flex-1  bg-gray-50  min-h-screen"
       >
         <AnimatePresence mode="wait">
           {renderSection()}

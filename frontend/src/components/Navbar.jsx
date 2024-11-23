@@ -7,25 +7,25 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
   
-  // Check if we're on the home page
   const isHomePage = location.pathname === '/';
-  
-  // Dynamic text color based on route
-  const textColorClass = isHomePage ? 'text-white' : 'text-black';
+  const isAdminPage = location.pathname === '/admin';
+  const textColorClass = isHomePage ? 'text-black' : 'text-black';
   const borderColorClass = isHomePage ? 'border-white' : 'border-black';
 
-  const leftNavItems = [
-    { name: 'Admin', href: '/admin' },
-    { name: 'Contact', href: '/contact' },
+  // Combined all nav items into a single array
+  const navItems = [
+    {name:"Home" ,href:"/"},
+    { name : 'About us' ,href :"/about-us"},
+   
     { name: 'Startup', href: '/startup' },
-    { name: 'Apply now', href: '/apply-now', hasDropdown: true },
-  ];
-
-  const rightNavItems = [
+    { name: 'Schemes', href: '/apply-now', hasDropdown: true },
     { name: 'Facilities', href: '/facilities' },
     { name: 'Events', href: '/events', hasDropdown: true },
     { name: 'Achievements', href: '/achievements' },
     { name: 'Career', href: '/career' },
+    { name: 'Contact', href: '/contact' },
+    {name :"VIEF Scholar" ,href :"/"}
+   
   ];
 
   const renderNavItems = (items) =>
@@ -40,21 +40,7 @@ const Navbar = () => {
           className={`${textColorClass} px-3 py-2 rounded-md text-sm font-medium`}
         >
           {item.name}
-          {item.hasDropdown && (
-            <svg
-              className="ml-1 h-4 w-4 inline-block"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M19 9l-7 7-7-7"
-              />
-            </svg>
-          )}
+
         </Link>
         {item.hasDropdown && (
           <div className="absolute left-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 invisible">
@@ -91,25 +77,27 @@ const Navbar = () => {
       </motion.div>
     ));
 
+  if (isAdminPage) return null;
+
   return (
-    <nav className={`py-3 z-20 absolute montserrat-light bg-transparent w-full font-sans border-b ${borderColorClass} md:border-opacity-100 border-opacity-0`}>
+    <nav className={`py-3 z-20 absolute montserrat-light bg-transparent w-full font-sans border-b ${borderColorClass} md:border-opacity-100 bg-white text-black border-opacity-0`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 pb-3">
-          <div className="hidden md:flex items-center space-x-4">
-            {renderNavItems(leftNavItems)}
+          {/* Logo on the left */}
+          <motion.a
+            href="/"
+            className="flex-shrink-0"
+            whileTap={{ scale: 0.9 }}
+          >
+            <img className="h-12 mt-5 w-auto" src={logoPng} alt="IIED Logo" />
+          </motion.a>
+
+          {/* Navigation items on the right */}
+          <div className="hidden md:flex items-center ">
+            {renderNavItems(navItems)}
           </div>
-          <div className="flex items-center justify-center flex-grow">
-            <motion.a
-              href="/"
-              className="flex-shrink-0"
-              whileTap={{ scale: 0.9 }}
-            >
-              <img className="h-12 justify-center mt-6 w-auto" src={logoPng} alt="IIED Logo" />
-            </motion.a>
-          </div>
-          <div className="hidden md:flex items-center space-x-4">
-            {renderNavItems(rightNavItems)}
-          </div>
+
+          {/* Mobile menu button */}
           <div className="md:hidden">
             <button
               onClick={() => setIsOpen(!isOpen)}
@@ -154,19 +142,21 @@ const Navbar = () => {
           </div>
         </div>
       </div>
+
+      {/* Mobile menu */}
       {isOpen && (
         <motion.div
-          className="md:hidden bg-gray-800 mt-3"
+          className="md:hidden bg-white mt-3"
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3 }}
         >
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            {[...leftNavItems, ...rightNavItems].map((item) => (
+            {navItems.map((item) => (
               <Link
                 key={item.name}
                 to={item.href}
-                className="text-white block px-3 py-2 rounded-md text-base font-medium"
+                className="text-black block px-3 py-2 rounded-md text-base font-medium"
               >
                 {item.name}
               </Link>

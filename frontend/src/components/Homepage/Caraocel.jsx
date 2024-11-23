@@ -1,33 +1,40 @@
 import React, { useState } from "react";
-import { Frame329, Rectangle10, Rectangle11, Rectangle8 } from "../../Assets/images";
+import { Event1, Event2, Event3, Event4, Event5, Frame329, Rectangle10, Rectangle11, Rectangle8 } from "../../Assets/images";
 
 const ImageCarousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const images = [
     { 
-      src: Frame329, 
+      src: Event4, 
       alt: "Image 1",
       title: "Innovation Hub",
       description: "Empowering startups with cutting-edge resources",
       subtext: "Transform your vision into reality"
     },
     { 
-      src: Rectangle8, 
+      src: Event5, 
+      alt: "Image 1",
+      title: "Innovation Hub",
+      description: "Empowering startups with cutting-edge resources",
+      subtext: "Transform your vision into reality"
+    },
+    { 
+      src: Event2, 
       alt: "Image 2",
       title: "Collaborative Spaces",
       description: "Modern workspaces designed for creativity",
       subtext: "Where ideas come to life"
     },
     { 
-      src: Rectangle10, 
+      src: Event3, 
       alt: "Image 3",
       title: "Tech Ecosystem",
       description: "Connecting entrepreneurs with global opportunities",
       subtext: "Accelerating startup success"
     },
     { 
-      src: Rectangle11, 
+      src: Event2, 
       alt: "Image 4",
       title: "Mentorship Program",
       description: "Guided growth from industry experts",
@@ -46,10 +53,9 @@ const ImageCarousel = () => {
   };
 
   return (
-    <div className="w-full max-w-6xl mx-auto py-10 my-32 px-4">
-      <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-8">
-        <span className="text-[#FF4D00]">Our</span>{" "}
-        <span className="text-[#1a237e]">Gallery</span>
+    <div className="w-full max-w-6xl mx-auto  my-32 px-4">
+      <h2 className="text-2xl md:text-2xl lg:text-5xl font-bold text-center mb-8">
+        <span className="text-black ">Gallery</span>
       </h2>
       <div className="relative overflow-hidden rounded-xl shadow-lg">
         <div

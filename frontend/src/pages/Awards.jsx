@@ -14,7 +14,7 @@ const PartnershipGrid = () => {
 
   return (
     <div className="max-w-7xl mx-auto mb-16 py-[4%]">
-      <h2 className="text-4xl font-bold text-center mb-12">
+      <h2 className="text-4xl font-bold my-5 text-center mb-12">
         Partnership Collaboration
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -36,7 +36,7 @@ const PartnershipGrid = () => {
       <div className="text-center mt-8">
         <a
           href="#"
-          className="text-xl font-medium hover:text-[#FF4D00] transition-colors"
+          className="text-xl underline font-medium hover:text-[#FF4D00] transition-colors"
         >
           More
         </a>
@@ -47,7 +47,7 @@ const PartnershipGrid = () => {
 
 const AwardCard = ({ image, title, description }) => {
   return (
-    <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-8 bg-white rounded-2xl p-8 shadow-sm mb-8">
+    <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-8 bg-white rounded-2xl p-8 shadow-md mb-8">
       <div className="w-full md:w-1/3">
         <img
           src={Rectangle59}
@@ -96,14 +96,14 @@ const AwardsSection = () => {
         />
         <div className="absolute inset-0 bg-black/20" />
         <div className="absolute inset-0 flex items-center">
-          <div className="container mx-auto px-4">
-            <h1 className="text-5xl text-left font-bold ">Awards</h1>
+          <div className="container mx-auto px-4  mt-16">
+            <h1 className="text-5xl text-left text-white font-bold ">Awards</h1>
           </div>
         </div>
       </div>
 
       {/* Awards Section */}
-      <div className="space-y-8">
+      <div className="space-y-8 ">
         {awards.map((award, index) => (
           <AwardCard key={index} {...award} />
         ))}

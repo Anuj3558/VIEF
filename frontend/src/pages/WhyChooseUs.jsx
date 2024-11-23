@@ -7,19 +7,20 @@ export default function WhyChooseUs() {
     <div className="min-h-screen pt-6 bg-gray-50">
       {/* Hero Section */}
       <section className="relative">
-        <div className="absolute inset-0 mt-11">
+        <div className="absolute inset-0 w-full bg-gray-100 bg-opacity-60 mt-11">
           <img 
             src={wc1}
             alt="Modern building facade" 
             layout="fill"
+         
             objectFit="cover"
             quality={100}
           />
-          <div className="absolute inset-0 "></div>
+          <div className="absolute  inset-0 "></div>
         </div>
         <div className="relative max-w-7xl mx-auto px-4 py-24 my-5 md:py-32 lg:py-40">
           <motion.h1 
-            className="text-3xl md:text-4xl md:mb-52 lg:text-5xl text-left font-bold text-gray-900 mb-8"
+            className="text-3xl md:text-4xl md:mb-52 lg:text-5xl text-left font-bold text-white mb-8"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
@@ -53,7 +54,7 @@ export default function WhyChooseUs() {
         </div>
         <div className="relative max-w-7xl mx-auto px-4">
           <motion.h2 
-            className="text-3xl md:text-4xl lg:text-5xl text-right md:mb-52 font-bold text-gray-900 mb-12"
+            className="text-3xl md:text-4xl lg:text-5xl text-right md:mb-52 font-bold text-white mb-12"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}

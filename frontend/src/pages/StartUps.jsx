@@ -3,7 +3,8 @@
 import React from "react"
 import { motion } from "framer-motion"
 
-import { ExternalLink } from 'lucide-react'
+import { ExternalLink, Pizza } from 'lucide-react'
+import { COCA, MC, Pizza1, Swiggy } from "../Assets/images"
 
 const StartupCard = ({ name, logo, website }) => (
   <motion.div
@@ -14,11 +15,11 @@ const StartupCard = ({ name, logo, website }) => (
     className="flex flex-col items-center"
   >
     <div className="w-full max-w-[280px] overflow-hidden rounded-lg bg-white shadow-md hover:shadow-lg transition-shadow duration-300">
-      <div className="relative aspect-square bg-[#006d77] p-8">
+      <div className="relative aspect-square ">
         <img
           src={logo}
           alt={`${name} logo`}
-          className="w-full h-full object-contain"
+          className="w-full object-contain"
         />
       </div>
       <div className="bg-[#1a237e] py-2 px-4">
@@ -65,7 +66,7 @@ const StartupSection = ({ title, startups }) => (
       <motion.button
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
-        className="text-xl font-medium text-[#1a237e] hover:text-[#FF4D00] transition-colors"
+        className="text-xl underline font-medium text-[#1a237e] hover:text-[#FF4D00] transition-colors"
       >
         More
       </motion.button>
@@ -75,14 +76,14 @@ const StartupSection = ({ title, startups }) => (
 
 export default function StartupsPage() {
   const currentStartups = Array(6).fill({
-    name: "Volkswagen",
-    logo: "",
+    name: "Swiggy",
+    logo: Swiggy,
     website: "https://www.volkswagen.com"
   })
 
   const successfulStartups = Array(6).fill({
-    name: "Volkswagen",
-    logo: "",
+    name: "Dominos",
+    logo: Pizza1,
     website: "https://www.volkswagen.com"
   })
 

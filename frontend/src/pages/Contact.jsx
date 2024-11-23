@@ -44,7 +44,7 @@ const ContactPage = () => {
           transition={{ duration: 0.5 }}
           className="relative pt-20 px-4 md:px-6 lg:px-8 max-w-7xl mx-auto"
         >
-          <h1 className="text-2xl md:text-5xl mt-20 text-left text-[#1A2587] font-semibold ">
+          <h1 className="text-2xl md:text-5xl mt-20 text-left text-black font-semibold mt-32">
             Contact Us
           </h1>
         </motion.div>

@@ -22,6 +22,7 @@ import Awards from "./pages/Awards";
 import Dashboard from "./components/Dashboard/components/Dashboard";
 
 import SchemeDetailPage from "./pages/SchemeDetails";
+import LoginPage from "./pages/Login";
 
 
 function App() {
@@ -47,7 +48,8 @@ function App() {
             <Route path="/apply-now" element={<ApplyNowPage />} />
             <Route path="/startup" element={<StartupsPage />} />
             <Route path="/achievements" element={<Awards />} />
-        <Route path="/admin" element={<Dashboard />} />
+            <Route path="/admin" element={<Dashboard />} />
+            <Route path="/login" element={<LoginPage />} />
             <Route path="/scheme-details" element={<SchemeDetailPage/>} />
           </Routes>
         </div>

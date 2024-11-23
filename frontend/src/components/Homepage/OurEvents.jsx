@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { Rectangle23, Rectangle27, Rectangle27_1 } from "../../Assets/images";
+import { Event1, Event2, Event3, Rectangle23, Rectangle27, Rectangle27_1 } from "../../Assets/images";
 
 const EventsSection = () => {
   const events = [
@@ -10,7 +10,7 @@ const EventsSection = () => {
       isOnline: true,
       description:
         "We Are Thrilled To Announce A Significant Achievement For IIITD And Our Incubation Centre. During The Recent Budget Session, Ms. Atishi Highlighted Several Key Aspects.",
-      image: Rectangle23,
+      image: Event1,
     },
     {
       title: "Case Study Of Zomato",
@@ -18,7 +18,7 @@ const EventsSection = () => {
       isOnline: true,
       description:
         "We Are Thrilled To Announce A Significant Achievement For IIITD And Our Incubation Centre. During The Recent Budget Session, Ms. Atishi Highlighted Several.",
-      image: Rectangle27,
+      image: Event2,
     },
     {
       title: "Award 2023-24",
@@ -26,7 +26,7 @@ const EventsSection = () => {
       isOnline: true,
       description:
         "We Are Thrilled To Announce A Significant Achievement For IIITD And Our Incubation Centre. During The Recent Budget Session, Ms. Atishi Highlighted Several.",
-      image: Rectangle27_1,
+      image: Event3,
     },
   ];
 
@@ -53,7 +53,7 @@ const EventsSection = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-3 md:px-20 py-12">
+    <div className="max-w-7xl mx-auto   px-3 md:px-20 py-12">
       <motion.h2 
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -75,7 +75,7 @@ const EventsSection = () => {
             variants={itemVariants}
             className="relative group"
           >
-            <div className="rounded-2xl overflow-hidden bg-white">
+            <div className="rounded-[2rem] border-2 border-gray-200 overflow-hidden bg-white">
               <div className="relative rounded-[2rem] overflow-hidden">
                 <motion.img
                   whileHover={{ scale: 1.05 }}
@@ -104,20 +104,20 @@ const EventsSection = () => {
                 </motion.div>
               </div>
 
-              <div className="p-4">
-                <div className="flex items-center gap-4 border border-dashed border-gray-200 rounded-2xl p-2 mb-4">
-                  <h3 className="text-[#1a237e] text-lg font-semibold">
+              <div className="p-4 ">
+                <div className="flex px-7 gap-4 border border-dashed border-gray-500 rounded-2xl p-2 mb-4">
+                  <h3 className="text-[#1a237e] items-start flex text-center py-3 text-[16px] barlow-condensed-regular font-semibold flex-1">
                     {event.title}
                   </h3>
-                  <div className="flex items-center gap-2 ml-auto">
-                    <span className="text-sm min-h-16 justify-center text-center text-gray-600">{event.date}</span>
+                  <div className="flex flex-col items-end gap-1 barlow-condensed-regular">
+                    <span className="text-sm text-gray-600">{event.date}</span>
                     {event.isOnline && (
                       <span className="text-[#00C944] text-sm">Online</span>
                     )}
                   </div>
                 </div>
 
-                <div className="bg-[#FF4D00] text-white p-4 rounded-xl">
+                <div className="bg-[#FF4A11] text-white rounded-[1rem] p-4 ">
                   <p className="text-sm leading-relaxed">{event.description}</p>
                 </div>
               </div>
@@ -135,7 +135,7 @@ const EventsSection = () => {
         <motion.button 
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          className="text-xl font-medium hover:text-[#FF4D00] transition-colors"
+          className="text-xl underline font-medium hover:text-[#FF4D00] transition-colors"
         >
           More
         </motion.button>

@@ -39,11 +39,12 @@ export default function WorkGlimpse() {
       whileInView="visible"
       viewport={{ once: true }}
       variants={containerVariants}
-      className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20"
+      className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-16 lg:py-20"
     >
       <motion.h2 
         variants={itemVariants}
-        className="mb-8 text-center text-2xl font-bold tracking-tighter sm:text-3xl md:text-4xl"
+        className="mb-14 text-center text-2xl font-bold tracking-tighter sm:text-3xl md:text-4xl"
+      
       >
         Glimpse of our work
       </motion.h2>
@@ -62,7 +63,7 @@ export default function WorkGlimpse() {
             className="w-full h-full object-cover rounded-xl aspect-video"
           />
         </motion.div>
-        {[Rectangle24, Rectangle25, Rectangle26].map((img, index) => (
+        {[Rectangle24, Rectangle25, Rectangle26 ,Rectangle23].map((img, index) => (
           <motion.div 
             key={index} 
             variants={itemVariants}
@@ -74,6 +75,7 @@ export default function WorkGlimpse() {
               alt={`Thumbnail ${index + 1}`}
               className="w-full h-full object-cover rounded-xl aspect-video"
             />
+            
           </motion.div>
         ))}
       </motion.div>
