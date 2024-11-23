@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { MapPin, Phone, Mail, Contact } from 'lucide-react';
+import { MapPin, Phone, Mail} from 'lucide-react';
 import { contact } from '../Assets/images';
 
 const ContactPage = () => {
@@ -114,7 +114,7 @@ const ContactPage = () => {
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label htmlFor="firstName" className="block text-sm font-medium text-gray-700">First Name</label>
+                    <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 text-left">First Name</label>
                     <input
                       type="text"
                       id="firstName"
