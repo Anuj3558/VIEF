@@ -18,6 +18,7 @@ import ApplyNowPage from "./pages/ApplyNow";
 import StartupsPage from "./pages/StartUps";
 import { Award } from "lucide-react";
 import Awards from "./pages/Awards";
+import SchemeDetailPage from "./pages/SchemeDetails";
 
 function App() {
   return (
@@ -42,6 +43,7 @@ function App() {
             <Route path="/apply-now" element={<ApplyNowPage />} />
             <Route path="/startup" element={<StartupsPage />} />
             <Route path="/achievements" element={<Awards />} />
+            <Route path="/scheme-details" element={<SchemeDetailPage/>} />
           </Routes>
         </div>
       </div>

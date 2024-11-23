@@ -47,8 +47,11 @@
 
     import Rectangle62 from "./Rectangle62.png"
 
+    //Scheme details
+    import RectangleScheme from "./Scheme-details/RectangleScheme.png"
+
     export {
-    contact,
+      contact,
       arrow,
       award,
       awardsBg,
@@ -83,5 +86,6 @@
       Rectangle11,
       Rectangle27,
       Rectangle27_1,
-      Rectangle62
+      Rectangle62,
+      RectangleScheme,
     };
