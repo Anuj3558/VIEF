@@ -16,15 +16,12 @@ import EventsPage from "./pages/Events";
 import AboutUs from "./pages/AboutUs";
 import ApplyNowPage from "./pages/ApplyNow";
 import StartupsPage from "./pages/StartUps";
-
 import Awards from "./pages/Awards";
-
 import Dashboard from "./components/Dashboard/components/Dashboard";
-
 import SchemeDetailPage from "./pages/SchemeDetails";
 import LoginPage from "./pages/Login";
 import ProtectedRoute from "./pages/Protected";
-
+import NotFound from "./pages/NotFound";
 
 function App() {
   return (
@@ -50,11 +47,13 @@ function App() {
             <Route path="/startup" element={<StartupsPage />} />
             <Route path="/achievements" element={<Awards />} />
             <Route
-          path="/admin"
-          element={<ProtectedRoute element={<Dashboard />} />}
-        />
+              path="/admin"
+              element={<ProtectedRoute element={<Dashboard />} />}
+            />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/scheme-details" element={<SchemeDetailPage/>} />
+            {/* Catch-all route for 404 */}
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
       </div>
@@ -64,3 +63,4 @@ function App() {
 }
 
 export default App;
+
