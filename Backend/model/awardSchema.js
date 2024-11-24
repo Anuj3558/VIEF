@@ -5,7 +5,7 @@ const awardSchema = new mongoose.Schema({
   recipient: { type: String, required: true },
   description: { type: String, required: true },
   image: { type: String, required: true },
-  subtitle: { type: String, required: true }, // This will store recipient info
+ // This will store recipient info
 }, { timestamps: true });
 
 const Award = mongoose.model('Award', awardSchema);

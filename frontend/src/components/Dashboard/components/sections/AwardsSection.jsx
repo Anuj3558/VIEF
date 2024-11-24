@@ -1,172 +1,231 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { X, Upload } from 'lucide-react';
+import axios from 'axios';
+import Cookies from 'js-cookie';
+import { notification } from 'antd';
+
 import SearchBar from '../components/SearchBar';
 import AddButton from '../components/AddButton';
 import Card from '../components/Card';
 
-const AwardsSection = () => {
-  // States for managing awards and UI
-  const [awards, setAwards] = useState([
-    {
-      id: 1,
-      image: '/placeholder.jpg',
-      title: 'Innovation Excellence Award',
-      subtitle: 'Recipient: TechInnovate',
-      description: 'Awarded for groundbreaking advancements in AI technology.',
-    },
-    {
-      id: 2,
-      image: '/placeholder.jpg',
-      title: 'Sustainability Champion Award',
-      subtitle: 'Recipient: GreenEnergy',
-      description: 'Recognized for outstanding contributions to sustainable urban energy solutions.',
-    },
-  ]);
+const api = axios.create({
+  baseURL: process.env.REACT_APP_BACKEND_URL,
+});
 
+const getAccessToken = () => {
+  return Cookies.get('authToken');
+};
+
+const apiRequests = {
+  getAllAwards: () => {
+    const accessToken = getAccessToken();
+    return api.get('/client/awards', {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+  },
+
+  createAward: (formData) => {
+    const accessToken = getAccessToken();
+    return api.post('/admin/awards', formData, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+  },
+
+  updateAward: (id, formData) => {
+    const accessToken = getAccessToken();
+    return api.put(`/admin/awards/${id}`, formData, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+  },
+
+  deleteAward: (id) => {
+    const accessToken = getAccessToken();
+    return api.delete(`/admin/awards/${id}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+  },
+};
+
+const AwardsSection = () => {
+  const [awards, setAwards] = useState([]);
   const [isAddOpen, setIsAddOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [selectedAward, setSelectedAward] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
   const [formData, setFormData] = useState({
     title: '',
     recipient: '',
     description: '',
-    image: ''
+    image: null,
   });
-  const [imageFile, setImageFile] = useState(null);
-  const [imagePreview, setImagePreview] = useState('');
+  const [previewUrl, setPreviewUrl] = useState('');
 
-  // Form handlers
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
+  useEffect(() => {
+    fetchAwards();
+  }, []);
 
-  // Image upload handler
-  const handleImageUpload = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setImageFile(file);
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result);
-        setFormData(prev => ({
-          ...prev,
-          image: reader.result
-        }));
-      };
-      reader.readAsDataURL(file);
+  const fetchAwards = async () => {
+    try {
+      setIsLoading(true);
+      const response = await apiRequests.getAllAwards();
+      setAwards(response.data);
+    } catch (error) {
+      setError('Failed to fetch awards');
+      notification.error({
+        message: 'Error',
+        description: 'Failed to fetch awards',
+        placement: 'topRight',
+      });
+      console.error('Error fetching awards:', error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  // Add award handler
   const handleAddAward = async (e) => {
     e.preventDefault();
     try {
-      const newAward = {
-        id: awards.length + 1,
-        ...formData,
-        subtitle: `Recipient: ${formData.recipient}`,
-        image: imagePreview || formData.image
-      };
-      
-      setAwards(prev => [...prev, newAward]);
-      setIsAddOpen(false);
-      setFormData({
-        title: '',
-        recipient: '',
-        description: '',
-        image: ''
+      setIsLoading(true);
+      const formDataToSend = new FormData();
+      formDataToSend.append('title', formData.title);
+      formDataToSend.append('recipient', formData.recipient);
+      formDataToSend.append('description', formData.description);
+      if (formData.image) {
+        formDataToSend.append('image', formData.image);
+      }
+
+      await apiRequests.createAward(formDataToSend);
+      notification.success({
+        message: 'Success',
+        description: 'Award added successfully',
+        placement: 'topRight',
       });
-      setImageFile(null);
-      setImagePreview('');
+      setIsAddOpen(false);
+      resetForm();
+      window.location.reload();
     } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Failed to add award',
+        placement: 'topRight',
+      });
+      setError('Failed to add award');
       console.error('Error adding award:', error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  // Edit award handler
   const handleEditAward = async (e) => {
     e.preventDefault();
     try {
-      setAwards(prev => prev.map(award => 
-        award.id === selectedAward.id 
-          ? { 
-              ...award, 
-              ...formData, 
-              subtitle: `Recipient: ${formData.recipient}`,
-              image: imagePreview || formData.image
-            }
-          : award
-      ));
+      setIsLoading(true);
+      const formDataToSend = new FormData();
+      formDataToSend.append('title', formData.title);
+      formDataToSend.append('recipient', formData.recipient);
+      formDataToSend.append('description', formData.description);
+      if (formData.image) {
+        formDataToSend.append('image', formData.image);
+      }
+
+      await apiRequests.updateAward(selectedAward._id, formDataToSend);
+      notification.success({
+        message: 'Success',
+        description: 'Award updated successfully',
+        placement: 'topRight',
+      });
       setIsEditOpen(false);
-      setSelectedAward(null);
-      setImageFile(null);
-      setImagePreview('');
+      resetForm();
+      window.location.reload();
     } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Failed to update award',
+        placement: 'topRight',
+      });
+      setError('Failed to update award');
       console.error('Error updating award:', error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  // Delete award handler
   const handleDeleteAward = async () => {
     try {
-      setAwards(prev => prev.filter(award => award.id !== selectedAward.id));
+      setIsLoading(true);
+      await apiRequests.deleteAward(selectedAward._id);
+      notification.success({
+        message: 'Success',
+        description: 'Award deleted successfully',
+        placement: 'topRight',
+      });
       setIsDeleteOpen(false);
       setSelectedAward(null);
+      window.location.reload();
     } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Failed to delete award',
+        placement: 'topRight',
+      });
+      setError('Failed to delete award');
       console.error('Error deleting award:', error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  // Image input component
-  const ImageInput = ({ preview, existingImage }) => (
-    <div className="space-y-4">
-      <label className="block text-sm font-medium mb-1">Image</label>
-      <div className="space-y-2">
-        {(preview || existingImage) && (
-          <img
-            src={preview || existingImage}
-            alt="Preview"
-            className="w-full h-48 object-cover rounded-lg"
-          />
-        )}
-        <div className="flex gap-4">
-          <div className="flex-1">
-            <label className="cursor-pointer">
-              <div className="flex items-center gap-2 p-2 border rounded-lg hover:bg-gray-50">
-                <Upload className="w-4 h-4" />
-                <span>Upload Image</span>
-              </div>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleImageUpload}
-                className="hidden"
-              />
-            </label>
-          </div>
-          <div className="flex-1">
-            <input
-              type="text"
-              name="image"
-              placeholder="or paste image URL"
-              value={formData.image}
-              onChange={handleInputChange}
-              className="w-full p-2 border rounded-lg"
-            />
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+  const handleInputChange = (e) => {
+    const { name, value, files } = e.target;
+    if (name === 'image' && files && files[0]) {
+      setFormData(prev => ({
+        ...prev,
+        image: files[0]
+      }));
+      const url = URL.createObjectURL(files[0]);
+      setPreviewUrl(url);
+    } else {
+      setFormData(prev => ({
+        ...prev,
+        [name]: value
+      }));
+    }
+  };
+
+  const resetForm = () => {
+    setFormData({
+      title: '',
+      recipient: '',
+      description: '',
+      image: null
+    });
+    setPreviewUrl('');
+    setSelectedAward(null);
+  };
+
+  if (isLoading && !awards.length) {
+    return <div className="p-6">Loading...</div>;
+  }
+
+  if (error) {
+    return <div className="p-6 text-red-600">{error}</div>;
+  }
 
   return (
-    <div className="p-6">
+    <div className="p-6 max-h-[100vh] ">
       <motion.h1 
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -184,19 +243,20 @@ const AwardsSection = () => {
       <motion.div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {awards.map((award) => (
           <Card
-            key={award.id}
+            key={award._id}
             image={award.image}
             title={award.title}
-            subtitle={award.subtitle}
+            subtitle={`Recipient: ${award.recipient}`}
             description={award.description}
             onEdit={() => {
               setSelectedAward(award);
               setFormData({
                 title: award.title,
-                recipient: award.subtitle.replace('Recipient: ', ''),
+                recipient: award.recipient,
                 description: award.description,
-                image: award.image
+                image: null
               });
+              setPreviewUrl(award.image);
               setIsEditOpen(true);
             }}
             onRemove={() => {
@@ -207,18 +267,25 @@ const AwardsSection = () => {
         ))}
       </motion.div>
 
-      {/* Add Award Modal */}
-      {isAddOpen && (
+      {/* Add/Edit Form Modal */}
+      {(isAddOpen || isEditOpen) && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white rounded-lg p-6 w-full max-w-md max-h-[90vh] overflow-y-auto">
+          <div className="bg-white rounded-lg p-6 w-full max-w-md">
             <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl font-semibold">Add New Award</h2>
-              <button onClick={() => setIsAddOpen(false)} className="p-1">
+              <h2 className="text-xl font-semibold">
+                {isAddOpen ? 'Add New Award' : 'Edit Award'}
+              </h2>
+              <button 
+                onClick={() => {
+                  isAddOpen ? setIsAddOpen(false) : setIsEditOpen(false);
+                  resetForm();
+                }} 
+                className="p-1"
+              >
                 <X className="w-6 h-6" />
               </button>
             </div>
-            <form onSubmit={handleAddAward} className="space-y-4">
-              <ImageInput preview={imagePreview} />
+            <form onSubmit={isAddOpen ? handleAddAward : handleEditAward} className="space-y-4">
               <div>
                 <label className="block text-sm font-medium mb-1">Award Title</label>
                 <input
@@ -252,67 +319,42 @@ const AwardsSection = () => {
                   required
                 />
               </div>
-              <button
-                type="submit"
-                className="w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-              >
-                Add Award
-              </button>
-            </form>
-          </div>
-        </div>
-      )}
-
-      {/* Edit Award Modal */}
-      {isEditOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white rounded-lg p-6 w-full max-w-md max-h-[90vh] overflow-y-auto">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl font-semibold">Edit Award</h2>
-              <button onClick={() => setIsEditOpen(false)} className="p-1">
-                <X className="w-6 h-6" />
-              </button>
-            </div>
-            <form onSubmit={handleEditAward} className="space-y-4">
-              <ImageInput preview={imagePreview} existingImage={formData.image} />
               <div>
-                <label className="block text-sm font-medium mb-1">Award Title</label>
-                <input
-                  type="text"
-                  name="title"
-                  value={formData.title}
-                  onChange={handleInputChange}
-                  className="w-full p-2 border rounded-lg"
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-1">Recipient</label>
-                <input
-                  type="text"
-                  name="recipient"
-                  value={formData.recipient}
-                  onChange={handleInputChange}
-                  className="w-full p-2 border rounded-lg"
-                  required
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-1">Description</label>
-                <textarea
-                  name="description"
-                  value={formData.description}
-                  onChange={handleInputChange}
-                  className="w-full p-2 border rounded-lg"
-                  rows="3"
-                  required
-                />
+                <label className="block text-sm font-medium mb-1">Image</label>
+                <div className="space-y-2">
+                  {previewUrl && (
+                    <img 
+                      src={previewUrl} 
+                      alt="Preview" 
+                      className="w-full h-40 object-cover rounded-lg"
+                    />
+                  )}
+                  <div className="relative">
+                    <input
+                      type="file"
+                      name="image"
+                      onChange={handleInputChange}
+                      accept="image/*"
+                      className="hidden"
+                      id="image-upload"
+                      required={isAddOpen}
+                    />
+                    <label
+                      htmlFor="image-upload"
+                      className="flex items-center justify-center w-full p-2 border-2 border-dashed rounded-lg cursor-pointer hover:border-blue-500"
+                    >
+                      <Upload className="w-5 h-5 mr-2" />
+                      <span>{formData.image ? 'Change Image' : 'Upload Image'}</span>
+                    </label>
+                  </div>
+                </div>
               </div>
               <button
                 type="submit"
-                className="w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                className="w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-blue-300"
+                disabled={isLoading}
               >
-                Update Award
+                {isLoading ? 'Processing...' : (isAddOpen ? 'Add Award' : 'Update Award')}
               </button>
             </form>
           </div>
@@ -324,19 +366,25 @@ const AwardsSection = () => {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-white rounded-lg p-6 w-full max-w-md">
             <h2 className="text-xl font-semibold mb-4">Confirm Delete</h2>
-            <p className="mb-6">Are you sure you want to delete "{selectedAward?.title}"? This action cannot be undone.</p>
+            <p className="mb-6">
+              Are you sure you want to delete "{selectedAward?.title}"? This action cannot be undone.
+            </p>
             <div className="flex justify-end gap-4">
               <button
-                onClick={() => setIsDeleteOpen(false)}
+                onClick={() => {
+                  setIsDeleteOpen(false);
+                  setSelectedAward(null);
+                }}
                 className="px-4 py-2 border rounded-lg hover:bg-gray-50"
               >
                 Cancel
               </button>
               <button
                 onClick={handleDeleteAward}
-                className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
+                className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 disabled:bg-red-300"
+                disabled={isLoading}
               >
-                Delete
+                {isLoading ? 'Deleting...' : 'Delete'}
               </button>
             </div>
           </div>

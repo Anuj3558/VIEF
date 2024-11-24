@@ -25,7 +25,7 @@ const startupSchema = new Schema(
     },
     status: {
       type: String,
-      enum: ['Current', 'Successful', 'Failed'], // example statuses
+      enum: ['Current', 'Successful'], // example statuses
       default: 'Current',
     },
     createdAt: {

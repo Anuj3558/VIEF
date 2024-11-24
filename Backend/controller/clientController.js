@@ -7,6 +7,7 @@ import Sponsor from "../model/sponsorSchema.js";
 import Scheme from "../model/schemeSchema.js";
 
 import PreIncubation from "../model/SchemSchma.js";
+import Member from "../model/memberShema.js";
 
 // Controller for fetching events
 export const fetchEvents = async (req, res) => {
@@ -55,7 +56,7 @@ export const fetchSponsors = async (req, res) => {
 // Controller for fetching mentors
 export const fetchMentors = async (req, res) => {
   try {
-    const mentors = await Mentor.find().sort({ createdAt: -1 });  // Sorting by 'createdAt' in descending order
+    const mentors = await Member.find().sort({ createdAt: -1 });  // Sorting by 'createdAt' in descending order
     res.status(200).json(mentors);  // Send 200 OK with the mentors data
   } catch (error) {
     console.error(error);

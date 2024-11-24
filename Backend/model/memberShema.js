@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
 // Define the schema for a Member
@@ -11,7 +11,7 @@ const memberSchema = new Schema({
     type: String,
     required: true,
   },
-  description: {
+  linkedinUrl: {
     type: String,
     required: true,
   },
@@ -26,4 +26,5 @@ const memberSchema = new Schema({
 // Create a model from the schema
 const Member = mongoose.model('Member', memberSchema);
 
-module.exports = Member;
+// Export the model as default
+export default Member;

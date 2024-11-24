@@ -8,6 +8,7 @@ import jwt from 'jsonwebtoken';
 import connectDB from './connection.js';
 import clientRouter from './router/cilentRouter.js';
 import authRouter from './router/authRouter.js';
+import adminRouter from './router/adminRouter.js';
 
 
 // Load environment variables
@@ -25,8 +26,10 @@ connectDB();
 
 // Auth middleware
 const authMiddleware = (req, res, next) => {
-  const token = req.headers.authorization?.split(' ')[1]; // Extract token from Authorization header
+  const token = req.headers.authorization?.split(' ')[1];
+ // Extract token from Authorization header
   if (!token) {
+    console.log(token)
     return res.status(401).json({ message: 'No token provided, access denied' });
   }
   try {
@@ -42,7 +45,7 @@ const authMiddleware = (req, res, next) => {
 app.use("/api",clientRouter)
 app.use("/auth",authRouter)
 app.use("/client",clientRouter)
-// app.use("/admin",authMiddleware,adminRouter)
+ app.use("/admin",authMiddleware,adminRouter)
 // Start the server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
