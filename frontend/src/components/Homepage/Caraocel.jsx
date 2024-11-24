@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Event1, Event2, Event3, Event4, Event5, Frame329, Rectangle10, Rectangle11, Rectangle8 } from "../../Assets/images";
 
 const ImageCarousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
 
   const images = [
     { 
@@ -42,6 +43,17 @@ const ImageCarousel = () => {
     }
   ];
 
+  // Auto-slide functionality
+  useEffect(() => {
+    let interval;
+    if (!isHovered) {
+      interval = setInterval(() => {
+        setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+      }, 3000); // Change slide every 3 seconds
+    }
+    return () => clearInterval(interval);
+  }, [isHovered, images.length]);
+
   const nextSlide = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
   };
@@ -53,32 +65,36 @@ const ImageCarousel = () => {
   };
 
   return (
-    <div className="w-full max-w-6xl mx-auto  my-32 px-4">
+    <div className="w-full max-w-6xl mx-auto my-32 px-4">
       <h2 className="text-2xl md:text-2xl lg:text-5xl font-bold text-center mb-8">
-        <span className="text-black ">Gallery</span>
+        <span className="text-black">Gallery</span>
       </h2>
-      <div className="relative overflow-hidden rounded-xl shadow-lg">
+      <div 
+        className="relative overflow-hidden rounded-xl shadow-lg"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
         <div
           className="flex transition-transform duration-500 ease-in-out"
           style={{ transform: `translateX(-${currentIndex * 100}%)` }}
         >
           {images.map((image, index) => (
-            <div key={index} className="w-full flex-shrink-0 relative">
+            <div key={index} className="w-full flex-shrink-0 relative group">
               <div className="relative">
                 <img
                   src={image.src}
                   alt={image.alt}
                   className="w-full h-[300px] md:h-[500px] lg:h-[600px] object-cover"
                 />
-                <div className="absolute inset-0 bg-black/30"></div>
+                {/* Text overlay that's always visible */}
                 <div className="absolute bottom-4 right-4 text-right text-white">
-                  <h3 className="text-xl md:text-2xl font-bold mb-1">
+                  <h3 className="text-xl md:text-2xl font-bold mb-1 drop-shadow-lg">
                     {image.title}
                   </h3>
-                  <p className="text-sm md:text-base mb-1">
+                  <p className="text-sm md:text-base mb-1 drop-shadow-lg">
                     {image.description}
                   </p>
-                  <p className="text-xs md:text-sm opacity-80">
+                  <p className="text-xs md:text-sm opacity-80 drop-shadow-lg">
                     {image.subtext}
                   </p>
                 </div>
@@ -86,7 +102,6 @@ const ImageCarousel = () => {
             </div>
           ))}
         </div>
-      
         
         {/* Slide Indicators */}
         <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex">

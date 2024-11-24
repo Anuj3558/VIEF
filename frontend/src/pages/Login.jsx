@@ -1,6 +1,11 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { User, Mail, Lock, Loader2, AlertCircle } from 'lucide-react';
+import axios from 'axios';
+import Cookies from 'js-cookie';
+import { useNavigate } from 'react-router-dom';
+import { notification } from 'antd';
+import { CheckCircleOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 
 // Custom Alert Component
 const CustomAlert = ({ children }) => (
@@ -10,7 +15,7 @@ const CustomAlert = ({ children }) => (
   </div>
 );
 
-const LoginPage = ({ onLogin }) => {
+const LoginPage = () => {
   const [formData, setFormData] = useState({
     username: '',
     email: '',
@@ -18,6 +23,7 @@ const LoginPage = ({ onLogin }) => {
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -25,7 +31,6 @@ const LoginPage = ({ onLogin }) => {
       ...prev,
       [name]: value
     }));
-    // Clear error when user starts typing
     if (error) setError('');
   };
 
@@ -51,35 +56,41 @@ const LoginPage = ({ onLogin }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!validateForm()) return;
 
     setLoading(true);
     setError('');
 
     try {
-      const response = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
+      const response = await axios.post('http://localhost:5000/auth/login', formData);
 
-      const data = await response.json();
+      if (response.status === 200) {
+        Cookies.set('authToken', response.data.token, { expires: 7 });
 
-      if (!response.ok) {
-        throw new Error(data.message || 'Authentication failed');
+        notification.success({
+          message: 'Login Successful',
+          description: 'Redirecting to admin dashboard...',
+          placement: 'bottomLeft',
+          icon: <CheckCircleOutlined style={{ color: '#52c41a' }} />,
+        });
+
+        setTimeout(() => {
+          navigate('/admin');
+        }, 2000);
+      } else {
+        throw new Error('Authentication failed');
       }
-
-      // Store the token in localStorage
-      localStorage.setItem('authToken', data.token);
-      
-      // Call the onLogin callback with user data
-      onLogin(data.user);
-      
     } catch (err) {
-      setError(err.message || 'An error occurred during login');
+      const errorMessage = err.response?.data?.message || err.message || 'An error occurred during login';
+      setError(errorMessage);
+
+      notification.error({
+        message: 'Login Failed',
+        description: errorMessage,
+        placement: 'bottomLeft',
+        icon: <ExclamationCircleOutlined style={{ color: '#ff4d4f' }} />,
+      });
     } finally {
       setLoading(false);
     }
@@ -228,3 +239,4 @@ const LoginPage = ({ onLogin }) => {
 };
 
 export default LoginPage;
+

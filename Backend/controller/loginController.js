@@ -7,7 +7,7 @@ export const login = async (req, res) => {
   try {
     // Destructure the email, password, and username from request body
     const { email, password, username } = req.body;
-
+   console.log(req)
     // Check if the user exists in the database
     const user = await User.findOne({ email });
     if (!user) {
