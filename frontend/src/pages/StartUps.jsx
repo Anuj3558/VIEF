@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useContext } from "react";
 import { motion } from "framer-motion";
 import { ExternalLink } from "lucide-react";
+import { StartupContext } from "../contexts/StartupContext";
 
 const StartupCard = ({ name, logo, website }) => (
   <motion.div
@@ -14,9 +14,9 @@ const StartupCard = ({ name, logo, website }) => (
     className="flex flex-col items-center"
   >
     <div className="w-full max-w-[280px] overflow-hidden rounded-lg bg-white shadow-md hover:shadow-lg transition-shadow duration-300">
-      <div className="relative aspect-square ">
+      <div className="relative aspect-square">
         <img
-          src={logo}
+          src={logo || "/placeholder-logo.png"}
           alt={`${name} logo`}
           className="w-full object-contain"
         />
@@ -42,11 +42,9 @@ const StartupCard = ({ name, logo, website }) => (
 );
 
 const StartupSection = ({ title, startups }) => {
-  const [showAll, setShowAll] = useState(false); // State to control whether to show all startups
+  const [showAll, setShowAll] = React.useState(false);
 
-  const handleShowAll = () => {
-    setShowAll(true); // Show all startups when "More" is clicked
-  };
+  const handleShowAll = () => setShowAll(true);
 
   return (
     <section className="my-16">
@@ -91,36 +89,24 @@ const StartupSection = ({ title, startups }) => {
 };
 
 export default function StartupsPage() {
-  const [currentStartups, setCurrentStartups] = useState([]); // State for current startups
-  const [successfulStartups, setSuccessfulStartups] = useState([]); // State for successful startups
+  const { currentStartups, successfulStartups, loading, error } =
+    useContext(StartupContext);
 
-  useEffect(() => {
-    const fetchStartups = async () => {
-      try {
-        // Fetching Current Startups
-        const currentResponse = await axios.get(
-          "http://localhost:5000/api/startups"
-        ); // Replace with the correct route if needed
-        setCurrentStartups(
-          currentResponse.data.filter((startup) => startup.status === "Current")
-        );
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="text-lg text-gray-600">Loading startups...</p>
+      </div>
+    );
+  }
 
-        // Fetching Successful Startups
-        const successfulResponse = await axios.get(
-          "http://localhost:5000/api/startups"
-        ); // Same endpoint, filter for Successful
-        setSuccessfulStartups(
-          successfulResponse.data.filter(
-            (startup) => startup.status === "Successful"
-          )
-        );
-      } catch (error) {
-        console.error("Error fetching startups:", error);
-      }
-    };
-
-    fetchStartups();
-  }, []);
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="text-lg text-red-600">Error: {error}</p>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50/50">

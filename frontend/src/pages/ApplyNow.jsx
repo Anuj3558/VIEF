@@ -1,34 +1,15 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useState, useContext } from "react";
 import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { SchemeContext } from "../contexts/SchemeContext";
 
 export default function ApplyNowPage() {
-  const [schemes, setSchemes] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const { schemes, loading, error } = useContext(SchemeContext); // Use SchemeContext to access schemes
   const [showAll, setShowAll] = useState(false); // State to toggle visibility of more schemes
-
   const navigate = useNavigate(); // Use useNavigate to handle navigation
-
-  // Fetch schemes from the backend using axios
-  useEffect(() => {
-    const fetchSchemes = async () => {
-      try {
-        const response = await axios.get("http://localhost:5000/api/scheme");
-        setSchemes(response.data); // Set schemes to state
-      } catch (err) {
-        setError(err.message); // Set error if any
-      } finally {
-        setLoading(false); // Set loading to false after fetch
-      }
-    };
-
-    fetchSchemes();
-  }, []);
 
   const containerVariants = {
     hidden: { opacity: 0 },

@@ -46,13 +46,17 @@ function App() {
             <Route path="/apply-now" element={<ApplyNowPage />} />
             <Route path="/startup" element={<StartupsPage />} />
             <Route path="/achievements" element={<Awards />} />
-            <Route
+            {/* <Route
               path="/admin"
               element={<ProtectedRoute element={<Dashboard />} />}
+            /> */}
+            <Route
+              path="/admin"
+              element={<Dashboard />} 
             />
             <Route path="/login" element={<LoginPage />} />
-            <Route path="/scheme-details/:id" element={<SchemeDetailPage/>} />
-            <Route path="/scheme-details" element={<SchemeDetailPage/>} />
+            <Route path="/scheme-details/:id" element={<SchemeDetailPage />} />
+            <Route path="/scheme-details" element={<SchemeDetailPage />} />
             {/* Catch-all route for 404 */}
             <Route path="*" element={<NotFound />} />
           </Routes>

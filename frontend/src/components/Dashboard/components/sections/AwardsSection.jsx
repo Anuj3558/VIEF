@@ -1,28 +1,15 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { motion } from 'framer-motion';
 import { X, Upload } from 'lucide-react';
 import SearchBar from '../components/SearchBar';
 import AddButton from '../components/AddButton';
 import Card from '../components/Card';
+import { AwardContext } from '../../../../contexts/AwardContext';
+
 
 const AwardsSection = () => {
   // States for managing awards and UI
-  const [awards, setAwards] = useState([
-    {
-      id: 1,
-      image: '/placeholder.jpg',
-      title: 'Innovation Excellence Award',
-      subtitle: 'Recipient: TechInnovate',
-      description: 'Awarded for groundbreaking advancements in AI technology.',
-    },
-    {
-      id: 2,
-      image: '/placeholder.jpg',
-      title: 'Sustainability Champion Award',
-      subtitle: 'Recipient: GreenEnergy',
-      description: 'Recognized for outstanding contributions to sustainable urban energy solutions.',
-    },
-  ]);
+  const { awards, setAwards } = useContext(AwardContext);
 
   const [isAddOpen, setIsAddOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
