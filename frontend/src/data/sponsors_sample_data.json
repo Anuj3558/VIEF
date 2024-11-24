@@ -1,0 +1,82 @@
+[
+  {
+    "title": "FinTechPro",
+    "subtitle": "Innovative Financial Solutions",
+    "description": "FinTechPro provides advanced fintech solutions for businesses to streamline payments, investments, and financial planning.",
+    "image": "https://example.com/images/fintechpro-logo.png",
+    "createdAt": "2024-11-21T10:00:00.000Z",
+    "updatedAt": "2024-11-21T10:00:00.000Z"
+  },
+  {
+    "title": "HealthCareX",
+    "subtitle": "Revolutionizing Healthcare",
+    "description": "HealthCareX uses cutting-edge technology to improve patient care and streamline hospital management.",
+    "image": "https://example.com/images/healthcarex-logo.png",
+    "createdAt": "2024-11-20T09:00:00.000Z",
+    "updatedAt": "2024-11-20T09:00:00.000Z"
+  },
+  {
+    "title": "AgriTech",
+    "subtitle": "Smart Farming Solutions",
+    "description": "AgriTech is revolutionizing the agricultural sector by implementing IoT and AI technologies to optimize farming practices.",
+    "image": "https://example.com/images/agritech-logo.png",
+    "createdAt": "2024-11-19T08:30:00.000Z",
+    "updatedAt": "2024-11-19T08:30:00.000Z"
+  },
+  {
+    "title": "AutoTech",
+    "subtitle": "Next-gen Automotive Innovations",
+    "description": "AutoTech is at the forefront of innovation in the automotive industry, focusing on autonomous vehicles and electric cars.",
+    "image": "https://example.com/images/autotech-logo.png",
+    "createdAt": "2024-11-18T10:00:00.000Z",
+    "updatedAt": "2024-11-18T10:00:00.000Z"
+  },
+  {
+    "title": "SmartHome",
+    "subtitle": "Building the Future of Living",
+    "description": "SmartHome specializes in developing IoT-based solutions for smart homes, improving comfort, efficiency, and security.",
+    "image": "https://example.com/images/smarthome-logo.png",
+    "createdAt": "2024-11-17T11:15:00.000Z",
+    "updatedAt": "2024-11-17T11:15:00.000Z"
+  },
+  {
+    "title": "FinSolve",
+    "subtitle": "Streamlining Financial Services",
+    "description": "FinSolve offers customized financial software solutions designed to improve accounting, auditing, and tax management.",
+    "image": "https://example.com/images/finsolve-logo.png",
+    "createdAt": "2024-11-16T12:30:00.000Z",
+    "updatedAt": "2024-11-16T12:30:00.000Z"
+  },
+  {
+    "title": "UrbanSolutions",
+    "subtitle": "Building Smarter Cities",
+    "description": "UrbanSolutions specializes in developing technologies that help cities optimize infrastructure and enhance the quality of life.",
+    "image": "https://example.com/images/urbansolutions-logo.png",
+    "createdAt": "2024-11-15T13:00:00.000Z",
+    "updatedAt": "2024-11-15T13:00:00.000Z"
+  },
+  {
+    "title": "EduTech",
+    "subtitle": "Innovative Learning Platforms",
+    "description": "EduTech provides a variety of digital learning platforms for schools, universities, and professional development.",
+    "image": "https://example.com/images/edutech-logo.png",
+    "createdAt": "2024-11-14T08:45:00.000Z",
+    "updatedAt": "2024-11-14T08:45:00.000Z"
+  },
+  {
+    "title": "CleanEnergyX",
+    "subtitle": "Powering a Sustainable Future",
+    "description": "CleanEnergyX is a leader in renewable energy solutions, working on projects to reduce reliance on fossil fuels.",
+    "image": "https://example.com/images/cleanenergyx-logo.png",
+    "createdAt": "2024-11-13T07:20:00.000Z",
+    "updatedAt": "2024-11-13T07:20:00.000Z"
+  },
+  {
+    "title": "SpaceTech",
+    "subtitle": "Exploring the Future of Space",
+    "description": "SpaceTech is advancing space exploration technology, focusing on satellite solutions and space transportation.",
+    "image": "https://example.com/images/spacetech-logo.png",
+    "createdAt": "2024-11-12T10:10:00.000Z",
+    "updatedAt": "2024-11-12T10:10:00.000Z"
+  }
+]

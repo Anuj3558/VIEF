@@ -1,20 +1,39 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { logoPng } from '../Assets/images';
+import { useLocation } from 'react-router-dom';
 
 const Footer = () => {
+  const location = useLocation();
+  const isAdminPage = location.pathname === '/admin';
+
   const footerSections = [
     {
       title: 'About',
-      links: ['About us', 'Domains', 'Facilities', 'Scheme', 'Startups'],
+      links: [
+        { name: 'About us', url: '/about-us' },
+        { name: 'Domains', url: '/innovation-hub' },
+        { name: 'Facilities', url: '/facilities' },
+        { name: 'Scheme', url: '/scheme-details' },
+        { name: 'Startups', url: '/startup' },
+      ],
     },
     {
       title: 'Updates',
-      links: ['Events', 'Newsletter', 'Awards'],
+      links: [
+        { name: 'Events', url: '/events' },
+        { name: 'Newsletter', url: '/news-letter' },
+        { name: 'Awards', url: '/achievements' },
+      ],
     },
     {
       title: 'Careers',
-      links: ['Jobs at VIEF', 'Jobs as volunteer', 'Apply for Internship', 'Jobs at startups'],
+      links: [
+        { name: 'Jobs at VIEF', url: '/careers/vief' },
+        { name: 'Jobs as volunteer', url: '/careers/volunteer' },
+        { name: 'Apply for Internship', url: '/careers/internship' },
+        { name: 'Jobs at startups', url: '/careers/startups' },
+      ],
     },
   ];
 
@@ -32,6 +51,8 @@ const Footer = () => {
       <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
     )},
   ];
+
+  if (isAdminPage) return null;
 
   return (
     <footer className="bg-white border-t">
@@ -76,8 +97,8 @@ const Footer = () => {
               <ul className="space-y-2">
                 {section.links.map((link, linkIndex) => (
                   <li key={linkIndex}>
-                    <a href="#" className="text-gray-600 hover:text-gray-900 text-sm">
-                      {link}
+                    <a href={link.url} className="text-gray-600 hover:text-gray-900 text-sm">
+                      {link.name}
                     </a>
                   </li>
                 ))}
@@ -93,7 +114,7 @@ const Footer = () => {
           </p>
           <div className="flex space-x-4">
             {socialLinks.map((social) => (
-              <a href={social.url} className="text-gray-600 hover:text-gray-900">
+              <a key={social.name} href={social.url} className="text-gray-600 hover:text-gray-900">
                 <span className="sr-only">{social.name}</span>
                 <svg 
                   className="h-5 w-5" 

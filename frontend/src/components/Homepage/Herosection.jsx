@@ -46,7 +46,7 @@ const Hero = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.4 }}
               >
-                <ApplyButton text={"Apply Now"} />
+                <ApplyButton text={"Apply Now"} route={"/apply"} />
               </motion.div>
             </div>
           </main>
