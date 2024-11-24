@@ -80,12 +80,14 @@ function Counter({ end, duration = 2000, prefix = "", suffix = "", label }) {
 export default function AnimatedCounters() {
   return (
 
-    <div className="w-full max-w-5xl px-4 sm:px-6 lg:px-8 py-5 text-2xl montserrat-light mx-auto">
+    <div className="w-full max-w-6xl px-4 sm:px-6 lg:px-8 py-5 text-2xl montserrat-light mx-auto">
        
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-5 sm:gap-7 py-8 sm:py-12 place-items-center">
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-5 sm:gap-7 py-8 sm:py-12 place-items-center">
         <Counter end={100} suffix="+" label="Venture Incubation" />
         <Counter end={15070} suffix="+" label="Job Created" />
+        <Counter end={80} suffix="+" label="Session's Conducted" />
         <Counter end={12300} suffix="+" label="Entrepreneurs Engaged" />
+
         <Counter
           end={1}
           prefix="$"

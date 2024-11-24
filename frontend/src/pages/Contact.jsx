@@ -5,12 +5,27 @@ import { contact } from '../Assets/images';
 
 const ContactPage = () => {
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
+    name: '',
     email: '',
     phone: '',
-    message: ''
+    message: '',
+    type: 'individual',
+    subject: ''
   });
+
+  const subjects = [
+    'Project',
+    'Incubation',
+    'Course',
+    'Other',
+    'Funding',
+    'Incubation at VIEF',
+    'R&D',
+    'Booking (Meeting Room/suites/Guest Rooms)',
+    'IPR Patent',
+    'Technology Transfer',
+    'Acceleration'
+  ];
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -27,7 +42,7 @@ const ContactPage = () => {
   };
 
   return (
-    <div className="min-h-screen ">
+    <div className="min-h-screen">
       {/* Hero Section */}
       <div className="relative h-[400px] w-full">
         <div 
@@ -68,7 +83,7 @@ const ContactPage = () => {
               </p>
             </div>
 
-            <div className="  rounded-lg py-4 gap-12 space-y-12">
+            <div className="rounded-lg py-4 gap-12 space-y-12">
               <div className="flex items-center space-x-4">
                 <div className="p-2 bg-purple-100 rounded-full">
                   <MapPin className="h-6 w-6 text-purple-600" />
@@ -112,31 +127,63 @@ const ContactPage = () => {
           >
             <div className="bg-white shadow-md rounded-lg p-6">
               <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 text-left">First Name</label>
-                    <input
-                      type="text"
-                      id="firstName"
-                      name="firstName"
-                      value={formData.firstName}
-                      onChange={handleChange}
-                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-                      placeholder="John"
-                    />
+                <div>
+                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 text-left">Full Name</label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+                    placeholder="John Doe"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 text-left mb-2">Type</label>
+                  <div className="flex gap-4">
+                    <label className="inline-flex items-center">
+                      <input
+                        type="radio"
+                        name="type"
+                        value="individual"
+                        checked={formData.type === 'individual'}
+                        onChange={handleChange}
+                        className="form-radio h-4 w-4 text-blue-600"
+                      />
+                      <span className="ml-2">Individual</span>
+                    </label>
+                    <label className="inline-flex items-center">
+                      <input
+                        type="radio"
+                        name="type"
+                        value="company"
+                        checked={formData.type === 'company'}
+                        onChange={handleChange}
+                        className="form-radio h-4 w-4 text-blue-600"
+                      />
+                      <span className="ml-2">Company</span>
+                    </label>
                   </div>
-                  <div>
-                    <label htmlFor="lastName" className="block text-sm font-medium text-gray-700">Last Name</label>
-                    <input
-                      type="text"
-                      id="lastName"
-                      name="lastName"
-                      value={formData.lastName}
-                      onChange={handleChange}
-                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-                      placeholder="Doe"
-                    />
-                  </div>
+                </div>
+
+                <div>
+                  <label htmlFor="subject" className="block text-sm font-medium text-gray-700 text-left">Subject</label>
+                  <select
+                    id="subject"
+                    name="subject"
+                    value={formData.subject}
+                    onChange={handleChange}
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+                  >
+                    <option value="">Select a subject</option>
+                    {subjects.map((subject, index) => (
+                      <option key={index} value={subject}>
+                        {subject}
+                      </option>
+                    ))}
+                  </select>
                 </div>
 
                 <div>

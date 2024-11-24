@@ -65,8 +65,8 @@ const ImageCarousel = () => {
   };
 
   return (
-    <div className="w-full max-w-6xl mx-auto my-32 px-4">
-      <h2 className="text-2xl md:text-2xl lg:text-5xl font-bold text-center mb-8">
+    <div className="w-full max-w-6xl mx-auto my-5 px-4">
+      <h2 className="text-2xl md:text-2xl lg:text-4xl font-bold text-center mb-8">
         <span className="text-black">Gallery</span>
       </h2>
       <div 

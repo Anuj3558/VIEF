@@ -3,7 +3,7 @@ import { Monitor, Heart, Users, Rocket } from "lucide-react";
 
 const CohortCard = ({ icon: Icon, title, description }) => {
   return (
-    <div className="flex flex-col items-center text-center max-w-[250px]">
+    <div className="flex flex-col items-center mt-12 text-center max-w-[250px]">
       <div className="w-16 h-16 rounded-full bg-[#FFE4E0] flex items-center justify-center mb-4">
         <Icon className="w-8 h-8 text-[#FF4D00]" />
       </div>
@@ -42,7 +42,7 @@ const IncubationCohort = () => {
   ];
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-16">
+    <div className="max-w-7xl mx-auto px-4 pt-32">
       <h2 className="text-4xl font-bold text-center mb-16">
         Incubation Cohort
       </h2>

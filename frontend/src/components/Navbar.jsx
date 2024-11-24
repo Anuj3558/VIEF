@@ -31,6 +31,7 @@ const Navbar = () => {
       dropdownItems: [
         { name: 'Facilities', href: '/facilities' },
         { name: 'Our Team', href: '/about-us' },
+        { name: 'Domains', href: '/innovation-hub' }
       ]
     },
     { name: 'Startup', href: '/startup' },
@@ -90,7 +91,7 @@ const Navbar = () => {
             className="flex-shrink-0"
             whileTap={{ scale: 0.95 }}
           >
-            <img className="h-8 w-auto" src={logoPng} alt="IIED Logo" />
+            <img className="h-10 w-auto" src={logoPng} alt="IIED Logo" />
           </motion.a>
 
           {/* Navigation items on the right */}
@@ -98,12 +99,18 @@ const Navbar = () => {
             <div className="flex items-center space-x-1 mr-6">
               {renderNavItems(navItems)}
             </div>
-            <motion.div whileTap={{ scale: 0.95 }}>
+            <motion.div whileTap={{ scale: 0.95 }} className="flex space-x-2">
               <Link
                 to="/vief-scholar"
                 className="bg-orange-500 text-white px-4 py-2 rounded text-base font-medium hover:bg-orange-600 transition duration-300"
               >
                 VIEF Scholar
+              </Link>
+              <Link
+                to="/event-ideathon"
+                className="border border-orange-500 text-orange-500 px-4 py-2 rounded text-base font-medium hover:bg-orange-100 transition duration-300"
+              >
+                Event Ideathon
               </Link>
             </motion.div>
           </div>
@@ -197,6 +204,13 @@ const Navbar = () => {
               >
                 VIEF Scholar
               </Link>
+              <Link
+                to="/event-ideathon"
+                className="border border-orange-500 text-orange-500 block px-4 py-3 rounded-md text-base font-medium hover:bg-orange-100 transition duration-300 mt-2"
+                onClick={() => setIsOpen(false)}
+              >
+                Event Ideathon
+              </Link>
             </div>
           </motion.div>
         )}
@@ -206,3 +220,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
