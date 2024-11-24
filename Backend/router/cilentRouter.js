@@ -14,15 +14,15 @@ import {
 const clientRouter = Router();
 
 // Define GET routes
-clientRouter.get('/events', fetchEvents);
-clientRouter.get('/scheme', fetchSchemes);
-clientRouter.get('/awards', fetchAwards);
-clientRouter.get('/sponsor', fetchSponsors);
+clientRouter.get('/events', fetchEvents); //d
+clientRouter.get('/scheme', fetchSchemes);//d
+clientRouter.get('/awards', fetchAwards);//d
+clientRouter.get('/sponsor', fetchSponsors);//d
 clientRouter.get('/mentors', fetchMentors);
 clientRouter.get('/newsletter', fetchNewsletters);
-clientRouter.get('/startups', fetchStartups);
-clientRouter.get('/eventdetails', fetchEventDetails);
-clientRouter.get('/scheme-details', fetchSchemeDetails);
+clientRouter.get('/startups', fetchStartups);//d  
+clientRouter.get('/eventdetails', fetchEventDetails);//d
+clientRouter.get('/scheme-details', fetchSchemeDetails);//d
 
 // Export the router
 export default clientRouter;

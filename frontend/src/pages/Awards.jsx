@@ -1,16 +1,31 @@
-import React from "react";
-import {
-  Rectangele57,
-  Rectangle26,
-  Rectangle57,
-  Rectangle59,
-} from "../Assets/images";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { Rectangle26, Rectangle57, Rectangle59 } from "../Assets/images";
 
+// PartnershipGrid Component
 const PartnershipGrid = () => {
-  const universities = Array(9).fill({
-    name: "XYZ University",
-    image: "/placeholder.svg?height=300&width=400",
-  });
+  const [sponsors, setSponsors] = useState([]); // State to store fetched sponsor data
+  const [loading, setLoading] = useState(true); // Loading state
+  const [showAll, setShowAll] = useState(false); // State to track if all sponsors are shown
+
+  useEffect(() => {
+    const fetchSponsors = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/api/sponsor"); // Replace with your actual API URL
+        setSponsors(response.data); // Set the sponsor data in state
+        setLoading(false); // Set loading to false after data is fetched
+      } catch (error) {
+        console.error("Error fetching sponsors:", error);
+        setLoading(false); // Set loading to false even if there is an error
+      }
+    };
+    fetchSponsors();
+  }, []); // Empty dependency array means this effect runs once when the component mounts
+
+  // Function to handle 'More' button click
+  const handleShowAll = () => {
+    setShowAll(true); // Show all sponsors
+  };
 
   return (
     <div className="max-w-7xl mx-auto mb-16 py-[4%]">
@@ -18,39 +33,48 @@ const PartnershipGrid = () => {
         Partnership Collaboration
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {universities.map((uni, index) => (
-          <div key={index} className="relative rounded-2xl overflow-hidden">
-            <img
-              src={Rectangle26}
-              alt={uni.name}
-              className="w-full h-[250px] object-cover"
-            />
-            <div className="absolute bottom-4 left-4">
-              <span className="bg-[#FF4D00] text-white px-4 py-2 rounded-lg">
-                {uni.name}
-              </span>
+        {loading ? (
+          <div className="text-center text-xl">Loading sponsors...</div> // Loading state message
+        ) : sponsors.length === 0 ? (
+          <div className="text-center text-xl">No sponsors found</div> // Message if no sponsors are found
+        ) : (
+          (showAll ? sponsors : sponsors.slice(0, 6)).map((sponsor, index) => (
+            <div key={index} className="relative rounded-2xl overflow-hidden">
+              <img
+                src={sponsor.image}
+                alt={sponsor.title}
+                className="w-full h-[250px] object-cover"
+              />
+              <div className="absolute bottom-4 left-4">
+                <span className="bg-[#FF4D00] text-white px-4 py-2 rounded-lg">
+                  {sponsor.title}
+                </span>
+              </div>
             </div>
-          </div>
-        ))}
+          ))
+        )}
       </div>
-      <div className="text-center mt-8">
-        <a
-          href="#"
-          className="text-xl underline font-medium hover:text-[#FF4D00] transition-colors"
-        >
-          More
-        </a>
-      </div>
+      {!showAll && (
+        <div className="text-center mt-8">
+          <button
+            onClick={handleShowAll}
+            className="text-xl underline font-medium hover:text-[#FF4D00] transition-colors"
+          >
+            More
+          </button>
+        </div>
+      )}
     </div>
   );
 };
 
+// AwardCard Component
 const AwardCard = ({ image, title, description }) => {
   return (
     <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-8 bg-white rounded-2xl p-8 shadow-md mb-8">
       <div className="w-full md:w-1/3">
         <img
-          src={Rectangle59}
+          src={image || Rectangle59}
           alt={title}
           className="w-full h-[250px] object-cover rounded-xl"
         />
@@ -63,27 +87,24 @@ const AwardCard = ({ image, title, description }) => {
   );
 };
 
+// AwardsSection Component
 const AwardsSection = () => {
-  const awards = [
-    {
-      title: "Best Incubation Award",
-      description:
-        "It's time to shine a spotlight on innovation and entrepreneurship! Join us at IIITD-IC as we present an exhilarating Investors Meet, where the brightest minds collide. Don't just spectate, participate! If you are a startup who has developed the product and looking for scaling up your venture with backup from VCs, do submit your application.",
-      image: "/placeholder.svg?height=200&width=300",
-    },
-    {
-      title: "Best Incubation Award",
-      description:
-        "It's time to shine a spotlight on innovation and entrepreneurship! Join us at IIITD-IC as we present an exhilarating Investors Meet, where the brightest minds collide. Don't just spectate, participate! If you are a startup who has developed the product and looking for scaling up your venture with backup from VCs, do submit your application.",
-      image: "/placeholder.svg?height=200&width=300",
-    },
-    {
-      title: "Best Incubation Award",
-      description:
-        "It's time to shine a spotlight on innovation and entrepreneurship! Join us at IIITD-IC as we present an exhilarating Investors Meet, where the brightest minds collide. Don't just spectate, participate! If you are a startup who has developed the product and looking for scaling up your venture with backup from VCs, do submit your application.",
-      image: "/placeholder.svg?height=200&width=300",
-    },
-  ];
+  const [awards, setAwards] = useState([]); // State to store fetched award data
+  const [loading, setLoading] = useState(true); // Loading state
+
+  useEffect(() => {
+    const fetchAwards = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/api/awards"); // Replace with your actual API URL
+        setAwards(response.data); // Set the awards data in state
+        setLoading(false); // Set loading to false after data is fetched
+      } catch (error) {
+        console.error("Error fetching awards:", error);
+        setLoading(false); // Set loading to false even if there is an error
+      }
+    };
+    fetchAwards();
+  }, []); // Empty dependency array means this effect runs once when the component mounts
 
   return (
     <div className=" mx-auto ">
@@ -96,18 +117,30 @@ const AwardsSection = () => {
         />
         <div className="absolute inset-0 bg-black/20" />
         <div className="absolute inset-0 flex items-center">
-          <div className="container mx-auto px-4  mt-16">
+          <div className="container mx-auto px-4 mt-16">
             <h1 className="text-5xl text-left text-white font-bold ">Awards</h1>
           </div>
         </div>
       </div>
 
       {/* Awards Section */}
-      <div className="space-y-8 ">
-        {awards.map((award, index) => (
-          <AwardCard key={index} {...award} />
-        ))}
+      <div className="space-y-8">
+        {loading ? (
+          <div className="text-center text-xl">Loading awards...</div> // Loading state message
+        ) : awards.length === 0 ? (
+          <div className="text-center text-xl">No awards found</div> // Message if no awards are found
+        ) : (
+          awards.map((award, index) => (
+            <AwardCard
+              key={index}
+              title={award.title}
+              description={award.description}
+              image={award.image}
+            />
+          ))
+        )}
       </div>
+
       {/* Partnership Section */}
       <PartnershipGrid />
     </div>

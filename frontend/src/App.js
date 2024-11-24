@@ -51,6 +51,7 @@ function App() {
               element={<ProtectedRoute element={<Dashboard />} />}
             />
             <Route path="/login" element={<LoginPage />} />
+            <Route path="/scheme-details/:id" element={<SchemeDetailPage/>} />
             <Route path="/scheme-details" element={<SchemeDetailPage/>} />
             {/* Catch-all route for 404 */}
             <Route path="*" element={<NotFound />} />

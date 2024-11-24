@@ -1,41 +1,35 @@
-'use client'
+"use client";
 
-import React from "react"
-import { motion } from "framer-motion"
-import { ArrowUpRight } from 'lucide-react'
-import { Scheme, Scheme1 } from "../Assets/images"
-
-
-
-
-const schemes = [
-  {
-    title: "PRE-INCUBATION",
-    date: "15 April 2023",
-    deadline: "Deadline",
-    description:
-      "We Are Thrilled To Announce A Significant Achievement For IIITD And Our Incubation Centre. During The Recent Budget Session, Ms. Atishi Highlighted Several Key Aspects.",
-    image: Scheme,
-  },
-  {
-    title: "SEED INVESTMENT",
-    date: "20 April 2023",
-    deadline: "Deadline",
-    description:
-      "We Are Thrilled To Announce A Significant Achievement For IIITD And Our Incubation Centre. During The Recent Budget Session, Ms. Atishi Highlighted Several.",
-    image:Scheme1,
-  },
-  {
-    title: "Award 2023-24",
-    date: "19 April 2023",
-    deadline: "Deadline",
-    description:
-      "We Are Thrilled To Announce A Significant Achievement For IIITD And Our Incubation Centre. During The Recent Budget Session, Ms. Atishi Highlighted Several.",
-    image: Scheme1,
-  },
-]
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { motion } from "framer-motion";
+import { ArrowUpRight } from "lucide-react";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 
 export default function ApplyNowPage() {
+  const [schemes, setSchemes] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [showAll, setShowAll] = useState(false); // State to toggle visibility of more schemes
+
+  const navigate = useNavigate(); // Use useNavigate to handle navigation
+
+  // Fetch schemes from the backend using axios
+  useEffect(() => {
+    const fetchSchemes = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/api/scheme");
+        setSchemes(response.data); // Set schemes to state
+      } catch (err) {
+        setError(err.message); // Set error if any
+      } finally {
+        setLoading(false); // Set loading to false after fetch
+      }
+    };
+
+    fetchSchemes();
+  }, []);
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -45,7 +39,7 @@ export default function ApplyNowPage() {
         staggerChildren: 0.2,
       },
     },
-  }
+  };
 
   const itemVariants = {
     hidden: { y: 20, opacity: 0 },
@@ -56,7 +50,7 @@ export default function ApplyNowPage() {
         duration: 0.5,
       },
     },
-  }
+  };
 
   const SchemeSection = ({ schemes }) => (
     <section className="my-20">
@@ -75,24 +69,27 @@ export default function ApplyNowPage() {
         animate="visible"
         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12"
       >
-        {schemes.map((scheme, index) => (
-          <motion.div key={index} variants={itemVariants} className="relative group">
+        {(showAll ? schemes : schemes.slice(0, 6)).map((scheme, index) => (
+          <motion.div
+            key={index}
+            variants={itemVariants}
+            className="relative group"
+          >
             <div className="rounded-2xl overflow-hidden bg-white shadow-sm hover:shadow-md transition-shadow">
               <div className="relative rounded-[2rem] overflow-hidden">
                 <motion.img
                   whileHover={{ scale: 1.05 }}
                   transition={{ duration: 0.3 }}
-                  src={scheme.image}
+                  src={scheme.image || "/images/defaultScheme.jpg"} // Default image if not available
                   alt={scheme.title}
                   className="w-full h-[250px] object-cover"
                 />
                 <motion.div
                   whileHover={{ rotate: 360 }}
                   className="absolute bottom-4 right-4 w-12 h-12 bg-white rounded-xl flex items-center justify-center cursor-pointer group-hover:bg-[#FF4D00] transition-colors duration-300"
+                  onClick={() => navigate(`/scheme-details/${scheme._id}`)} // Redirect to scheme details on click
                 >
-                  <ArrowUpRight
-                    className="w-6 h-6 text-[#1a237e] rotate-[-45deg] group-hover:text-white transition-colors duration-300"
-                  />
+                  <ArrowUpRight className="w-6 h-6 text-[#1a237e] rotate-[-45deg] group-hover:text-white transition-colors duration-300" />
                 </motion.div>
               </div>
 
@@ -103,12 +100,16 @@ export default function ApplyNowPage() {
                   </h3>
                   <div className="flex flex-col items-end gap-1 ml-auto">
                     <span className="text-sm text-gray-600">{scheme.date}</span>
-                    <span className="text-xs text-[#FF4D00]">{scheme.deadline}</span>
+                    <span className="text-xs text-[#FF4D00]">
+                      {scheme.deadline}
+                    </span>
                   </div>
                 </div>
 
                 <div className="bg-[#1a237e] text-white p-4 rounded-xl">
-                  <p className="text-sm leading-relaxed line-clamp-3">{scheme.description}</p>
+                  <p className="text-sm leading-relaxed line-clamp-3">
+                    {scheme.description}
+                  </p>
                 </div>
               </div>
             </div>
@@ -126,20 +127,36 @@ export default function ApplyNowPage() {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           className="text-xl font-medium text-[#1a237e] hover:text-[#FF4D00] transition-colors"
+          onClick={() => setShowAll((prev) => !prev)} // Toggle visibility of more schemes
         >
-          More
+          {showAll ? "Show Less" : "More"} {/* Toggle button text */}
         </motion.button>
       </motion.div>
     </section>
-  )
+  );
+
+  // Render loading or error message
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50/50 flex items-center justify-center">
+        <p>Loading schemes...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gray-50/50 flex items-center justify-center">
+        <p className="text-red-500">{error}</p>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50/50">
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <SchemeSection schemes={schemes} />
-        
       </main>
     </div>
-  )
+  );
 }
-

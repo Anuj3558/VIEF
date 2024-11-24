@@ -4,6 +4,8 @@ import Startup from "../model/startupSchema.js";
 import Award from "../model/awardSchema.js";
 import Article from "../model/articleSchema.js";
 import Sponsor from "../model/sponsorSchema.js";
+import Scheme from "../model/schemeSchema.js";
+
 import PreIncubation from "../model/SchemSchma.js";
 import Scheme from "../model/SchemSchma.js";
 // Controller for fetching events
