@@ -22,8 +22,6 @@ import SchemeDetailPage from "./pages/SchemeDetails";
 import LoginPage from "./pages/Login";
 import ProtectedRoute from "./pages/Protected";
 import NotFound from "./pages/NotFound";
-import SuccessStoryPage from "./pages/SuccessStoryPage";
-import NewsDetail from "./pages/NewsDetails";
 
 function App() {
   return (
@@ -41,7 +39,6 @@ function App() {
             <Route path="/facilities" element={<WhyChooseUs />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/news-letter" element={<NewsletterPage />} />
-            <Route path="/news-letter/:id" element={<NewsDetail />} />
             <Route path="/event/past" element={<PastEventDetailsPage />} />
             <Route path="/event/:id" element={<EventDetailsPage />} />
             <Route path="/events" element={<EventsPage />} />
@@ -50,12 +47,13 @@ function App() {
             <Route path="/startup" element={<StartupsPage />} />
             <Route path="/achievements" element={<Awards />} />
             {/* <Route
-            <Route path="/sucess-story" element={<SuccessStoryPage />} />
-            <Route
               path="/admin"
               element={<ProtectedRoute element={<Dashboard />} />}
             /> */}
-            
+            <Route
+              path="/admin"
+              element={<Dashboard />} 
+            />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/scheme-details/:id" element={<SchemeDetailPage />} />
             <Route path="/scheme-details" element={<SchemeDetailPage />} />
