@@ -3,8 +3,9 @@ import { motion } from 'framer-motion';
 import { notification } from 'antd';
 import Cookies from 'js-cookie';
 import { redirect } from 'react-router-dom';
-
+import { useNavigate } from 'react-router-dom';
 const Sidebar = ({ setActiveSection, activeSection }) => {
+  const mav = useNavigate()
   const menuItems = [
     { title: 'Events', key: 'events' },
     { title: 'Startups', key: 'startups' },
@@ -20,7 +21,7 @@ const Sidebar = ({ setActiveSection, activeSection }) => {
 
   const handleLogout = () => {
     Cookies.remove('authToken');
-    redirect("/login")
+    mav("/login")
     notification.success({
       message: 'Logout Successful',
       description: 'You have been successfully logged out.',
