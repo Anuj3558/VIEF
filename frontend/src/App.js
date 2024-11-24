@@ -23,6 +23,7 @@ import LoginPage from "./pages/Login";
 import ProtectedRoute from "./pages/Protected";
 import NotFound from "./pages/NotFound";
 import SuccessStoryPage from "./pages/SuccessStoryPage";
+import NewsDetail from "./pages/NewsDetails";
 
 function App() {
   return (
@@ -40,6 +41,7 @@ function App() {
             <Route path="/facilities" element={<WhyChooseUs />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/news-letter" element={<NewsletterPage />} />
+            <Route path="/news-letter/:id" element={<NewsDetail />} />
             <Route path="/event/past" element={<PastEventDetailsPage />} />
             <Route path="/event/:id" element={<EventDetailsPage />} />
             <Route path="/events" element={<EventsPage />} />

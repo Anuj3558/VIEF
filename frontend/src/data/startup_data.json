@@ -1,0 +1,182 @@
+[
+  {
+    "title": "InnoTech",
+    "subtitle": "Innovative Solutions for Tomorrow",
+    "description": "InnoTech provides cutting-edge technology solutions focused on artificial intelligence and machine learning.",
+    "image": "https://example.com/images/innotech-logo.png",
+    "status": "Current",
+    "createdAt": "2024-11-24T10:00:00.000Z",
+    "updatedAt": "2024-11-24T10:00:00.000Z"
+  },
+  {
+    "title": "EcoBuild",
+    "subtitle": "Building the Future Sustainably",
+    "description": "EcoBuild specializes in sustainable construction and green building technologies.",
+    "image": "https://example.com/images/ecobuild-logo.png",
+    "status": "Successful",
+    "createdAt": "2024-11-23T09:30:00.000Z",
+    "updatedAt": "2024-11-23T09:30:00.000Z"
+  },
+  {
+    "title": "HealthMate",
+    "subtitle": "Your Wellness, Our Priority",
+    "description": "HealthMate is a health-tech startup offering personalized healthcare solutions.",
+    "image": "https://example.com/images/healthmate-logo.png",
+    "status": "Failed",
+    "createdAt": "2024-11-22T08:15:00.000Z",
+    "updatedAt": "2024-11-22T08:15:00.000Z"
+  },
+  {
+    "title": "FinEdge",
+    "subtitle": "Empowering Financial Growth",
+    "description": "FinEdge provides innovative financial solutions for small businesses and startups.",
+    "image": "https://example.com/images/finedge-logo.png",
+    "status": "Current",
+    "createdAt": "2024-11-21T10:20:00.000Z",
+    "updatedAt": "2024-11-21T10:20:00.000Z"
+  },
+  {
+    "title": "AgroFuture",
+    "subtitle": "Farming for a Better Tomorrow",
+    "description": "AgroFuture focuses on leveraging technology to improve agricultural practices and food security.",
+    "image": "https://example.com/images/agrofuture-logo.png",
+    "status": "Successful",
+    "createdAt": "2024-11-20T11:00:00.000Z",
+    "updatedAt": "2024-11-20T11:00:00.000Z"
+  },
+  {
+    "title": "AutoDrive",
+    "subtitle": "Revolutionizing the Future of Transport",
+    "description": "AutoDrive is an automotive tech company working on self-driving cars and smart transport solutions.",
+    "image": "https://example.com/images/autodrive-logo.png",
+    "status": "Current",
+    "createdAt": "2024-11-19T08:45:00.000Z",
+    "updatedAt": "2024-11-19T08:45:00.000Z"
+  },
+  {
+    "title": "SmartRetail",
+    "subtitle": "Transforming Retail Experiences",
+    "description": "SmartRetail focuses on integrating AI and IoT into retail businesses to enhance customer experiences.",
+    "image": "https://example.com/images/smartretail-logo.png",
+    "status": "Current",
+    "createdAt": "2024-11-18T09:00:00.000Z",
+    "updatedAt": "2024-11-18T09:00:00.000Z"
+  },
+  {
+    "title": "MedX",
+    "subtitle": "Innovative Healthcare Solutions",
+    "description": "MedX develops cutting-edge medical devices and telemedicine solutions to improve patient care.",
+    "image": "https://example.com/images/medx-logo.png",
+    "status": "Successful",
+    "createdAt": "2024-11-17T07:30:00.000Z",
+    "updatedAt": "2024-11-17T07:30:00.000Z"
+  },
+  {
+    "title": "CleanTech",
+    "subtitle": "Pioneering Clean Energy Solutions",
+    "description": "CleanTech develops renewable energy solutions to reduce carbon footprints and promote sustainability.",
+    "image": "https://example.com/images/cleantech-logo.png",
+    "status": "Failed",
+    "createdAt": "2024-11-16T06:10:00.000Z",
+    "updatedAt": "2024-11-16T06:10:00.000Z"
+  },
+  {
+    "title": "UrbanHub",
+    "subtitle": "Smart Cities for the Future",
+    "description": "UrbanHub is focused on developing smart city solutions to improve urban living and infrastructure.",
+    "image": "https://example.com/images/urbanhub-logo.png",
+    "status": "Current",
+    "createdAt": "2024-11-15T10:50:00.000Z",
+    "updatedAt": "2024-11-15T10:50:00.000Z"
+  },
+  {
+    "title": "CloudX",
+    "subtitle": "Empowering Cloud Solutions",
+    "description": "CloudX delivers cloud computing solutions to enhance business operations and data management.",
+    "image": "https://example.com/images/cloudx-logo.png",
+    "status": "Current",
+    "createdAt": "2024-11-14T11:20:00.000Z",
+    "updatedAt": "2024-11-14T11:20:00.000Z"
+  },
+  {
+    "title": "DataSecure",
+    "subtitle": "Next-Level Cybersecurity Solutions",
+    "description": "DataSecure provides innovative cybersecurity solutions to protect businesses and individuals from digital threats.",
+    "image": "https://example.com/images/datasecure-logo.png",
+    "status": "Current",
+    "createdAt": "2024-11-13T09:00:00.000Z",
+    "updatedAt": "2024-11-13T09:00:00.000Z"
+  },
+  {
+    "title": "GenTech",
+    "subtitle": "Pioneering Genetic Research",
+    "description": "GenTech is leading the way in genetic research and biotechnology, focusing on health and agriculture applications.",
+    "image": "https://example.com/images/gentech-logo.png",
+    "status": "Successful",
+    "createdAt": "2024-11-12T10:10:00.000Z",
+    "updatedAt": "2024-11-12T10:10:00.000Z"
+  },
+  {
+    "title": "NanoWorks",
+    "subtitle": "Exploring the Future of Nanotechnology",
+    "description": "NanoWorks focuses on advanced nanotechnology applications across healthcare, electronics, and materials science.",
+    "image": "https://example.com/images/nanoworks-logo.png",
+    "status": "Current",
+    "createdAt": "2024-11-11T08:50:00.000Z",
+    "updatedAt": "2024-11-11T08:50:00.000Z"
+  },
+  {
+    "title": "RenewableX",
+    "subtitle": "Shaping the Future of Energy",
+    "description": "RenewableX is a leader in providing renewable energy solutions, reducing dependence on fossil fuels.",
+    "image": "https://example.com/images/renewablex-logo.png",
+    "status": "Failed",
+    "createdAt": "2024-11-10T08:30:00.000Z",
+    "updatedAt": "2024-11-10T08:30:00.000Z"
+  },
+  {
+    "title": "RetailEdge",
+    "subtitle": "Next-Gen Retail Solutions",
+    "description": "RetailEdge offers advanced retail technology solutions to enhance in-store and online shopping experiences.",
+    "image": "https://example.com/images/retailedge-logo.png",
+    "status": "Current",
+    "createdAt": "2024-11-09T07:45:00.000Z",
+    "updatedAt": "2024-11-09T07:45:00.000Z"
+  },
+  {
+    "title": "TechSys",
+    "subtitle": "Innovative IT Solutions",
+    "description": "TechSys provides end-to-end IT services, from cloud computing to managed IT solutions for enterprises.",
+    "image": "https://example.com/images/techsys-logo.png",
+    "status": "Successful",
+    "createdAt": "2024-11-08T10:00:00.000Z",
+    "updatedAt": "2024-11-08T10:00:00.000Z"
+  },
+  {
+    "title": "AutoPilot",
+    "subtitle": "Driving the Future of Vehicles",
+    "description": "AutoPilot specializes in autonomous vehicle technology, enhancing safety and efficiency in transportation.",
+    "image": "https://example.com/images/autopilot-logo.png",
+    "status": "Current",
+    "createdAt": "2024-11-07T09:30:00.000Z",
+    "updatedAt": "2024-11-07T09:30:00.000Z"
+  },
+  {
+    "title": "AgriTechX",
+    "subtitle": "Innovating Agriculture with Technology",
+    "description": "AgriTechX develops technology-driven solutions to modernize agriculture and improve food security.",
+    "image": "https://example.com/images/agritechx-logo.png",
+    "status": "Successful",
+    "createdAt": "2024-11-06T08:15:00.000Z",
+    "updatedAt": "2024-11-06T08:15:00.000Z"
+  },
+  {
+    "title": "SpaceVentures",
+    "subtitle": "Exploring New Frontiers",
+    "description": "SpaceVentures is focused on advancing space exploration technologies for commercial and scientific purposes.",
+    "image": "https://example.com/images/spaceventures-logo.png",
+    "status": "Current",
+    "createdAt": "2024-11-05T08:00:00.000Z",
+    "updatedAt": "2024-11-05T08:00:00.000Z"
+  }
+]

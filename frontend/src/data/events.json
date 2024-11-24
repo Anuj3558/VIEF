@@ -1,0 +1,42 @@
+[
+    {
+        "title": "How To Build A Startup",
+        "subtitle": "Learn from the experts",
+        "description": "An interactive session focusing on the essential steps to start your entrepreneurial journey.",
+        "mode": "ONLINE",
+        "image": "https://example.com/startup-event.jpg",
+        "date": "2023-12-01T10:00:00.000Z"
+    },
+    {
+        "title": "Case Study of Zomato",
+        "subtitle": "Insights into Zomato's journey",
+        "description": "A detailed analysis of Zomato's growth strategies and key takeaways for businesses.",
+        "mode": "OFFLINE",
+        "image": "https://example.com/zomato-event.jpg",
+        "date": "2023-12-10T14:00:00.000Z"
+    },
+    {
+        "title": "Award 2023-24",
+        "subtitle": "Celebrating Excellence",
+        "description": "An award ceremony recognizing outstanding contributions in the tech industry.",
+        "mode": "OFFLINE",
+        "image": "https://example.com/award-event.jpg",
+        "date": "2023-12-20T18:00:00.000Z"
+    },
+    {
+        "title": "Web Development Workshop",
+        "subtitle": "Building the modern web",
+        "description": "A hands-on workshop covering HTML, CSS, JavaScript, and React basics.",
+        "mode": "ONLINE",
+        "image": "https://example.com/web-dev-workshop.jpg",
+        "date": "2024-01-15T09:30:00.000Z"
+    },
+    {
+        "title": "AI and Machine Learning Conference",
+        "subtitle": "The future of AI",
+        "description": "An insightful conference exploring advancements in AI and machine learning.",
+        "mode": "OFFLINE",
+        "image": "https://example.com/ai-conference.jpg",
+        "date": "2024-02-01T11:00:00.000Z"
+    }
+]
