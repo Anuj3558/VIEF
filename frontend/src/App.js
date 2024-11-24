@@ -22,6 +22,7 @@ import SchemeDetailPage from "./pages/SchemeDetails";
 import LoginPage from "./pages/Login";
 import ProtectedRoute from "./pages/Protected";
 import NotFound from "./pages/NotFound";
+import SuccessStoryPage from "./pages/SuccessStoryPage";
 
 function App() {
   return (
@@ -46,6 +47,7 @@ function App() {
             <Route path="/apply-now" element={<ApplyNowPage />} />
             <Route path="/startup" element={<StartupsPage />} />
             <Route path="/achievements" element={<Awards />} />
+            <Route path="/sucess-story" element={<SuccessStoryPage />} />
             <Route
               path="/admin"
               element={<ProtectedRoute element={<Dashboard />} />}

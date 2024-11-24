@@ -2,9 +2,9 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { AiOutlineArrowRight } from 'react-icons/ai'; // Import the arrow icon
 
-export default function ApplyButton({ text }) {
+export default function ApplyButton({ text,route }) {
   return (
-    <a href='/apply-now'>
+    <a href={route}>
       <motion.button 
         className="bg-[#FF4D00] hover:bg-[#FF4D10]/90 text-white rounded px-5 py-1 flex items-center gap-3 montserrat-main text-lg relative overflow-hidden group"
       >

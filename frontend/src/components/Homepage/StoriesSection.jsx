@@ -63,7 +63,7 @@ function StoriesSection() {
             <span className="text-[#1a237e]">Inspire You</span>
           </h2>
           <div className="w-full sm:w-auto mb-6">
-            <ApplyButton text={"Explore"} />
+            <ApplyButton text={"Explore"} route={"/sucess-story"} />
           </div>
           
           {/* New image below Apply button */}

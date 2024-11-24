@@ -7,11 +7,13 @@ import EventsSection from "../components/Homepage/OurEvents.jsx";
 import SupportersSection from "../components/Homepage/OurSupporter.jsx";
 import ImageCarousel from "../components/Homepage/Caraocel.jsx";
 import { bgTexture } from "../Assets/images/index.js";
+import TrendingEventOverlay from "../components/Homepage/compoents/TrendingEventOverlay.jsx";
 
 
 const  HomePage =()=>{
     return (
       <> 
+      <TrendingEventOverlay />
         <Hero />
         <AnimatedCounters/>
         <StoriesSection />
