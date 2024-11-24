@@ -1,43 +1,17 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useContext } from "react";
 import { motion } from "framer-motion";
-import { ArrowUpRight } from "lucide-react";
-import axios from "axios";
-import { Link } from "react-router-dom"; // Import Link from react-router-dom
+import { Link } from "react-router-dom";
+import { EventContext } from "../contexts/EventContext";
 
 export default function EventsPage() {
-  const [upcomingEvents, setUpcomingEvents] = useState([]);
-  const [pastEvents, setPastEvents] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        const response = await axios.get("http://localhost:5000/api/events");
-        const events = response.data;
-
-        // Separate upcoming and past events based on the current date
-        const currentDate = new Date();
-        const upcoming = events.filter(
-          (event) => new Date(event.date) >= currentDate
-        );
-        const past = events.filter(
-          (event) => new Date(event.date) < currentDate
-        );
-
-        setUpcomingEvents(upcoming);
-        setPastEvents(past);
-      } catch (err) {
-        setError(err.message || "An error occurred");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchEvents();
-  }, []);
+  const {
+    upcomingEvents = [],
+    pastEvents = [],
+    loading,
+    error,
+  } = useContext(EventContext);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -149,7 +123,6 @@ export default function EventsPage() {
                 </div>
               </div>
 
-              {/* Add a Link to navigate to the event details page */}
               <Link to={`/event/${event._id}`} className="absolute inset-0">
                 <div className="w-full h-full absolute top-0 left-0 bg-transparent"></div>
               </Link>

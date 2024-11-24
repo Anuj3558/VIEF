@@ -14,7 +14,7 @@ const SchemeDetails = () => {
     const fetchSchemeDetails = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/scheme-details?id=${id}`
+          `${process.env.REACT_APP_BACKEND_URL}/api/scheme-details?id=${id}`
         );
         setSchemeDetails(response.data); // Store fetched scheme details in state
       } catch (err) {

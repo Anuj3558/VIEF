@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useContext, useState } from 'react';
 import { motion } from 'framer-motion';
 import { X, Upload } from 'lucide-react';
 import axios from 'axios';
@@ -8,57 +8,13 @@ import { notification } from 'antd';
 import SearchBar from '../components/SearchBar';
 import AddButton from '../components/AddButton';
 import Card from '../components/Card';
+import { AwardContext } from '../../../../contexts/AwardContext';
 
-const api = axios.create({
-  baseURL: process.env.REACT_APP_BACKEND_URL,
-});
-
-const getAccessToken = () => {
-  return Cookies.get('authToken');
-};
-
-const apiRequests = {
-  getAllAwards: () => {
-    const accessToken = getAccessToken();
-    return api.get('/client/awards', {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
-  },
-
-  createAward: (formData) => {
-    const accessToken = getAccessToken();
-    return api.post('/admin/awards', formData, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-  },
-
-  updateAward: (id, formData) => {
-    const accessToken = getAccessToken();
-    return api.put(`/admin/awards/${id}`, formData, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-  },
-
-  deleteAward: (id) => {
-    const accessToken = getAccessToken();
-    return api.delete(`/admin/awards/${id}`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
-  },
-};
 
 const AwardsSection = () => {
-  const [awards, setAwards] = useState([]);
+  // States for managing awards and UI
+  const { awards, setAwards } = useContext(AwardContext);
+
   const [isAddOpen, setIsAddOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);

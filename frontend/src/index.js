@@ -1,16 +1,33 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css"; // Make sure Tailwind styles are here.
+import App from "./App";
+import { EventProvider } from "./contexts/EventContext.js";
+import { SchemeProvider } from "./contexts/SchemeContext.js";
+import { AwardProvider } from "./contexts/AwardContext.js";
+import { SponsorProvider } from "./contexts/SponsorContext.js";
+import { MentorProvider } from "./contexts/MentorContext.js";
+import { NewsletterProvider } from "./contexts/NewsletterContext.js";
+import { StartupProvider } from "./contexts/StartupContext.js";
 
-
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+// Wrap the App with all the context providers
+const Root = () => (
+  <EventProvider>
+    <SchemeProvider>
+      <AwardProvider>
+        <SponsorProvider>
+          <MentorProvider>
+            <NewsletterProvider>
+              <StartupProvider>
+                <App />
+              </StartupProvider>
+            </NewsletterProvider>
+          </MentorProvider>
+        </SponsorProvider>
+      </AwardProvider>
+    </SchemeProvider>
+  </EventProvider>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+// Ensure ReactDOM is rendering to the root element with the right context
+ReactDOM.render(<Root />, document.getElementById("root"));

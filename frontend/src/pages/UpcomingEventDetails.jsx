@@ -13,7 +13,7 @@ const EventDetailsPage = () => {
     const fetchEventDetails = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/eventdetails`,
+          `${process.env.REACT_APP_BACKEND_URL}/api/eventdetails`,
           {
             params: { id }, // Pass the event ID as a query parameter
           }

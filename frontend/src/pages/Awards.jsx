@@ -1,26 +1,17 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useContext, useState } from "react";
 import { Rectangle26, Rectangle57, Rectangle59 } from "../Assets/images";
+import { AwardContext } from "../contexts/AwardContext";
+import { SponsorContext } from "../contexts/SponsorContext";
 
 // PartnershipGrid Component
 const PartnershipGrid = () => {
-  const [sponsors, setSponsors] = useState([]); // State to store fetched sponsor data
-  const [loading, setLoading] = useState(true); // Loading state
+  const {
+    sponsors,
+    loading: sponsorLoading,
+    error: sponsorError,
+  } = useContext(SponsorContext); // Use SponsorContext
+  
   const [showAll, setShowAll] = useState(false); // State to track if all sponsors are shown
-
-  useEffect(() => {
-    const fetchSponsors = async () => {
-      try {
-        const response = await axios.get("http://localhost:5000/api/sponsor"); // Replace with your actual API URL
-        setSponsors(response.data); // Set the sponsor data in state
-        setLoading(false); // Set loading to false after data is fetched
-      } catch (error) {
-        console.error("Error fetching sponsors:", error);
-        setLoading(false); // Set loading to false even if there is an error
-      }
-    };
-    fetchSponsors();
-  }, []); // Empty dependency array means this effect runs once when the component mounts
 
   // Function to handle 'More' button click
   const handleShowAll = () => {
@@ -33,8 +24,12 @@ const PartnershipGrid = () => {
         Partnership Collaboration
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {loading ? (
+        {sponsorLoading ? (
           <div className="text-center text-xl">Loading sponsors...</div> // Loading state message
+        ) : sponsorError ? (
+          <div className="text-center text-xl text-red-500">
+            Error loading sponsors
+          </div>
         ) : sponsors.length === 0 ? (
           <div className="text-center text-xl">No sponsors found</div> // Message if no sponsors are found
         ) : (
@@ -54,7 +49,7 @@ const PartnershipGrid = () => {
           ))
         )}
       </div>
-      {!showAll && (
+      {!showAll && sponsors.length > 6 && (
         <div className="text-center mt-8">
           <button
             onClick={handleShowAll}
@@ -89,22 +84,11 @@ const AwardCard = ({ image, title, description }) => {
 
 // AwardsSection Component
 const AwardsSection = () => {
-  const [awards, setAwards] = useState([]); // State to store fetched award data
-  const [loading, setLoading] = useState(true); // Loading state
-
-  useEffect(() => {
-    const fetchAwards = async () => {
-      try {
-        const response = await axios.get("http://localhost:5000/api/awards"); // Replace with your actual API URL
-        setAwards(response.data); // Set the awards data in state
-        setLoading(false); // Set loading to false after data is fetched
-      } catch (error) {
-        console.error("Error fetching awards:", error);
-        setLoading(false); // Set loading to false even if there is an error
-      }
-    };
-    fetchAwards();
-  }, []); // Empty dependency array means this effect runs once when the component mounts
+  const {
+    awards,
+    loading: awardLoading,
+    error: awardError,
+  } = useContext(AwardContext); // Use AwardContext
 
   return (
     <div className=" mx-auto ">
@@ -125,8 +109,12 @@ const AwardsSection = () => {
 
       {/* Awards Section */}
       <div className="space-y-8">
-        {loading ? (
+        {awardLoading ? (
           <div className="text-center text-xl">Loading awards...</div> // Loading state message
+        ) : awardError ? (
+          <div className="text-center text-xl text-red-500">
+            Error loading awards
+          </div>
         ) : awards.length === 0 ? (
           <div className="text-center text-xl">No awards found</div> // Message if no awards are found
         ) : (
