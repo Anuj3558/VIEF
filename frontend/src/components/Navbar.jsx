@@ -26,17 +26,18 @@ const Navbar = () => {
     { name: "Home", href: "/" },
     { 
       name: 'About us', 
-      href: "/about-us", 
+      href: "", 
       hasDropdown: true,
       dropdownItems: [
         { name: 'Facilities', href: '/facilities' },
-        { name: 'Career', href: '/career' },
+        { name: 'Our Team', href: '/about-us' },
       ]
     },
     { name: 'Startup', href: '/startup' },
     { name: 'Schemes', href: '/apply-now' },
     { name: 'Events', href: '/events' },
     { name: 'Achievements', href: '/achievements' },
+    { name: 'Career', href: '/career' },
     { name: 'Contact', href: '/contact' },
   ];
 
@@ -93,12 +94,14 @@ const Navbar = () => {
           </motion.a>
 
           {/* Navigation items on the right */}
-          <div className="hidden lg:flex items-center space-x-1">
-            {renderNavItems(navItems)}
+          <div className="hidden lg:flex items-center">
+            <div className="flex items-center space-x-1 mr-6">
+              {renderNavItems(navItems)}
+            </div>
             <motion.div whileTap={{ scale: 0.95 }}>
               <Link
                 to="/vief-scholar"
-                className="bg-orange-500 text-white px-3 py-1 rounded text-sm font-medium hover:bg-orange-600 transition duration-300"
+                className="bg-orange-500 text-white px-4 py-2 rounded text-base font-medium hover:bg-orange-600 transition duration-300"
               >
                 VIEF Scholar
               </Link>
@@ -189,7 +192,7 @@ const Navbar = () => {
               ))}
               <Link
                 to="/vief-scholar"
-                className="bg-orange-500 text-white block px-3 py-2 rounded-md text-base font-medium hover:bg-orange-600 transition duration-300"
+                className="bg-orange-500 text-white block px-4 py-3 rounded-md text-base font-medium hover:bg-orange-600 transition duration-300"
                 onClick={() => setIsOpen(false)}
               >
                 VIEF Scholar
@@ -203,4 +206,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-

@@ -18,7 +18,7 @@ const app = express();
 
 // Middleware setup
 app.use(bodyParser.json()); // Parse JSON payloads
-app.use(bodyParser.urlencoded({ extended: true })); // Parse URL-encoded payloads
+app.use(bodyParser.urlencoded({ extended: false })); // Parse URL-encoded payloads
 app.use(cors()); // Enable CORS for all requests
 connectDB();
 // MongoDB connectio
@@ -41,7 +41,8 @@ const authMiddleware = (req, res, next) => {
 
 app.use("/api",clientRouter)
 app.use("/auth",authRouter)
-app.use("/admin",adminRouter)
+app.use("/client",clientRouter)
+app.use("/admin",authMiddleware,adminRouter)
 // Start the server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
