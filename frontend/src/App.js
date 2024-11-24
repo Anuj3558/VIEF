@@ -50,7 +50,7 @@ function App() {
             <Route path="/achievements" element={<Awards />} />
             <Route path="/admin" element={<Dashboard />} />
             <Route path="/login" element={<LoginPage />} />
-            <Route path="/scheme-details" element={<SchemeDetailPage/>} />
+            <Route path="/scheme-details/:id" element={<SchemeDetailPage/>} />
           </Routes>
         </div>
       </div>
