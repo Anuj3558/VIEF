@@ -6,7 +6,7 @@ export default function ApplyButton({ text }) {
   return (
     <a href='/apply-now'>
       <motion.button 
-        className="bg-[#FF4D00] hover:bg-[#FF4D10]/90 text-white rounded px-5 py-2 flex items-center gap-3 montserrat-main text-lg relative overflow-hidden group"
+        className="bg-[#FF4D00] hover:bg-[#FF4D10]/90 text-white rounded px-5 py-1 flex items-center gap-3 montserrat-main text-lg relative overflow-hidden group"
       >
         <span className="relative z-10 font-medium">{text}</span>
         

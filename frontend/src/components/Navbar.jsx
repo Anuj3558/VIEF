@@ -1,31 +1,43 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useLocation } from 'react-router-dom';
 import { logoPng } from '../Assets/images';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
   const location = useLocation();
   
   const isHomePage = location.pathname === '/';
   const isAdminPage = location.pathname === '/admin';
-  const textColorClass = isHomePage ? 'text-black' : 'text-black';
-  const borderColorClass = isHomePage ? 'border-white' : 'border-black';
+  const textColorClass = 'text-gray-800';
+  const borderColorClass = 'border-gray-200';
 
-  // Combined all nav items into a single array
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 1024);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const navItems = [
-    {name:"Home" ,href:"/"},
-    { name : 'About us' ,href :"/about-us"},
-   
+    { name: "Home", href: "/" },
+    { 
+      name: 'About us', 
+      href: "/about-us", 
+      hasDropdown: true,
+      dropdownItems: [
+        { name: 'Facilities', href: '/facilities' },
+        { name: 'Career', href: '/career' },
+      ]
+    },
     { name: 'Startup', href: '/startup' },
-    { name: 'Schemes', href: '/apply-now', hasDropdown: true },
-    { name: 'Facilities', href: '/facilities' },
-    { name: 'Events', href: '/events', hasDropdown: true },
+    { name: 'Schemes', href: '/apply-now' },
+    { name: 'Events', href: '/events' },
     { name: 'Achievements', href: '/achievements' },
-    { name: 'Career', href: '/career' },
     { name: 'Contact', href: '/contact' },
-    {name :"VIEF Scholar" ,href :"/"}
-   
   ];
 
   const renderNavItems = (items) =>
@@ -33,44 +45,32 @@ const Navbar = () => {
       <motion.div
         key={item.name}
         className="relative group"
-        whileTap={{ scale: 0.9 }}
+        whileTap={{ scale: 0.95 }}
       >
         <Link
           to={item.href}
-          className={`${textColorClass} px-3 py-2 rounded-md text-sm font-medium`}
+          className={`${textColorClass} px-2 py-1 text-sm font-medium hover:bg-gray-100 rounded transition duration-300`}
         >
           {item.name}
-
         </Link>
-        {item.hasDropdown && (
-          <div className="absolute left-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 invisible">
+        {item.hasDropdown && !isMobile && (
+          <div className="absolute left-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
             <div
               className="py-1"
               role="menu"
               aria-orientation="vertical"
               aria-labelledby="options-menu"
             >
-              <Link
-                to="#"
-                className="block px-4 py-2 text-sm text-gray-700"
-                role="menuitem"
-              >
-                Option 1
-              </Link>
-              <Link
-                to="#"
-                className="block px-4 py-2 text-sm text-gray-700"
-                role="menuitem"
-              >
-                Option 2
-              </Link>
-              <Link
-                to="#"
-                className="block px-4 py-2 text-sm text-gray-700"
-                role="menuitem"
-              >
-                Option 3
-              </Link>
+              {item.dropdownItems.map((dropdownItem) => (
+                <Link
+                  key={dropdownItem.name}
+                  to={dropdownItem.href}
+                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                  role="menuitem"
+                >
+                  {dropdownItem.name}
+                </Link>
+              ))}
             </div>
           </div>
         )}
@@ -80,28 +80,36 @@ const Navbar = () => {
   if (isAdminPage) return null;
 
   return (
-    <nav className={`py-3 z-20 absolute montserrat-light bg-transparent w-full font-sans border-b ${borderColorClass} md:border-opacity-100 bg-white text-black border-opacity-0`}>
+    <nav className={`py-2 z-20 fixed top-0 left-0 right-0 bg-white shadow-md transition-all duration-300 ${isOpen ? 'h-screen lg:h-auto' : ''}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 pb-3">
+        <div className="flex items-center justify-between h-14">
           {/* Logo on the left */}
           <motion.a
             href="/"
             className="flex-shrink-0"
-            whileTap={{ scale: 0.9 }}
+            whileTap={{ scale: 0.95 }}
           >
-            <img className="h-12 mt-5 w-auto" src={logoPng} alt="IIED Logo" />
+            <img className="h-8 w-auto" src={logoPng} alt="IIED Logo" />
           </motion.a>
 
           {/* Navigation items on the right */}
-          <div className="hidden md:flex items-center ">
+          <div className="hidden lg:flex items-center space-x-1">
             {renderNavItems(navItems)}
+            <motion.div whileTap={{ scale: 0.95 }}>
+              <Link
+                to="/vief-scholar"
+                className="bg-orange-500 text-white px-3 py-1 rounded text-sm font-medium hover:bg-orange-600 transition duration-300"
+              >
+                VIEF Scholar
+              </Link>
+            </motion.div>
           </div>
 
           {/* Mobile menu button */}
-          <div className="md:hidden">
+          <div className="lg:hidden">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className={`inline-flex items-center justify-center p-2 rounded-md ${textColorClass} focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white`}
+              className={`inline-flex items-center justify-center p-2 rounded-md ${textColorClass} focus:outline-none focus:ring-2 focus:ring-inset focus:ring-orange-500`}
               aria-expanded={isOpen}
             >
               <span className="sr-only">Open main menu</span>
@@ -144,28 +152,55 @@ const Navbar = () => {
       </div>
 
       {/* Mobile menu */}
-      {isOpen && (
-        <motion.div
-          className="md:hidden bg-white mt-3"
-          initial={{ opacity: 0, y: -50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3 }}
-        >
-          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            {navItems.map((item) => (
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            className="lg:hidden bg-white overflow-y-auto max-h-[calc(100vh-3.5rem)]"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+              {navItems.map((item) => (
+                <React.Fragment key={item.name}>
+                  <Link
+                    to={item.href}
+                    className="text-gray-800 block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-100 transition duration-300"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    {item.name}
+                  </Link>
+                  {item.hasDropdown && (
+                    <div className="pl-6 space-y-1">
+                      {item.dropdownItems.map((dropdownItem) => (
+                        <Link
+                          key={dropdownItem.name}
+                          to={dropdownItem.href}
+                          className="text-gray-600 block px-3 py-2 rounded-md text-sm hover:bg-gray-100 transition duration-300"
+                          onClick={() => setIsOpen(false)}
+                        >
+                          {dropdownItem.name}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </React.Fragment>
+              ))}
               <Link
-                key={item.name}
-                to={item.href}
-                className="text-black block px-3 py-2 rounded-md text-base font-medium"
+                to="/vief-scholar"
+                className="bg-orange-500 text-white block px-3 py-2 rounded-md text-base font-medium hover:bg-orange-600 transition duration-300"
+                onClick={() => setIsOpen(false)}
               >
-                {item.name}
+                VIEF Scholar
               </Link>
-            ))}
-          </div>
-        </motion.div>
-      )}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </nav>
   );
 };
 
 export default Navbar;
+
