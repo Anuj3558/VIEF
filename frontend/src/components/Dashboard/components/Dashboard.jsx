@@ -5,9 +5,11 @@ import EventsSection from './sections/EventsSection';
 import StartupsSection from './sections/StartupsSection';
 import MembersSection from './sections/MembersSection';
 import AwardsSection from './sections/AwardsSection';
-import PartnershipSection from './sections/PartnershipSection';
+import PartnershipSection from './sections/Scheme';
 import NewsAndArticlesSection from './sections/NewsAndArticlesSection';
 import SponsorsSection from './sections/SponsorsSection';
+import SchemeSection from './sections/Scheme';
+import GallerySection from './sections/GallerySection';
 
 const Dashboard = () => {
   const [activeSection, setActiveSection] = useState('events');
@@ -23,11 +25,15 @@ const Dashboard = () => {
       case 'awards':
         return <AwardsSection />;
       case 'partnership':
-        return <PartnershipSection />;
+        return <SchemeSection />;
       case 'news':
         return <NewsAndArticlesSection />;
       case 'sponsors':
         return <SponsorsSection />;
+        case 'Schemes':
+        return <SchemeSection />;
+        case 'Gallery':
+        return <GallerySection />;
       default:
         return <EventsSection />;
     }

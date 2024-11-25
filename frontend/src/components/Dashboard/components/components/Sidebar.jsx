@@ -13,10 +13,10 @@ const Sidebar = ({ setActiveSection, activeSection }) => {
     { title: 'Startups', key: 'startups' },
     { title: 'Members', key: 'members' },
     { title: 'Awards', key: 'awards' },
-    { title: 'Partnership', key: 'partnership' },
+    { title: 'Schemes', key: 'Schemes' },
     { title: 'News and Articles', key: 'news' },
     { title: 'Sponsors', key: 'sponsors' },
-    { title: 'Gallery', key: 'gallery' },
+    { title: 'Gallery', key: 'Gallery' },
     { title: 'Contacted People', key: 'contacted' },
     { title: 'Add Trending Event', key: 'addTrendingEvent' },
   ];

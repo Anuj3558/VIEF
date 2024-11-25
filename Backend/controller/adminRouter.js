@@ -3,6 +3,7 @@ import { deleteFromCloudinary,getPublicIdFromUrl } from "../cloudinaryConfig.js"
 import Event from "../model/eventSchema.js";
 import Member from "../model/memberShema.js";
 import Startup from "../model/startupSchema.js";
+import Sponsor from "../model/sponsorSchema.js";
 // adminController.js
 
 export const createEvent = async (req, res) => {
@@ -269,17 +270,126 @@ export const deleteAward = async (req, res) => {
 };
 
   
-  export const addSponsor = (req, res) => {
-    res.json({ message: 'Adding a sponsor...' });
-  };
-  
-  export const updateSponsor = (req, res) => {
-    res.json({ message: `Updating sponsor with ID ${req.params.id}...` });
-  };
-  
-  export const deleteSponsor = (req, res) => {
-    res.json({ message: `Deleting sponsor with ID ${req.params.id}...` });
-  };
+export const addSponsor = async (req, res) => {
+  try {
+      if (!req.file) {
+          return res.status(400).json({ message: 'Image file is required' });
+      }
+
+      const newSponsor = new Sponsor({
+          title: req.body.title,
+          subtitle: req.body.subtitle,
+          description: req.body.description,
+          image: req.file.path
+      });
+
+      const savedSponsor = await newSponsor.save();
+      
+      res.status(201).json({
+          success: true,
+          data: savedSponsor,
+          message: 'Sponsor added successfully'
+      });
+  } catch (error) {
+      // Clean up uploaded image if there's an error
+      if (req.file?.path) {
+          await deleteFromCloudinary(getPublicIdFromUrl(req.file.path));
+      }
+      console.log(error);
+      res.status(500).json({
+          success: false,
+          message: 'Error adding sponsor',
+          error: error.message
+      });
+  }
+};
+
+export const updateSponsor = async (req, res) => {
+  try {
+      const { id } = req.params;
+
+      if (!id) {
+          return res.status(400).json({ message: 'Invalid sponsor ID' });
+      }
+
+      const existingSponsor = await Sponsor.findById(id);
+      if (!existingSponsor) {
+          return res.status(404).json({ message: 'Sponsor not found' });
+      }
+
+      let updateData = {
+          title: req.body.title,
+          subtitle: req.body.subtitle,
+          description: req.body.description
+      };
+
+      // Handle image update if new file is uploaded
+      if (req.file) {
+          // Delete old image from Cloudinary
+          if (existingSponsor.image) {
+              await deleteFromCloudinary(getPublicIdFromUrl(existingSponsor.image));
+          }
+          updateData.image = req.file.path;
+      }
+
+      const updatedSponsor = await Sponsor.findByIdAndUpdate(
+          id,
+          { $set: updateData },
+          { new: true, runValidators: true }
+      );
+
+      res.json({
+          success: true,
+          data: updatedSponsor,
+          message: 'Sponsor updated successfully'
+      });
+  } catch (error) {
+      // Clean up uploaded image if there's an error
+      if (req.file?.path) {
+          await deleteFromCloudinary(getPublicIdFromUrl(req.file.path));
+      }
+
+      res.status(500).json({
+          success: false,
+          message: 'Error updating sponsor',
+          error: error.message
+      });
+  }
+};
+
+export const deleteSponsor = async (req, res) => {
+  try {
+      const { id } = req.params;
+
+      if (!id) {
+          return res.status(400).json({ message: 'Invalid sponsor ID' });
+      }
+
+      const sponsor = await Sponsor.findById(id);
+      if (!sponsor) {
+          return res.status(404).json({ message: 'Sponsor not found' });
+      }
+
+      // Delete image from Cloudinary first
+      if (sponsor.image) {
+          await deleteFromCloudinary(getPublicIdFromUrl(sponsor.image));
+      }
+
+      // Delete the sponsor document
+      await sponsor.deleteOne();
+
+      res.json({
+          success: true,
+          message: 'Sponsor deleted successfully'
+      });
+  } catch (error) {
+      res.status(500).json({
+          success: false,
+          message: 'Error deleting sponsor',
+          error: error.message
+      });
+  }
+};
   
   export const createMember = async (req, res) => {
     try {

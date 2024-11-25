@@ -14,7 +14,7 @@ const Footer = () => {
         { name: 'About us', url: '/about-us' },
         { name: 'Domains', url: '/innovation-hub' },
         { name: 'Facilities', url: '/facilities' },
-        { name: 'Scheme', url: '/scheme-details' },
+        { name: 'Scheme', url: '/apply-now' },
         { name: 'Startups', url: '/startup' },
       ],
     },

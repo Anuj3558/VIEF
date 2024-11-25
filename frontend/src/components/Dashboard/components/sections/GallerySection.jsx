@@ -15,28 +15,18 @@ const getAccessToken = () => {
 };
 
 const apiRequests = {
-  getAllSponsors: () => {
+  getAllGalleryItems: () => {
     const accessToken = getAccessToken();
-    return api.get('/client/sponsor', {
+    return api.get('/client/gallery', {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     });
   },
 
-  createSponsor: (formData) => {
+  createGalleryItem: (formData) => {
     const accessToken = getAccessToken();
-    return api.post('/admin/sponsors', formData, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-  },
-
-  updateSponsor: (id, formData) => {
-    const accessToken = getAccessToken();
-    return api.put(`/admin/sponsors/${id}`, formData, {
+    return api.post('/admin/gallery', formData, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
         'Content-Type': 'multipart/form-data',
@@ -44,9 +34,19 @@ const apiRequests = {
     });
   },
 
-  deleteSponsor: (id) => {
+  updateGalleryItem: (id, formData) => {
     const accessToken = getAccessToken();
-    return api.delete(`/admin/sponsors/${id}`, {
+    return api.put(`/admin/gallery/${id}`, formData, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+  },
+
+  deleteGalleryItem: (id) => {
+    const accessToken = getAccessToken();
+    return api.delete(`/admin/gallery/${id}`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
@@ -54,39 +54,38 @@ const apiRequests = {
   },
 };
 
-const SponsorsSection = () => {
-  const [sponsors, setSponsors] = useState([]);
+const GallerySection = () => {
+  const [galleryItems, setGalleryItems] = useState([]);
   const [isAddOpen, setIsAddOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
-  const [selectedSponsor, setSelectedSponsor] = useState(null);
+  const [selectedItem, setSelectedItem] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [formData, setFormData] = useState({
     title: '',
     subtitle: '',
-    description: '',
-    image: null
+    photo: null
   });
   const [previewUrl, setPreviewUrl] = useState('');
 
   useEffect(() => {
-    fetchSponsors();
+    fetchGalleryItems();
   }, []);
 
-  const fetchSponsors = async () => {
+  const fetchGalleryItems = async () => {
     try {
       setIsLoading(true);
-      const response = await apiRequests.getAllSponsors();
-      setSponsors(response.data);
+      const response = await apiRequests.getAllGalleryItems();
+      setGalleryItems(response.data);
     } catch (error) {
-      setError('Failed to fetch sponsors');
+      setError('Failed to fetch gallery items');
       notification.error({
         message: 'Error',
-        description: 'Failed to fetch sponsors',
+        description: 'Failed to fetch gallery items',
         placement: 'topRight',
       });
-      console.error('Error fetching sponsors:', error);
+      console.error('Error fetching gallery items:', error);
     } finally {
       setIsLoading(false);
     }
@@ -94,10 +93,10 @@ const SponsorsSection = () => {
 
   const handleInputChange = (e) => {
     const { name, value, files } = e.target;
-    if (name === 'image' && files && files[0]) {
+    if (name === 'photo' && files && files[0]) {
       setFormData(prev => ({
         ...prev,
-        image: files[0]
+        photo: files[0]
       }));
       const url = URL.createObjectURL(files[0]);
       setPreviewUrl(url);
@@ -109,94 +108,92 @@ const SponsorsSection = () => {
     }
   };
 
-  const handleAddSponsor = async (e) => {
+  const handleAddGalleryItem = async (e) => {
     e.preventDefault();
     try {
       setIsLoading(true);
       const formDataToSend = new FormData();
       formDataToSend.append('title', formData.title);
       formDataToSend.append('subtitle', formData.subtitle);
-      formDataToSend.append('description', formData.description);
-      if (formData.image) {
-        formDataToSend.append('image', formData.image);
+      if (formData.photo) {
+        formDataToSend.append('photo', formData.photo);
       }
 
-      await apiRequests.createSponsor(formDataToSend);
+      await apiRequests.createGalleryItem(formDataToSend);
       notification.success({
         message: 'Success',
-        description: 'Sponsor added successfully',
+        description: 'Gallery item added successfully',
         placement: 'topRight',
       });
       setIsAddOpen(false);
       resetForm();
-      fetchSponsors();
+      fetchGalleryItems();
     } catch (error) {
       notification.error({
         message: 'Error',
-        description: 'Failed to add sponsor',
+        description: 'Failed to add gallery item',
         placement: 'topRight',
       });
-      setError('Failed to add sponsor');
-      console.error('Error adding sponsor:', error);
+      setError('Failed to add gallery item');
+      console.error('Error adding gallery item:', error);
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleEditSponsor = async (e) => {
+  const handleEditGalleryItem = async (e) => {
     e.preventDefault();
     try {
       setIsLoading(true);
       const formDataToSend = new FormData();
       formDataToSend.append('title', formData.title);
       formDataToSend.append('subtitle', formData.subtitle);
-      formDataToSend.append('description', formData.description);
-      if (formData.image) {
-        formDataToSend.append('image', formData.image);
+      if (formData.photo) {
+        formDataToSend.append('photo', formData.photo);
       }
 
-      await apiRequests.updateSponsor(selectedSponsor._id, formDataToSend);
+      await apiRequests.updateGalleryItem(selectedItem._id, formDataToSend);
       notification.success({
         message: 'Success',
-        description: 'Sponsor updated successfully',
+        description: 'Gallery item updated successfully',
         placement: 'topRight',
       });
       setIsEditOpen(false);
       resetForm();
-      fetchSponsors();
+      fetchGalleryItems();
     } catch (error) {
       notification.error({
         message: 'Error',
-        description: 'Failed to update sponsor',
+        description: 'Failed to update gallery item',
         placement: 'topRight',
       });
-      setError('Failed to update sponsor');
-      console.error('Error updating sponsor:', error);
+      setError('Failed to update gallery item');
+      console.error('Error updating gallery item:', error);
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleDeleteSponsor = async () => {
+  const handleDeleteGalleryItem = async () => {
     try {
       setIsLoading(true);
-      await apiRequests.deleteSponsor(selectedSponsor._id);
+      await apiRequests.deleteGalleryItem(selectedItem._id);
       notification.success({
         message: 'Success',
-        description: 'Sponsor deleted successfully',
+        description: 'Gallery item deleted successfully',
         placement: 'topRight',
       });
       setIsDeleteOpen(false);
-      setSelectedSponsor(null);
-      fetchSponsors();
+      setSelectedItem(null);
+      fetchGalleryItems();
     } catch (error) {
       notification.error({
         message: 'Error',
-        description: 'Failed to delete sponsor',
+        description: 'Failed to delete gallery item',
         placement: 'topRight',
       });
-      setError('Failed to delete sponsor');
-      console.error('Error deleting sponsor:', error);
+      setError('Failed to delete gallery item');
+      console.error('Error deleting gallery item:', error);
     } finally {
       setIsLoading(false);
     }
@@ -206,14 +203,13 @@ const SponsorsSection = () => {
     setFormData({
       title: '',
       subtitle: '',
-      description: '',
-      image: null
+      photo: null
     });
     setPreviewUrl('');
-    setSelectedSponsor(null);
+    setSelectedItem(null);
   };
 
-  if (isLoading && !sponsors.length) {
+  if (isLoading && !galleryItems.length) {
     return <div className="p-6">Loading...</div>;
   }
 
@@ -228,45 +224,43 @@ const SponsorsSection = () => {
         animate={{ opacity: 1, y: 0 }}
         className="text-3xl font-bold mb-6"
       >
-        SPONSORS
+        GALLERY
       </motion.h1>
       
       <div className="relative mb-4">
         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
         <input
           type="text"
-          placeholder="Search sponsors..."
+          placeholder="Search gallery..."
           className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           onChange={(e) => console.log('Search:', e.target.value)}
         />
       </div>
 
       <div className="mb-6">
-        <AddButton title="SPONSOR" onClick={() => setIsAddOpen(true)} />
+        <AddButton title="PHOTO" onClick={() => setIsAddOpen(true)} />
       </div>
 
       <motion.div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {sponsors.map((sponsor) => (
-          <div key={sponsor._id} className="bg-white rounded-lg shadow-sm p-4">
+        {galleryItems.map((item) => (
+          <div key={item._id} className="bg-white rounded-lg shadow-sm p-4">
             <img
-              src={sponsor.image}
-              alt={sponsor.title}
+              src={item.photo}
+              alt={item.title}
               className="w-full h-48 object-cover rounded-lg mb-4"
             />
-            <h3 className="text-xl font-semibold mb-2">{sponsor.title}</h3>
-            <p className="text-gray-600 text-sm mb-2">{sponsor.subtitle}</p>
-            <p className="text-gray-700 mb-4">{sponsor.description}</p>
+            <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
+            <p className="text-gray-600 text-sm mb-4">{item.subtitle}</p>
             <div className="flex justify-end gap-2">
               <button
                 onClick={() => {
-                  setSelectedSponsor(sponsor);
+                  setSelectedItem(item);
                   setFormData({
-                    title: sponsor.title,
-                    subtitle: sponsor.subtitle,
-                    description: sponsor.description,
-                    image: null
+                    title: item.title,
+                    subtitle: item.subtitle,
+                    photo: null
                   });
-                  setPreviewUrl(sponsor.image);
+                  setPreviewUrl(item.photo);
                   setIsEditOpen(true);
                 }}
                 className="p-2 hover:bg-gray-100 rounded-lg"
@@ -275,7 +269,7 @@ const SponsorsSection = () => {
               </button>
               <button
                 onClick={() => {
-                  setSelectedSponsor(sponsor);
+                  setSelectedItem(item);
                   setIsDeleteOpen(true);
                 }}
                 className="p-2 hover:bg-gray-100 rounded-lg"
@@ -293,7 +287,7 @@ const SponsorsSection = () => {
           <div className="bg-white rounded-lg p-6 w-full max-w-md max-h-[90vh] overflow-y-auto">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-xl font-semibold">
-                {isAddOpen ? 'Add New Sponsor' : 'Edit Sponsor'}
+                {isAddOpen ? 'Add New Photo' : 'Edit Photo'}
               </h2>
               <button
                 onClick={() => {
@@ -305,9 +299,9 @@ const SponsorsSection = () => {
                 <X className="w-6 h-6" />
               </button>
             </div>
-            <form onSubmit={isAddOpen ? handleAddSponsor : handleEditSponsor} className="space-y-4">
+            <form onSubmit={isAddOpen ? handleAddGalleryItem : handleEditGalleryItem} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium mb-1">Image</label>
+                <label className="block text-sm font-medium mb-1">Photo</label>
                 <div className="space-y-2">
                   {previewUrl && (
                     <img
@@ -319,19 +313,19 @@ const SponsorsSection = () => {
                   <div className="relative">
                     <input
                       type="file"
-                      name="image"
+                      name="photo"
                       onChange={handleInputChange}
                       accept="image/*"
                       className="hidden"
-                      id="image-upload"
+                      id="photo-upload"
                       required={isAddOpen}
                     />
                     <label
-                      htmlFor="image-upload"
+                      htmlFor="photo-upload"
                       className="flex items-center justify-center w-full p-2 border-2 border-dashed rounded-lg cursor-pointer hover:border-blue-500"
                     >
                       <Upload className="w-5 h-5 mr-2" />
-                      <span>{formData.image ? 'Change Image' : 'Upload Image'}</span>
+                      <span>{formData.photo ? 'Change Photo' : 'Upload Photo'}</span>
                     </label>
                   </div>
                 </div>
@@ -358,23 +352,12 @@ const SponsorsSection = () => {
                   required
                 />
               </div>
-              <div>
-                <label className="block text-sm font-medium mb-1">Description</label>
-                <textarea
-                  name="description"
-                  value={formData.description}
-                  onChange={handleInputChange}
-                  className="w-full p-2 border rounded-lg"
-                  rows="3"
-                  required
-                />
-              </div>
               <button
                 type="submit"
                 className="w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-blue-300"
                 disabled={isLoading}
               >
-                {isLoading ? 'Processing...' : (isAddOpen ? 'Add Sponsor' : 'Update Sponsor')}
+                {isLoading ? 'Processing...' : (isAddOpen ? 'Add Photo' : 'Update Photo')}
               </button>
             </form>
           </div>
@@ -387,20 +370,20 @@ const SponsorsSection = () => {
           <div className="bg-white rounded-lg p-6 w-full max-w-md">
             <h2 className="text-xl font-semibold mb-4">Confirm Delete</h2>
             <p className="mb-6">
-              Are you sure you want to delete "{selectedSponsor?.title}"? This action cannot be undone.
+              Are you sure you want to delete "{selectedItem?.title}"? This action cannot be undone.
             </p>
             <div className="flex justify-end gap-4">
               <button
                 onClick={() => {
                   setIsDeleteOpen(false);
-                  setSelectedSponsor(null);
+                  setSelectedItem(null);
                 }}
                 className="px-4 py-2 border rounded-lg hover:bg-gray-50"
               >
                 Cancel
               </button>
               <button
-                onClick={handleDeleteSponsor}
+                onClick={handleDeleteGalleryItem}
                 className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 disabled:bg-red-300"
                 disabled={isLoading}
               >
@@ -414,5 +397,5 @@ const SponsorsSection = () => {
   );
 };
 
-export default SponsorsSection;
+export default GallerySection;
 
