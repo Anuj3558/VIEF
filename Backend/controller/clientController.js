@@ -67,7 +67,7 @@ export const fetchMentors = async (req, res) => {
 // Controller for fetching newsletters
 export const fetchNewsletters = async (req, res) => {
   try {
-    const newsletters = await Newsletter.find().sort({ createdAt: -1 });  // Sorting by 'createdAt' in descending order
+    const newsletters = await Article.find().sort({ createdAt: -1 });  // Sorting by 'createdAt' in descending order
     res.status(200).json(newsletters);  // Send 200 OK with the newsletters data
   } catch (error) {
     console.error(error);

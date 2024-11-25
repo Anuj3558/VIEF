@@ -6,8 +6,12 @@ import StoriesSection from "../components/Homepage/StoriesSection.jsx";
 import EventsSection from "../components/Homepage/OurEvents.jsx";
 import SupportersSection from "../components/Homepage/OurSupporter.jsx";
 import ImageCarousel from "../components/Homepage/Caraocel.jsx";
-import { bgTexture } from "../Assets/images/index.js";
+
 import TrendingEventOverlay from "../components/Homepage/compoents/TrendingEventOverlay.jsx";
+import HowToJoinSection from "../components/Homepage/HowtoJoin.jsx";
+
+import EventsSectionHome from "../components/Homepage/OurEvents.jsx";
+import Investors from "../components/Homepage/Investors.jsx";
 
 
 const  HomePage =()=>{
@@ -18,8 +22,11 @@ const  HomePage =()=>{
         <AnimatedCounters/>
         <StoriesSection />
         <GlimpseOfWork />
+        <HowToJoinSection />
         <ImageCarousel/>
-        <EventsSection/>
+        
+        <EventsSectionHome  />
+        <Investors />
         <SupportersSection/>
         
        

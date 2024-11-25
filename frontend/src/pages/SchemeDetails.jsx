@@ -1,90 +1,135 @@
+'use client'
+
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom"; // To get the scheme ID from URL
+import { motion } from "framer-motion";
+import { useParams } from "react-router-dom";
 import axios from "axios";
-import { Scheme } from "../Assets/images"; // Make sure this is correctly imported
+import { Scheme } from "../Assets/images";
 
 const SchemeDetails = () => {
-  const { id } = useParams(); // Get scheme ID from the URL
+  const { id } = useParams();
   const [schemeDetails, setSchemeDetails] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Fetch scheme details based on the ID
   useEffect(() => {
     const fetchSchemeDetails = async () => {
       try {
         const response = await axios.get(
           `${process.env.REACT_APP_BACKEND_URL}/api/scheme-details?id=${id}`
         );
-        setSchemeDetails(response.data); // Store fetched scheme details in state
+        setSchemeDetails(response.data);
       } catch (err) {
-        setError(err.message); // Handle errors if any
+        setError(err.message || "An error occurred while fetching scheme details.");
       } finally {
-        setLoading(false); // Set loading state to false after data is fetched
+        setLoading(false);
       }
     };
 
     fetchSchemeDetails();
-  }, [id]); // Re-run the effect when the ID changes
+  }, [id]);
 
-  // Loading state
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50/50 flex items-center justify-center">
-        <p>Loading scheme details...</p>
+      <div className="min-h-screen flex justify-center items-center">
+        <p className="text-lg text-gray-600">Loading scheme details...</p>
       </div>
     );
   }
 
-  // Error state
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-50/50 flex items-center justify-center">
-        <p className="text-red-500">{error}</p>
+      <div className="min-h-screen flex justify-center items-center">
+        <p className="text-lg text-red-500">{error}</p>
       </div>
     );
   }
 
-  // If data is available, render it
+  if (!schemeDetails) {
+    return (
+      <div className="min-h-screen flex justify-center items-center">
+        <p className="text-lg text-gray-600">Scheme details not found.</p>
+      </div>
+    );
+  }
+
   return (
-    <div className="max-w-7xl mx-auto md:pt-[4%]">
-      {/* Hero Image Section */}
-      <div className="relative rounded-2xl overflow-hidden mb-8">
-        <img
-          src={schemeDetails.image || Scheme} // Use fetched image or fallback to default image
-          alt={schemeDetails.title}
-          className="w-full h-[400px] object-cover"
-        />
+    <div className="min-h-screen py-32 w-full flex flex-col bg-white p-4">
+      {/* Title */}
+      <motion.h1
+        className="text-3xl text-left font-bold text-[#1a237e] mb-8 max-w-4xl mx-auto w-full"
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        {schemeDetails.title}
+      </motion.h1>
 
-        {/* Apply Now Button */}
-        <div className="absolute inset-0 flex items-end bottom-5 justify-center">
-          <button className="bg-[#1a237e] text-white px-12 py-3 rounded-lg text-xl font-medium hover:bg-[#1a237e]/90 transition-colors">
-            Apply Now
-          </button>
-        </div>
-      </div>
+      <motion.div
+        className="w-full max-w-4xl mx-auto"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.2 }}
+      >
+        <div className="rounded-2xl overflow-hidden bg-white shadow-md">
+          <div className="relative rounded-[2rem] overflow-hidden group">
+            {/* Image Section */}
+            <motion.div
+              className="overflow-hidden"
+              whileHover={{ scale: 1.02 }}
+              transition={{ duration: 0.3 }}
+            >
+              <img
+                src={schemeDetails.image || Scheme}
+                alt={schemeDetails.title}
+                className="w-full h-[400px] object-cover"
+              />
+            </motion.div>
 
-      {/* Title Section */}
-      <div className="border-b border-dashed border-gray-200 pb-4 mb-8">
-        <div className="flex justify-between items-center">
-          <h1 className="text-[#1a237e] text-3xl font-bold">
-            {schemeDetails.title}
-          </h1>
-          <div className="text-right">
-            <div className="text-lg">{schemeDetails.date}</div>
-            <div className="text-[#FF4D00]">{schemeDetails.deadline}</div>
+            {/* Apply Now Button */}
+            <div className="absolute bottom-4 right-4">
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <button className="bg-[#FF4D00] hover:bg-[#ff6b33] text-white font-medium px-6 py-2 rounded-xl">
+                  Apply Now
+                </button>
+              </motion.div>
+            </div>
           </div>
-        </div>
-      </div>
 
-      {/* Description Section */}
-      <div className="prose max-w-none mb-8">
-        <p className="text-gray-700 leading-relaxed">
-          {schemeDetails.description}
-        </p>
-      </div>
+          <motion.div
+            className="p-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.4, delay: 0.4 }}
+          >
+            {/* Scheme Header */}
+            <div className="p-4">
+              <div className="flex px-7 text-8xl gap-4 border border-dashed border-gray-500 rounded-2xl p-2">
+                <h3 className="text-[#1a237e] items-start flex text-center py-3 text-[24px] barlow-condensed-regular font-bold flex-1">
+                  {schemeDetails.title}
+                </h3>
+                <div className="flex flex-col items-end gap-1 text-[20px] barlow-condensed-regular">
+                  <span className="text-gray-600">{schemeDetails.date}</span>
+                  <span className="text-[#FF4D00]">{schemeDetails.deadline}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Scheme Description */}
+            <div className="text-black p-4 rounded-xl">
+              <p className="text-sm leading-relaxed">
+                {schemeDetails.description}
+              </p>
+            </div>
+          </motion.div>
+        </div>
+      </motion.div>
     </div>
   );
 };
 
 export default SchemeDetails;
+

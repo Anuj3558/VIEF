@@ -46,7 +46,7 @@ export default function WorkGlimpse() {
         className="mb-14 text-center text-2xl font-bold tracking-tighter sm:text-3xl md:text-4xl"
       
       >
-        Glimpse of our work
+      Changing visions through missions.
       </motion.h2>
       <motion.div 
         variants={containerVariants}

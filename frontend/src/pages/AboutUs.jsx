@@ -1,9 +1,11 @@
-import React from 'react';
+'use client'
+
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FaLinkedin } from "react-icons/fa";
 import { AboutUsbg, varunSIr, wc1 } from '../Assets/images';
 
-const PersonCard = ({ name, image, role, linkedin }) => (
+export const PersonCard = ({ name, image, role, linkedin }) => (
   <motion.div
     initial={{ opacity: 0, y: 20 }}
     whileInView={{ opacity: 1, y: 0 }}
@@ -39,22 +41,47 @@ const PersonCard = ({ name, image, role, linkedin }) => (
   </motion.div>
 );
 
-const TeamSection = ({ title, members }) => (
-  <motion.div
-    initial={{ opacity: 0 }}
-    whileInView={{ opacity: 1 }}
-    viewport={{ once: true }}
-    transition={{ duration: 0.7, delay: 0.2 }}
-    className="mb-24"
-  >
-    <h2 className="text-4xl font-bold text-gray-900 text-center mb-12">{title}</h2>
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-      {members.map((member, index) => (
-        <PersonCard key={index} {...member} />
-      ))}
+export const TeamSection = ({ title, members ,homePage }) => {
+  const [showAll, setShowAll] = useState(false);
+  const visibleMembers = showAll ? members : members.slice(0, 4);
+console.log(homePage)
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.7, delay: 0.2 }}
+      className="mb-24"
+    >
+      <h2 className="text-4xl font-bold text-gray-900 text-center mb-12">{title}</h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+        {visibleMembers.map((member, index) => (
+          <PersonCard key={index} {...member} />
+        ))}
+      </div>
+      {(members.length > 4 && !homePage) ? (
+        <div className="mt-8 text-center">
+          <button
+            onClick={() => setShowAll(!showAll)}
+            className="bg-[]  text-black underline font-bold py-2 px-4 rounded transition duration-300"
+          >
+            {showAll ? 'Show Less' : 'Show More'}
+          </button>
+        </div>
+      ): <a
+      href='/about-us'>
+        <div className="mt-8 text-center">
+      <button
+       
+        className="bg-[]  text-black underline font-bold py-2 px-4 rounded transition duration-300"
+      >
+        See All 
+      </button>
     </div>
-  </motion.div>
-);
+        </a>}
+    </motion.div>
+  );
+};
 
 const AboutUs = () => {
   const boardMembers = [
@@ -81,6 +108,12 @@ const AboutUs = () => {
       image: varunSIr,
       role: "Board Member",
       linkedin: "https://www.linkedin.com/in/satyammitgutye/"
+    },
+    {
+      name: "Additional Board Member",
+      image: varunSIr,
+      role: "Board Member",
+      linkedin: "https://www.linkedin.com/in/additionalmember/"
     }
   ];
 
@@ -108,6 +141,12 @@ const AboutUs = () => {
       image: varunSIr,
       role: "Advisor",
       linkedin: "https://www.linkedin.com/in/drnehakapoor/"
+    },
+    {
+      name: "Additional Advisor",
+      image: varunSIr,
+      role: "Advisor",
+      linkedin: "https://www.linkedin.com/in/additionaladvisor/"
     }
   ];
 
@@ -135,6 +174,45 @@ const AboutUs = () => {
       image: varunSIr,
       role: "Mentor",
       linkedin: "https://www.linkedin.com/in/arjunmalhotra/"
+    },
+    {
+      name: "Additional Mentor",
+      image: varunSIr,
+      role: "Mentor",
+      linkedin: "https://www.linkedin.com/in/additionalmentor/"
+    }
+  ];
+
+  const investors = [
+    {
+      name: "John Doe",
+      image: varunSIr,
+      role: "Investor",
+      linkedin: "https://www.linkedin.com/in/johndoe/"
+    },
+    {
+      name: "Jane Smith",
+      image: varunSIr,
+      role: "Investor",
+      linkedin: "https://www.linkedin.com/in/janesmith/"
+    },
+    {
+      name: "Robert Johnson",
+      image: varunSIr,
+      role: "Investor",
+      linkedin: "https://www.linkedin.com/in/robertjohnson/"
+    },
+    {
+      name: "Emily Brown",
+      image: varunSIr,
+      role: "Investor",
+      linkedin: "https://www.linkedin.com/in/emilybrown/"
+    },
+    {
+      name: "Additional Investor",
+      image: varunSIr,
+      role: "Investor",
+      linkedin: "https://www.linkedin.com/in/additionalinvestor/"
     }
   ];
 
@@ -146,7 +224,6 @@ const AboutUs = () => {
         transition={{ duration: 0.7 }}
         className="relative pt-36"
       >
-        {/* Background image for the header */}
         <div 
           className="absolute inset-0 bg-cover bg-center opacity-"
           style={{ backgroundImage: `url(${AboutUsbg})` }} 
@@ -166,23 +243,20 @@ const AboutUs = () => {
             transition={{ delay: 0.5, duration: 0.7 }}
             className="text-xl text-white max-w-3xl pt-6 pb-14  mx-auto leading-relaxed"
           >
-            We are thrilled to announce a significant achievement for IIITD and
-            our Incubation Centre. During the recent budget session, Ms. Atishi
-            highlighted several key aspects. We continue to strive for excellence
-            in innovation and entrepreneurship.
+            VIEF ignite entrepreneurial potential by turning visionary ideas into successful startups. With cutting-edge mentorship, tailored resources, funding access, and a vibrant network, we accelerate growth and innovation. Join us to shape the future of business!
           </motion.p>
         </div>
-        
       </motion.header>
       
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <TeamSection title="Board Members" members={boardMembers} />
         <TeamSection title="Advisors Panel" members={advisors} />
         <TeamSection title="Mentors" members={mentors} />
-        <TeamSection title="Investors" members={mentors} />
+        <TeamSection title="Investors" members={investors} />
       </main>
     </div>
   );
 };
 
 export default AboutUs;
+

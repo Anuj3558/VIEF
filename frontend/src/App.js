@@ -46,10 +46,10 @@ function App() {
             <Route path="/apply-now" element={<ApplyNowPage />} />
             <Route path="/startup" element={<StartupsPage />} />
             <Route path="/achievements" element={<Awards />} />
-            {/* <Route
+            <Route
               path="/admin"
               element={<ProtectedRoute element={<Dashboard />} />}
-            /> */}
+            />
             <Route
               path="/admin"
               element={<Dashboard />} 

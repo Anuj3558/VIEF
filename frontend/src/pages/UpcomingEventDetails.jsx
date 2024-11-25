@@ -1,10 +1,12 @@
+'use client'
+
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { useParams } from "react-router-dom"; // For extracting the event ID from the URL
+import { useParams } from "react-router-dom";
 import axios from "axios";
 
 const EventDetailsPage = () => {
-  const { id } = useParams(); // Extract event ID from the route
+  const { id } = useParams();
   const [eventDetails, setEventDetails] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -15,7 +17,7 @@ const EventDetailsPage = () => {
         const response = await axios.get(
           `${process.env.REACT_APP_BACKEND_URL}/api/eventdetails`,
           {
-            params: { id }, // Pass the event ID as a query parameter
+            params: { id },
           }
         );
         setEventDetails(response.data);
@@ -55,9 +57,10 @@ const EventDetailsPage = () => {
     );
   }
 
+  const isEventPassed = new Date(eventDetails.date) < new Date();
+
   return (
     <div className="min-h-screen py-32 w-full flex flex-col bg-white p-4">
-      {/* Title */}
       <motion.h1
         className="text-3xl text-left font-bold text-[#1a237e] mb-8 max-w-4xl mx-auto w-full"
         initial={{ opacity: 0, x: -20 }}
@@ -75,7 +78,6 @@ const EventDetailsPage = () => {
       >
         <div className="rounded-2xl overflow-hidden bg-white shadow-md">
           <div className="relative rounded-[2rem] overflow-hidden group">
-            {/* Image Section */}
             <motion.div
               className="overflow-hidden"
               whileHover={{ scale: 1.02 }}
@@ -88,17 +90,18 @@ const EventDetailsPage = () => {
               />
             </motion.div>
 
-            {/* Register Button */}
-            <div className="absolute bottom-4 right-4">
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <button className="bg-[#FF4D11] hover:bg-[#ff6b33] text-white font-medium px-6 py-2 rounded-xl">
-                  Register Now
-                </button>
-              </motion.div>
-            </div>
+            {!isEventPassed && (
+              <div className="absolute bottom-4 right-4">
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <button className="bg-[#FF4D11] hover:bg-[#ff6b33] text-white font-medium px-6 py-2 rounded-xl">
+                    Register Now
+                  </button>
+                </motion.div>
+              </div>
+            )}
           </div>
 
           <motion.div
@@ -107,7 +110,6 @@ const EventDetailsPage = () => {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.4, delay: 0.4 }}
           >
-            {/* Event Header */}
             <div className="p-4 ">
               <div className="flex px-7 text-8xl gap-4 border border-dashed border-gray-500 rounded-2xl p-2 ">
                 <h3 className="text-[#1a237e] items-start flex text-center py-3 text-[24px] barlow-condensed-regular font-bold flex-1 ">
@@ -124,7 +126,6 @@ const EventDetailsPage = () => {
               </div>
             </div>
 
-            {/* Event Description */}
             <div className="text-black p-4 rounded-xl">
               <p className="text-sm leading-relaxed">
                 {eventDetails.description}
@@ -138,3 +139,4 @@ const EventDetailsPage = () => {
 };
 
 export default EventDetailsPage;
+

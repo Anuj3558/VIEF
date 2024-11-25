@@ -77,7 +77,7 @@ const LoginPage = () => {
 
         setTimeout(() => {
           navigate('/admin');
-        }, 2000);
+        }, 1000);
       } else {
         throw new Error('Authentication failed');
       }
