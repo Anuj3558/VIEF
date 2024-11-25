@@ -101,7 +101,7 @@ const HowToJoinSection = () => {
               >
                 {step.icon}
               </motion.div>
-              <h3 className="text-xl font-semibold text-white mb-2">{step.title}</h3>
+              <h3 className="text-xl font-semibold text-black mb-2">{step.title}</h3>
               <p className="text-sm text-gray-500 text-center">{step.description}</p>
             </motion.div>
           ))}
