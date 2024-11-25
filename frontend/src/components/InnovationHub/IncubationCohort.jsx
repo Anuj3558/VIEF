@@ -1,5 +1,5 @@
 import React from "react";
-import { Monitor, Heart, Users, Rocket } from "lucide-react";
+import { Monitor, Heart, Users, Rocket, Cpu, Banknote, GraduationCap, Leaf, Tractor, Film, Car, ShoppingCart, Utensils, Plane, Scale, Shield } from "lucide-react";
 
 const CohortCard = ({ icon: Icon, title, description }) => {
   return (
@@ -16,29 +16,80 @@ const CohortCard = ({ icon: Icon, title, description }) => {
 const IncubationCohort = () => {
   const cohorts = [
     {
-      icon: Monitor,
-      title: "Deep Tech Startup",
-      description:
-        "Deep technology or deep tech is a classification of organization, or more generally a classification of technology, based on the use of substantial technology solutions based on substantial scientific or engineering challenges.",
+      icon: Cpu,
+      title: "Deep Tech Startups",
+      description: "Innovative technologies like AI, blockchain, robotics, and quantum computing, shaping industries and enabling futuristic solutions in complex, high-tech domains."
     },
     {
       icon: Heart,
-      title: "Health Tech",
-      description:
-        "HealthTech addresses the software and technology solutions that healthcare organizations adopt to optimize and digitize the delivery and payment of healthcare services.",
+      title: "HealthTech",
+      description: "Revolutionizing healthcare with digital solutions, biotech, medical devices, and telemedicine to improve patient care and healthcare system efficiency."
+    },
+    {
+      icon: Banknote,
+      title: "FinTech",
+      description: "Transforming financial services through digital payments, blockchain, and secure financial solutions that enhance banking systems and promote inclusivity."
+    },
+    {
+      icon: GraduationCap,
+      title: "EdTech",
+      description: "Innovating education through e-learning platforms, virtual classrooms, and training tools, empowering students and professionals with accessible, interactive learning experiences."
+    },
+    {
+      icon: Leaf,
+      title: "CleanTech & Sustainability",
+      description: "Creating eco-friendly solutions for environmental challenges, renewable energy, waste management, and sustainable agriculture to promote a greener, sustainable future."
+    },
+    {
+      icon: Tractor,
+      title: "AgriTech",
+      description: "Using technology to enhance agriculture with precision farming, sustainable practices, and optimized supply chains to address global food security."
+    },
+    {
+      icon: Users,
+      title: "Social Entrepreneurship",
+      description: "Focusing on creating social impact by addressing issues like poverty, healthcare, and education, empowering underserved populations for lasting change."
     },
     {
       icon: Users,
       title: "Women Empowerment",
-      description:
-        "Clearly, there is a lot of work ahead to achieve gender equality in entrepreneurship. Empowerment should also focus on creating a supportive system that helps the block women-founders have been the most successful supporting women entrepreneurs.",
+      description: "Promoting gender equality through initiatives in leadership, education, entrepreneurship, and employment, empowering women to drive change across sectors."
     },
     {
-      icon: Rocket,
-      title: "Social Entrepreneurship",
-      description:
-        "Social entrepreneurship aims to solve in innovative ways the most pressing and social issues that affect millions. It's a significant force that provides creative solutions.",
+      icon: Film,
+      title: "Media & Entertainment",
+      description: "Transforming entertainment with digital content, streaming, gaming, and immersive technologies, creating engaging experiences for global audiences."
     },
+    {
+      icon: Car,
+      title: "Mobility & Transportation",
+      description: "Innovating in urban mobility through electric vehicles, autonomous transport, ride-sharing, and smart infrastructure to promote sustainable, efficient travel solutions."
+    },
+    {
+      icon: ShoppingCart,
+      title: "RetailTech & E-commerce",
+      description: "Revolutionizing retail with e-commerce platforms, omnichannel solutions, and AI-driven experiences, enhancing shopping convenience and customer engagement."
+    },
+    {
+      icon: Utensils,
+      title: "FoodTech",
+      description: "Innovating food production, delivery, and sustainability, with plant-based alternatives and smart kitchen technology reshaping the food industry."
+    },
+    {
+      icon: Plane,
+      title: "TravelTech",
+      description: "Revolutionizing travel with booking platforms, personalized apps, and smart tourism solutions to enhance convenience, safety, and global experiences."
+    },
+    {
+      icon: Scale,
+      title: "LegalTech",
+      description: "Leveraging technology to streamline legal processes, including AI, contract management, and blockchain, improving access and efficiency in legal services."
+    },
+    {
+      icon: Shield,
+      title: "Cybersecurity",
+      description: "Securing digital assets with advanced encryption, threat detection, and privacy solutions to protect individuals and businesses from cyber risks."
+    }
   ];
 
   return (

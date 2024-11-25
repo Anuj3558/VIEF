@@ -12,11 +12,10 @@ export default function WhyChooseUs() {
             src={wc1}
             alt="Modern building facade" 
             layout="fill"
-         
             objectFit="cover"
             quality={100}
           />
-          <div className="absolute  inset-0 "></div>
+          <div className="absolute inset-0"></div>
         </div>
         <div className="relative max-w-7xl mx-auto px-4 py-24 my-5 md:py-32 lg:py-40">
           <motion.h1 
@@ -25,16 +24,16 @@ export default function WhyChooseUs() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            Why choose us?
+            Why Choose Us?
           </motion.h1>
           <FeatureGrid 
             features={[
-              { title: "Networking Opportunities", description: "Exchange information and build relationships with professionals, leaders, and startup entrepreneurs within your industry." },
-              { title: "Professional Resources", description: "Gain access to previously unavailable resources, including education, software, and business tools." },
-              { title: "Partnerships", description: "Form partnerships with industry leaders or influencers to help your startup reach massive success." },
-              { title: "Sophisticated Equipment", description: "Access expensive equipment essential for growth that might be unaffordable for startups with limited funds." },
-              { title: "Best Mentors", description: "Receive invaluable advice from mentors who have built successful businesses to help grow your company." },
-              { title: "Accelerated Growth", description: "Accelerate your startup's growth and avoid common pitfalls that occur during expansion." },
+              { title: "Expert Mentorship", description: "Learn from seasoned entrepreneurs who provide actionable insights to help you grow and scale your startup successfully." },
+              { title: "Access to Essential Resources", description: "Unlock powerful tools, software, and educational resources essential for transforming your startup idea into a thriving business." },
+              { title: "Networking Opportunities", description: "Build valuable relationships with industry professionals, leaders, and entrepreneurs to expand your network and drive your startup forward." },
+              { title: "Strategic Partnerships", description: "Collaborate with influential partners to unlock opportunities, expand your reach, and scale your startup for greater success." },
+              { title: "Advanced Equipment", description: "Utilize high-end equipment that's often inaccessible to startups, enabling faster development and better quality outcomes for your business." },
+              { title: "Accelerated Growth & IPR Support", description: "Fast-track your growth with expert guidance and IPR support to protect and commercialize your innovations efficiently." },
             ]}
           />
         </div>
@@ -50,7 +49,7 @@ export default function WhyChooseUs() {
             objectFit="cover"
             quality={100}
           />
-          <div className="absolute inset-0 "></div>
+          <div className="absolute inset-0"></div>
         </div>
         <div className="relative max-w-7xl mx-auto px-4">
           <motion.h2 
@@ -63,12 +62,24 @@ export default function WhyChooseUs() {
           </motion.h2>
           <FeatureGrid 
             features={[
-              { title: "Physical Lab Facilities", description: "24/7/365 operational workspace with high-speed Internet access, dedicated support, and round-the-clock security." },
-              { title: "Incubation & Co-Working Facilities", description: "SA - CEI monitors, reviews, and guides startups through dedicated portfolio managers and support executives." },
-              { title: "Partnerships", description: "Form partnerships with industry leaders or influencers to help your startup reach massive success." },
-              { title: "Sophisticated Equipment", description: "Access expensive equipment essential for growth that might be unaffordable for startups with limited funds." },
-              { title: "Best Mentors", description: "Receive invaluable advice from mentors who have built successful businesses to help grow your company." },
-              { title: "Accelerated Growth", description: "Accelerate your startup's growth and avoid common pitfalls that occur during expansion." },
+              { title: "From Idea to Reality", description: "Transform your raw idea into a tangible, market-ready product, with expert guidance at every step toward entrepreneurial success." },
+              { title: "Business Development Mastery", description: "Turn challenges into growth opportunities with strategic advice on market entry, scaling, and creating long-term value." },
+              { title: "Building Your First Prototype", description: "Receive hands-on support in developing your Minimum Viable Product (MVP) to validate your idea and refine your concept." },
+              { title: "Connecting with Investors", description: "Unlock access to funding through angel investors, venture capital, and grants, providing the resources you need to scale." },
+              { title: "Protecting Your Innovations with IPR", description: "Safeguard your intellectual property with expert IPR services, ensuring your ideas are legally protected and ready for commercialization." },
+              { title: "Networking with Industry Experts", description: "Build valuable relationships with mentors, investors, and industry professionals who offer support and guidance." },
+              { title: "Strategic Partnerships for Success", description: "Form partnerships with key industry players to accelerate your growth, enter new markets, and boost your business." },
+              { title: "Access to Premium Resources", description: "Gain access to exclusive tools, software, and resources that help streamline your business operations and enhance your capabilities." },
+              { title: "Mentorship for Every Phase", description: "Receive tailored mentorship from experienced professionals who guide you through each stage of your startup journey." },
+              { title: "Market Insights & Strategy", description: "Understand market trends and customer behavior, helping you position your startup for optimal success in the competitive landscape." },
+              { title: "Scalable Growth Solutions", description: "Implement growth strategies that facilitate rapid scaling and help you avoid common pitfalls during your expansion phase." },
+              { title: "Legal and Compliance Support", description: "Get expert advice on legal requirements and compliance issues, ensuring your business runs smoothly and within regulations." },
+              { title: "Customer Acquisition & Retention", description: "Master the art of customer acquisition and retention with proven techniques to build a loyal and profitable customer base." },
+              { title: "Recognition & Exposure", description: "Gain recognition for your innovation and success through participation in competitions, events, and Vastav Group marketing opportunities." },
+              { title: "Vastav Group & VIIPS Collaboration", description: "Connect with VIIPS-based startups, receive startup consultancy, and access Vastav Community and networking support to take your business to the next level." },
+              { title: "Internship and Volunteering Opportunities", description: "Gain valuable work experience with internship offers and volunteering opportunities within the Vastav network, setting you up for future career success." },
+              { title: "Government Scheme Updates & Funding Consultancy", description: "Stay updated on government schemes and receive expert funding consultancy to secure financial support for your startup." },
+              { title: "Competitions & Guidance", description: "Access guidance and mentorship for national and international competitions, gaining exposure and recognition for your innovation." },
             ]}
           />
         </div>
@@ -100,3 +111,4 @@ function FeatureCard({ title, description, index }) {
     </motion.div>
   )
 }
+
