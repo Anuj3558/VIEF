@@ -25,7 +25,8 @@ import {
     deleteMember,
     createGallery,
     updateGallery,
-    deleteGallery
+    deleteGallery,
+    deleteContact
 } from '../controller/adminRouter.js'; // Adjust path if needed
 import { upload } from '../cloudinaryConfig.js';
 
@@ -101,6 +102,8 @@ adminRouter.route('/news')
 adminRouter.route('/news/:id')
     .put(upload.single('image'), updateNewsletter)
     .delete(deleteNewsletter);
+    adminRouter.route('/contacts/:id')
+    .delete(deleteContact)
 // adminRouter.route('/newsletter').post(createNewsletter);
 // adminRouter.route('/newsletter/:id').put(updateNewsletter).delete(deleteNewsletter);
 

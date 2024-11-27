@@ -10,6 +10,7 @@ import NewsAndArticlesSection from './sections/NewsAndArticlesSection';
 import SponsorsSection from './sections/SponsorsSection';
 import SchemeSection from './sections/Scheme';
 import GallerySection from './sections/GallerySection';
+import ContactsSection from './sections/Contacted';
 
 const Dashboard = () => {
   const [activeSection, setActiveSection] = useState('events');
@@ -34,6 +35,8 @@ const Dashboard = () => {
         return <SchemeSection />;
         case 'Gallery':
         return <GallerySection />;
+        case 'contacted':
+          return <ContactsSection />;
       default:
         return <EventsSection />;
     }

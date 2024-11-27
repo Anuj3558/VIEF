@@ -7,6 +7,7 @@ import Sponsor from "../model/sponsorSchema.js";
 import Scheme from "../model/schemeSchema.js";
 import Gallery from "../model/gallery.js";
 import Article from "../model/articleSchema.js";
+import Contact from "../model/ContactSchema.js";
 // adminController.js
 
 export const createEvent = async (req, res) => {
@@ -1001,5 +1002,33 @@ export const deleteGallery = async (req, res) => {
     }
 };
   
+export const deleteContact = async (req, res) => {
+    try {
+        const { id } = req.params;
 
+        if (!id) {
+            return res.status(400).json({ message: 'Invalid contact ID' });
+        }
+
+        const contact = await Contact.findById(id);
+        if (!contact) {
+            return res.status(404).json({ message: 'Contact not found' });
+        }
+
+        // Delete the contact document
+        await contact.deleteOne();
+
+        res.json({
+            success: true,
+            message: 'Contact deleted successfully'
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            success: false,
+            message: 'Error deleting contact',
+            error: error.message
+        });
+    }
+};
   

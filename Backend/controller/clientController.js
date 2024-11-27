@@ -6,7 +6,7 @@ import Article from "../model/articleSchema.js";
 import Sponsor from "../model/sponsorSchema.js";
 import Scheme from "../model/schemeSchema.js";
 
-
+import Contact from "../model/ContactSchema.js";
 import Member from "../model/memberShema.js";
 import Gallery from "../model/gallery.js";
 
@@ -108,9 +108,7 @@ export const fetchSchemeDetails = async (req, res) => {
     res.status(500).json({ message: 'Server error while fetching scheme details.' });
   }
 };
-export const fetchContacted= async (req, res) => {
- 
-};
+
 export const fetchGallery= async (req, res) => {
   try {
     const GalleryData = await Gallery.find().sort({ createdAt: -1 });  // Sorting by 'createdAt' in descending order
@@ -122,4 +120,62 @@ export const fetchGallery= async (req, res) => {
 };
 export const fetchBlog= async (req, res) => {
  
+};
+
+// Controller for submitting contact form
+export const submitContact = async (req, res) => {
+  try {
+    // Destructure form data from request body
+    const { name, type, subject, email, phone, message } = req.body;
+
+    // Validate required fields
+    if (!name || !subject || !email || !message) {
+      return res.status(400).json({ 
+        message: 'Missing required fields. Please check your submission.' 
+      });
+    }
+
+    // Create new contact submission
+    const newContact = new Contact({
+      name,
+      type: type || 'individual', // Default to individual if not specified
+      subject,
+      email,
+      phone: phone || null, // Optional field
+      message,
+      status: 'new', // Optional: track submission status
+      createdAt: new Date()
+    });
+
+    // Save to database
+    await newContact.save();
+
+    // Optional: Send response or trigger notification
+    res.status(201).json({ 
+      message: 'Contact submission received successfully!',
+      contactId: newContact._id 
+    });
+
+  } catch (error) {
+    console.error('Contact submission error:', error);
+    res.status(500).json({ 
+      message: 'Failed to submit contact. Please try again later.',
+      error: error.message 
+    });
+  }
+};
+
+// Controller for fetching contacted submissions (admin use)
+export const fetchContacted = async (req, res) => {
+  try {
+    // Fetch all contact submissions, sorted by most recent
+    const contacts = await Contact.find().sort({ createdAt: -1 });
+
+    res.status(200).json(contacts);
+  } catch (error) {
+    console.error('Error fetching contact submissions:', error);
+    res.status(500).json({ 
+      message: 'Server error while fetching contact submissions.' 
+    });
+  }
 };
