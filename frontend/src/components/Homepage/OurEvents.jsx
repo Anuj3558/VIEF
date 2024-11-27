@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { EventContext } from "../../contexts/EventContext";
 
+
 export default function EventsSectionHome() {
   const {
     upcomingEvents = [],

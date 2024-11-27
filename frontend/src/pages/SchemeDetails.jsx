@@ -19,6 +19,7 @@ const SchemeDetails = () => {
           `${process.env.REACT_APP_BACKEND_URL}/api/scheme-details?id=${id}`
         );
         setSchemeDetails(response.data);
+        
       } catch (err) {
         setError(err.message || "An error occurred while fetching scheme details.");
       } finally {
@@ -28,6 +29,7 @@ const SchemeDetails = () => {
 
     fetchSchemeDetails();
   }, [id]);
+
 
   if (loading) {
     return (
@@ -92,7 +94,10 @@ const SchemeDetails = () => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <button className="bg-[#FF4D00] hover:bg-[#ff6b33] text-white font-medium px-6 py-2 rounded-xl">
+                <button
+                  onClick={() => window.open(schemeDetails.url, "_blank")}
+                  className="bg-[#FF4D00] hover:bg-[#ff6b33] text-white font-medium px-6 py-2 rounded-xl"
+                >
                   Apply Now
                 </button>
               </motion.div>
@@ -113,7 +118,9 @@ const SchemeDetails = () => {
                 </h3>
                 <div className="flex flex-col items-end gap-1 text-[20px] barlow-condensed-regular">
                   <span className="text-gray-600">{schemeDetails.date}</span>
-                  <span className="text-[#FF4D00]">{schemeDetails.deadline}</span>
+                  <span className="text-[#FF4D00]">
+                    {schemeDetails.deadline}
+                  </span>
                 </div>
               </div>
             </div>
