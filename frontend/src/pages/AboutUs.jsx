@@ -1,10 +1,12 @@
-'use client'
+"use client";
 
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import React, { useContext, useState } from "react";
+import { motion } from "framer-motion";
 import { FaLinkedin } from "react-icons/fa";
-import { AboutUsbg, varunSIr, wc1 } from '../Assets/images';
+import { AboutUsbg, wc1 } from "../Assets/images";
+import { MentorContext } from "../contexts/MentorContext";
 
+// PersonCard Component
 export const PersonCard = ({ name, image, role, linkedin }) => (
   <motion.div
     initial={{ opacity: 0, y: 20 }}
@@ -14,9 +16,9 @@ export const PersonCard = ({ name, image, role, linkedin }) => (
     className="group relative overflow-hidden rounded-2xl bg-white shadow-lg hover:shadow-2xl transition-all duration-300"
   >
     <div className="aspect-[3/4] overflow-hidden">
-      <img 
-        src={image || wc1} 
-        alt={name} 
+      <img
+        src={image || wc1}
+        alt={name}
         className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
       />
     </div>
@@ -27,8 +29,8 @@ export const PersonCard = ({ name, image, role, linkedin }) => (
           <p className="text-sm font-medium text-gray-600">{role}</p>
         </div>
         {linkedin && (
-          <a 
-            href={linkedin} 
+          <a
+            href={linkedin}
             target="_blank"
             rel="noopener noreferrer"
             className="text-gray-600 hover:text-gray-900 transition-colors duration-200"
@@ -41,10 +43,13 @@ export const PersonCard = ({ name, image, role, linkedin }) => (
   </motion.div>
 );
 
-export const TeamSection = ({ title, members ,homePage }) => {
+// TeamSection Component
+export const TeamSection = ({ title, members, homePage }) => {
   const [showAll, setShowAll] = useState(false);
-  const visibleMembers = showAll ? members : members.slice(0, 4);
-console.log(homePage)
+
+  // Show the first 5 members by default
+  const visibleMembers = showAll ? members : members.slice(0, 5);
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -53,183 +58,86 @@ console.log(homePage)
       transition={{ duration: 0.7, delay: 0.2 }}
       className="mb-24"
     >
-      <h2 className="text-4xl font-bold text-gray-900 text-center mb-12">{title}</h2>
+      <h2 className="text-4xl font-bold text-gray-900 text-center mb-12">
+        {title}
+      </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
         {visibleMembers.map((member, index) => (
-          <PersonCard key={index} {...member} />
+          <PersonCard
+            key={member._id}
+            name={member.title}
+            image={member.image}
+            role={member.position}
+            linkedin={member.linkedinUrl}
+          />
         ))}
       </div>
-      {(members.length > 4 && !homePage) ? (
+
+      {/* Show 'See All' button only if there are more than 5 members */}
+      {members.length > 5 && !showAll && (
         <div className="mt-8 text-center">
           <button
-            onClick={() => setShowAll(!showAll)}
-            className="bg-[]  text-black underline font-bold py-2 px-4 rounded transition duration-300"
+            onClick={() => setShowAll(true)}
+            className="bg-transparent text-black underline font-bold py-2 px-4 rounded transition duration-300"
           >
-            {showAll ? 'Show Less' : 'Show More'}
+            See All
           </button>
         </div>
-      ): <a
-      href='/about-us'>
+      )}
+
+      {/* Show 'Hide' button after clicking 'See All' */}
+      {showAll && (
         <div className="mt-8 text-center">
-      <button
-       
-        className="bg-[]  text-black underline font-bold py-2 px-4 rounded transition duration-300"
-      >
-        See All 
-      </button>
-    </div>
-        </a>}
+          <button
+            onClick={() => setShowAll(false)}
+            className="bg-transparent text-black underline font-bold py-2 px-4 rounded transition duration-300"
+          >
+            Hide
+          </button>
+        </div>
+      )}
+
+      {/* If homePage is true, redirect to about-us page */}
+      {homePage && (
+        <a href="/about-us">
+          <div className="mt-8 text-center">
+            <button className="bg-transparent text-black underline font-bold py-2 px-4 rounded transition duration-300">
+              See All
+            </button>
+          </div>
+        </a>
+      )}
     </motion.div>
   );
 };
 
+// AboutUs Component
 const AboutUs = () => {
-  const boardMembers = [
-    {
-      name: "Mr Venkatesh Bharti",
-      image: varunSIr,
-      role: "Board Member",
-      linkedin: "https://www.linkedin.com/in/satyammitgutye/"
-    },
-    {
-      name: "Satyam Mitgutye",
-      image: varunSIr,
-      role: "Board Member",
-      linkedin: "https://www.linkedin.com/in/satyammitgutye/"
-    },
-    {
-      name: "Satyam Mitgutye",
-      image: varunSIr,
-      role: "Board Member",
-      linkedin: "https://www.linkedin.com/in/satyammitgutye/"
-    },
-    {
-      name: "Satyam Mitgutye",
-      image: varunSIr,
-      role: "Board Member",
-      linkedin: "https://www.linkedin.com/in/satyammitgutye/"
-    },
-    {
-      name: "Additional Board Member",
-      image: varunSIr,
-      role: "Board Member",
-      linkedin: "https://www.linkedin.com/in/additionalmember/"
-    }
-  ];
+  const { mentors } = useContext(MentorContext);
 
-  const advisors = [
-    {
-      name: "Dr. Neha Kapoor",
-      image: varunSIr,
-      role: "Advisor",
-      linkedin: "https://www.linkedin.com/in/drnehakapoor/"
-    },
-    {
-      name: "Dr. Neha Kapoor",
-      image: varunSIr,
-      role: "Advisor",
-      linkedin: "https://www.linkedin.com/in/drnehakapoor/"
-    },
-    {
-      name: "Dr. Neha Kapoor",
-      image: varunSIr,
-      role: "Advisor",
-      linkedin: "https://www.linkedin.com/in/drnehakapoor/"
-    },
-    {
-      name: "Dr. Neha Kapoor",
-      image: varunSIr,
-      role: "Advisor",
-      linkedin: "https://www.linkedin.com/in/drnehakapoor/"
-    },
-    {
-      name: "Additional Advisor",
-      image: varunSIr,
-      role: "Advisor",
-      linkedin: "https://www.linkedin.com/in/additionaladvisor/"
-    }
-  ];
-
-  const mentors = [
-    {
-      name: "Arjun Malhotra",
-      image: varunSIr,
-      role: "Mentor",
-      linkedin: "https://www.linkedin.com/in/arjunmalhotra/"
-    },
-    {
-      name: "Arjun Malhotra",
-      image: varunSIr,
-      role: "Mentor",
-      linkedin: "https://www.linkedin.com/in/arjunmalhotra/"
-    },
-    {
-      name: "Arjun Malhotra",
-      image: varunSIr,
-      role: "Mentor",
-      linkedin: "https://www.linkedin.com/in/arjunmalhotra/"
-    },
-    {
-      name: "Arjun Malhotra",
-      image: varunSIr,
-      role: "Mentor",
-      linkedin: "https://www.linkedin.com/in/arjunmalhotra/"
-    },
-    {
-      name: "Additional Mentor",
-      image: varunSIr,
-      role: "Mentor",
-      linkedin: "https://www.linkedin.com/in/additionalmentor/"
-    }
-  ];
-
-  const investors = [
-    {
-      name: "John Doe",
-      image: varunSIr,
-      role: "Investor",
-      linkedin: "https://www.linkedin.com/in/johndoe/"
-    },
-    {
-      name: "Jane Smith",
-      image: varunSIr,
-      role: "Investor",
-      linkedin: "https://www.linkedin.com/in/janesmith/"
-    },
-    {
-      name: "Robert Johnson",
-      image: varunSIr,
-      role: "Investor",
-      linkedin: "https://www.linkedin.com/in/robertjohnson/"
-    },
-    {
-      name: "Emily Brown",
-      image: varunSIr,
-      role: "Investor",
-      linkedin: "https://www.linkedin.com/in/emilybrown/"
-    },
-    {
-      name: "Additional Investor",
-      image: varunSIr,
-      role: "Investor",
-      linkedin: "https://www.linkedin.com/in/additionalinvestor/"
-    }
-  ];
+  // Separate mentors into different categories
+  const boardMembers = mentors.filter(
+    (mentor) => mentor.position === "Board Member"
+  );
+  const advisors = mentors.filter((mentor) => mentor.position === "Advisor");
+  const mentorsList = mentors.filter((mentor) => mentor.position === "Mentor");
+  const investors = mentors.filter((mentor) => mentor.position === "Investor");
+  const panelMembers = mentors.filter((mentor) => mentor.position === "Panel");
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <motion.header 
+      <motion.header
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7 }}
         className="relative pt-36"
       >
-        <div 
+        <div
           className="absolute inset-0 bg-cover bg-center opacity-"
-          style={{ backgroundImage: `url(${AboutUsbg})` }} 
+          style={{ backgroundImage: `url(${AboutUsbg})` }}
         />
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <motion.h1 
+          <motion.h1
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3, duration: 0.7 }}
@@ -237,26 +145,40 @@ const AboutUs = () => {
           >
             About Us
           </motion.h1>
-          <motion.p 
+          <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5, duration: 0.7 }}
-            className="text-xl text-white max-w-3xl pt-6 pb-14  mx-auto leading-relaxed"
+            className="text-xl text-white max-w-3xl pt-6 pb-14 mx-auto leading-relaxed"
           >
-            VIEF ignite entrepreneurial potential by turning visionary ideas into successful startups. With cutting-edge mentorship, tailored resources, funding access, and a vibrant network, we accelerate growth and innovation. Join us to shape the future of business!
+            VIEF ignite entrepreneurial potential by turning visionary ideas
+            into successful startups. With cutting-edge mentorship, tailored
+            resources, funding access, and a vibrant network, we accelerate
+            growth and innovation. Join us to shape the future of business!
           </motion.p>
         </div>
       </motion.header>
-      
+
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <TeamSection title="Board Members" members={boardMembers} />
-        <TeamSection title="Advisors Panel" members={advisors} />
-        <TeamSection title="Mentors" members={mentors} />
-        <TeamSection title="Investors" members={investors} />
+        {/* Render sections for each category */}
+        {boardMembers.length > 0 && (
+          <TeamSection title="Board Members" members={boardMembers} />
+        )}
+        {advisors.length > 0 && (
+          <TeamSection title="Advisors" members={advisors} />
+        )}
+        {panelMembers.length > 0 && (
+          <TeamSection title="Panel" members={panelMembers} />
+        )}
+        {mentorsList.length > 0 && (
+          <TeamSection title="Mentors" members={mentorsList} />
+        )}
+        {investors.length > 0 && (
+          <TeamSection title="Investors" members={investors} />
+        )}
       </main>
     </div>
   );
 };
 
 export default AboutUs;
-
