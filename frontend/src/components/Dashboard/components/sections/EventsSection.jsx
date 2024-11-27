@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Search, Edit2, Trash2, X, Upload } from 'lucide-react';
 import axios from 'axios';
@@ -67,7 +67,8 @@ const EventsSection = () => {
     date: '',
     description: '',
     mode: 'OFFLINE',
-    image: null
+    image: null,
+    nameUrl: '' // New field for name URL
   });
   const [previewUrl, setPreviewUrl] = useState('');
 
@@ -119,6 +120,7 @@ const EventsSection = () => {
       formDataToSend.append('date', formData.date);
       formDataToSend.append('description', formData.description);
       formDataToSend.append('mode', formData.mode);
+      formDataToSend.append('nameUrl', formData.nameUrl); // Add nameUrl to form data
       if (formData.image) {
         formDataToSend.append('image', formData.image);
       }
@@ -131,7 +133,7 @@ const EventsSection = () => {
       });
       setIsAddOpen(false);
       resetForm();
-      window.location.reload();
+      fetchEvents(); // Fetch events instead of reloading the page
     } catch (error) {
       notification.error({
         message: 'Error',
@@ -154,6 +156,7 @@ const EventsSection = () => {
       formDataToSend.append('date', formData.date);
       formDataToSend.append('description', formData.description);
       formDataToSend.append('mode', formData.mode);
+      formDataToSend.append('url', formData.nameUrl); // Add nameUrl to form data
       if (formData.image) {
         formDataToSend.append('image', formData.image);
       }
@@ -166,7 +169,7 @@ const EventsSection = () => {
       });
       setIsEditOpen(false);
       resetForm();
-      window.location.reload();
+      fetchEvents(); // Fetch events instead of reloading the page
     } catch (error) {
       notification.error({
         message: 'Error',
@@ -191,7 +194,7 @@ const EventsSection = () => {
       });
       setIsDeleteOpen(false);
       setSelectedEvent(null);
-      window.location.reload();
+      fetchEvents(); // Fetch events instead of reloading the page
     } catch (error) {
       notification.error({
         message: 'Error',
@@ -211,7 +214,8 @@ const EventsSection = () => {
       date: '',
       description: '',
       mode: 'OFFLINE',
-      image: null
+      image: null,
+      nameUrl: '' // Reset nameUrl
     });
     setPreviewUrl('');
     setSelectedEvent(null);
@@ -270,7 +274,8 @@ const EventsSection = () => {
                       date: event.date.split('T')[0],
                       description: event.description,
                       mode: event.mode,
-                      image: null
+                      image: null,
+                      nameUrl: event.nameUrl // Set nameUrl when editing
                     });
                     setPreviewUrl(event.image);
                     setIsEditOpen(true);
@@ -389,6 +394,17 @@ const EventsSection = () => {
                   <option value="ONLINE">Online</option>
                 </select>
               </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">Name URL</label>
+                <input
+                  type="url"
+                  name="nameUrl"
+                  value={formData.nameUrl}
+                  onChange={handleInputChange}
+                  className="w-full p-2 border rounded-lg"
+                  required
+                />
+              </div>
               <button
                 type="submit"
                 className="w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-blue-300"
@@ -435,3 +451,4 @@ const EventsSection = () => {
 };
 
 export default EventsSection;
+

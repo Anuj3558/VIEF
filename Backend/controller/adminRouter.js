@@ -16,10 +16,11 @@ export const createEvent = async (req, res) => {
 
       const newEvent = new Event({
           title: req.body.title,
-          date: req.body.date,
+          date: new Date(req.body.date),
           description: req.body.description,
           mode: req.body.mode,
-          image: req.file.path // Cloudinary URL from multer
+          image: req.file.path,
+          url:req.body.nameUrl // Cloudinary URL from multer
       });
 
       const savedEvent = await newEvent.save();
@@ -30,6 +31,7 @@ export const createEvent = async (req, res) => {
           message: 'Event created successfully'
       });
   } catch (error) {
+    console.log(error)
       // Clean up uploaded image if there's an error
       if (req.file?.path) {
           await deleteFromCloudinary(getPublicIdFromUrl(req.file.path));
@@ -58,9 +60,10 @@ export const updateEvent = async (req, res) => {
 
       let updateData = {
           title: req.body.title,
-          date: req.body.date,
+          date: new Date(req.body.date),
           description: req.body.description,
-          mode: req.body.mode
+          mode: req.body.mode,
+          url:req.body.nameUrl  
       };
 
       // Handle image update if new file is uploaded
