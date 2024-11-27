@@ -3,13 +3,32 @@
 import React, { useState, useContext } from "react";
 import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { useNavigate } from "react-router-dom";
 import { SchemeContext } from "../contexts/SchemeContext";
 
 export default function ApplyNowPage() {
-  const { schemes, loading, error } = useContext(SchemeContext); // Use SchemeContext to access schemes
-  const [showAll, setShowAll] = useState(false); // State to toggle visibility of more schemes
-  const navigate = useNavigate(); // Use useNavigate to handle navigation
+  const { schemes, loading, error } = useContext(SchemeContext);
+  const [showAll, setShowAll] = useState(false);
+  const navigate = useNavigate();
+
+  // Function to format date
+  const formatDate = (dateString) => {
+    if (!dateString) return ""; // Return empty string if no date
+
+    try {
+      const date = new Date(dateString);
+      // Check if date is valid
+      if (isNaN(date.getTime())) return "";
+
+      return date.toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+      });
+    } catch (error) {
+      return ""; // Return empty string if any error occurs
+    }
+  };
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -54,41 +73,45 @@ export default function ApplyNowPage() {
           <motion.div
             key={index}
             variants={itemVariants}
-            className="relative group"
+            className="relative group h-[500px]" // Fixed height for the entire card
           >
-            <div className="rounded-2xl overflow-hidden bg-white shadow-sm hover:shadow-md transition-shadow">
-              <div className="relative rounded-[2rem] overflow-hidden">
+            <div className="rounded-2xl overflow-hidden bg-white shadow-sm hover:shadow-md transition-shadow h-full flex flex-col">
+              <div className="relative rounded-[2rem] overflow-hidden h-[250px]">
+                {" "}
+                {/* Fixed height for image container */}
                 <motion.img
                   whileHover={{ scale: 1.05 }}
                   transition={{ duration: 0.3 }}
-                  src={scheme.image || "/images/defaultScheme.jpg"} // Default image if not available
+                  src={scheme.image || "/images/defaultScheme.jpg"}
                   alt={scheme.title}
-                  className="w-full h-[250px] object-cover"
+                  className="w-full h-full object-cover"
                 />
                 <motion.div
                   whileHover={{ rotate: 360 }}
                   className="absolute bottom-4 right-4 w-12 h-12 bg-white rounded-xl flex items-center justify-center cursor-pointer group-hover:bg-[#FF4D00] transition-colors duration-300"
-                  onClick={() => navigate(`/scheme-details/${scheme._id}`)} // Redirect to scheme details on click
+                  onClick={() => navigate(`/scheme-details/${scheme._id}`)}
                 >
                   <ArrowUpRight className="w-6 h-6 text-[#1a237e] rotate-[-45deg] group-hover:text-white transition-colors duration-300" />
                 </motion.div>
               </div>
 
-              <div className="p-4">
+              <div className="p-4 flex flex-col flex-grow">
                 <div className="flex items-center gap-4 border border-dashed border-gray-200 rounded-2xl p-2 mb-4">
                   <h3 className="text-[#1a237e] text-lg font-semibold line-clamp-1">
                     {scheme.title}
                   </h3>
                   <div className="flex flex-col items-end gap-1 ml-auto">
-                    <span className="text-sm text-gray-600">{scheme.date}</span>
+                    <span className="text-sm text-gray-600">
+                      {formatDate(scheme.date)}
+                    </span>
                     <span className="text-xs text-[#FF4D00]">
-                      {scheme.deadline}
+                      {formatDate(scheme.deadline)}
                     </span>
                   </div>
                 </div>
 
-                <div className="bg-[#1a237e] text-white p-4 rounded-xl">
-                  <p className="text-sm leading-relaxed line-clamp-3">
+                <div className="bg-[#1a237e] text-white p-4 rounded-xl flex-grow flex items-center">
+                  <p className="text-sm leading-relaxed line-clamp-4">
                     {scheme.description}
                   </p>
                 </div>
@@ -108,15 +131,14 @@ export default function ApplyNowPage() {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           className="text-xl font-medium text-[#1a237e] hover:text-[#FF4D00] transition-colors"
-          onClick={() => setShowAll((prev) => !prev)} // Toggle visibility of more schemes
+          onClick={() => setShowAll((prev) => !prev)}
         >
-          {showAll ? "Show Less" : "More"} {/* Toggle button text */}
+          {showAll ? "Show Less" : "More"}
         </motion.button>
       </motion.div>
     </section>
   );
 
-  // Render loading or error message
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50/50 flex items-center justify-center">

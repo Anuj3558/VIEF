@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
@@ -12,6 +12,25 @@ const SchemeDetails = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // Function to format date
+  const formatDate = (dateString) => {
+    if (!dateString) return ""; // Return empty string if no date
+
+    try {
+      const date = new Date(dateString);
+      // Check if date is valid
+      if (isNaN(date.getTime())) return "";
+
+      return date.toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+      });
+    } catch (error) {
+      return ""; // Return empty string if any error occurs
+    }
+  };
+
   useEffect(() => {
     const fetchSchemeDetails = async () => {
       try {
@@ -19,9 +38,10 @@ const SchemeDetails = () => {
           `${process.env.REACT_APP_BACKEND_URL}/api/scheme-details?id=${id}`
         );
         setSchemeDetails(response.data);
-        
       } catch (err) {
-        setError(err.message || "An error occurred while fetching scheme details.");
+        setError(
+          err.message || "An error occurred while fetching scheme details."
+        );
       } finally {
         setLoading(false);
       }
@@ -29,7 +49,6 @@ const SchemeDetails = () => {
 
     fetchSchemeDetails();
   }, [id]);
-
 
   if (loading) {
     return (
@@ -117,9 +136,11 @@ const SchemeDetails = () => {
                   {schemeDetails.title}
                 </h3>
                 <div className="flex flex-col items-end gap-1 text-[20px] barlow-condensed-regular">
-                  <span className="text-gray-600">{schemeDetails.date}</span>
+                  <span className="text-gray-600">
+                    {formatDate(schemeDetails.date)}
+                  </span>
                   <span className="text-[#FF4D00]">
-                    {schemeDetails.deadline}
+                    {formatDate(schemeDetails.deadline)}
                   </span>
                 </div>
               </div>
@@ -139,4 +160,3 @@ const SchemeDetails = () => {
 };
 
 export default SchemeDetails;
-
