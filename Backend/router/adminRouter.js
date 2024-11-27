@@ -1,31 +1,31 @@
 // adminRouter.js
 import { Router } from 'express';
 import {
-  createEvent,
-  updateEvent,
-  deleteEvent,
-  createScheme,
-  updateScheme,
-  deleteScheme,
-  createAward,
-  updateAward,
-  deleteAward,
-  addSponsor,
-  updateSponsor,
-  deleteSponsor,
-  createNewsletter,
-  updateNewsletter,
-  deleteNewsletter,
-  addStartup,
-  updateStartup,
-  deleteStartup,
- 
-  createMember,
-  updateMember,
-  deleteMember,
-  createGallery,
-  updateGallery,
-  deleteGallery
+    createEvent,
+    updateEvent,
+    deleteEvent,
+    createScheme,
+    updateScheme,
+    deleteScheme,
+    createAward,
+    updateAward,
+    deleteAward,
+    addSponsor,
+    updateSponsor,
+    deleteSponsor,
+    createNewsletter,
+    updateNewsletter,
+    deleteNewsletter,
+    addStartup,
+    updateStartup,
+    deleteStartup,
+
+    createMember,
+    updateMember,
+    deleteMember,
+    createGallery,
+    updateGallery,
+    deleteGallery
 } from '../controller/adminRouter.js'; // Adjust path if needed
 import { upload } from '../cloudinaryConfig.js';
 
@@ -40,7 +40,7 @@ const adminRouter = Router();
 
 adminRouter.route('/awards')
     .post(upload.single('image'), createAward)
-  
+
 
 adminRouter.route('/awards/:id')
     .put(upload.single('image'), updateAward)
@@ -49,7 +49,7 @@ adminRouter.route('/awards/:id')
 
 adminRouter.route('/events')
     .post(upload.single('image'), createEvent)
-  
+
 
 adminRouter.route('/events/:id')
     .put(upload.single('image'), updateEvent)
@@ -59,41 +59,48 @@ adminRouter.route('/events/:id')
 
 adminRouter.route('/members')
     .post(upload.single('image'), createMember)
-  
+
 
 adminRouter.route('/members/:id')
     .put(upload.single('image'), updateMember)
     .delete(deleteMember);
-  adminRouter.route('/startups')
+adminRouter.route('/startups')
     .post(upload.single('image'), addStartup)
-  
+
 
 adminRouter.route('/startups/:id')
     .put(upload.single('image'), updateStartup)
     .delete(deleteStartup);
 
 
-    adminRouter.route('/sponsors')
+adminRouter.route('/sponsors')
     .post(upload.single('image'), addSponsor)
-  
+
 
 adminRouter.route('/sponsors/:id')
     .put(upload.single('image'), updateSponsor)
     .delete(deleteSponsor);
 adminRouter.route('/schemes')
-    .post(upload.single('image'),createScheme )
-  
+    .post(upload.single('image'), createScheme)
+
 
 adminRouter.route('/schemes/:id')
     .put(upload.single('image'), updateScheme)
     .delete(deleteScheme);
-    adminRouter.route('/gallery')
-    .post(upload.single('image'),createGallery )
-  
+adminRouter.route('/gallery')
+    .post(upload.single('image'), createGallery)
+
 
 adminRouter.route('/gallery/:id')
     .put(upload.single('image'), updateGallery)
     .delete(deleteGallery);
+adminRouter.route('/news')
+    .post(upload.single('image'), createNewsletter)
+
+
+adminRouter.route('/news/:id')
+    .put(upload.single('image'), updateNewsletter)
+    .delete(deleteNewsletter);
 // adminRouter.route('/newsletter').post(createNewsletter);
 // adminRouter.route('/newsletter/:id').put(updateNewsletter).delete(deleteNewsletter);
 

@@ -8,6 +8,10 @@ const articleSchema = new Schema(
       type: String,
       required: true,
     },
+    Type:{
+      type:String,
+      required:true
+    },
     publishDate: {
       type: Date,
       required: true,
@@ -19,10 +23,6 @@ const articleSchema = new Schema(
     image: {
       type: String,  // URL or base64 string
       default: '',
-    },
-    content: {
-      type: String,
-      required: true,
     },
   },
   {
