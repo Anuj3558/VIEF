@@ -7,20 +7,23 @@ export const MentorProvider = ({ children }) => {
   const [mentors, setMentors] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // useEffect(() => {
-  //   const fetchMentors = async () => {
-  //     try {
-  //       const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/mentors`);
-  //       setMentors(response.data);
-  //       setLoading(false);
-  //     } catch (error) {
-  //       console.error("Error fetching mentors:", error);
-  //       setLoading(false);
-  //     }
-  //   };
+  useEffect(() => {
+    const fetchMentors = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.REACT_APP_BACKEND_URL}/api/mentors`
+        );
+        setMentors(response.data);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching mentors:", error);
+        setLoading(false);
+      }
+    };
 
-  //   fetchMentors();
-  // }, []);
+    fetchMentors();
+  }, []);
+  console.log("mentors",mentors);
 
   return (
     <MentorContext.Provider value={{ mentors, loading }}>
