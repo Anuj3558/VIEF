@@ -6,7 +6,7 @@ import Article from "../model/articleSchema.js";
 import Sponsor from "../model/sponsorSchema.js";
 import Scheme from "../model/schemeSchema.js";
 
-import PreIncubation from "../model/SchemSchma.js";
+
 import Member from "../model/memberShema.js";
 import Gallery from "../model/gallery.js";
 

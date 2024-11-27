@@ -23,7 +23,7 @@ export const MentorProvider = ({ children }) => {
 
     fetchMentors();
   }, []);
-  console.log("mentors",mentors);
+  
 
   return (
     <MentorContext.Provider value={{ mentors, loading }}>

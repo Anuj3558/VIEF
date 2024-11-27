@@ -9,6 +9,7 @@ import { SponsorProvider } from "./contexts/SponsorContext.js";
 import { MentorProvider } from "./contexts/MentorContext.js";
 import { NewsletterProvider } from "./contexts/NewsletterContext.js";
 import { StartupProvider } from "./contexts/StartupContext.js";
+import GalleryProvider from "./contexts/GalleryContext.js";
 
 // Wrap the App with all the context providers
 const Root = () => (
@@ -19,7 +20,9 @@ const Root = () => (
           <MentorProvider>
             <NewsletterProvider>
               <StartupProvider>
-                <App />
+                <GalleryProvider>
+                  <App />
+                </GalleryProvider>
               </StartupProvider>
             </NewsletterProvider>
           </MentorProvider>
