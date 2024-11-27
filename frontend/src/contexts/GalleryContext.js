@@ -30,7 +30,7 @@ const GalleryProvider = ({ children }) => {
 
     fetchGalleryData();
   }, []);
-  console.log("gallery",gallery)
+  
 
   return (
     <GalleryContext.Provider value={{ gallery, loading, error }}>

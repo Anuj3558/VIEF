@@ -69,16 +69,17 @@ export default function EventsPage() {
             <motion.div
               key={event._id || index}
               variants={itemVariants}
-              className="relative group"
+              className="relative group flex flex-col h-full"
             >
-              <div className="rounded-[2rem] border-2 border-gray-200 overflow-hidden bg-white">
-                <div className="relative rounded-[2rem] overflow-hidden">
+              <div className="rounded-[2rem] border-2 border-gray-200 overflow-hidden bg-white flex flex-col h-full">
+                {/* Image section */}
+                <div className="relative flex-shrink-0 h-[250px] rounded-[2rem] overflow-hidden">
                   <motion.img
                     whileHover={{ scale: 1.05 }}
                     transition={{ duration: 0.3 }}
                     src={event.image || "/placeholder-image.jpg"}
                     alt={event.title}
-                    className="w-full h-[250px] object-cover"
+                    className="w-full h-full object-cover"
                   />
                   <motion.div
                     whileHover={{ rotate: 360 }}
@@ -100,7 +101,8 @@ export default function EventsPage() {
                   </motion.div>
                 </div>
 
-                <div className="p-4">
+                {/* Card content */}
+                <div className="flex-1 p-4 flex flex-col">
                   <div className="flex px-7 gap-4 border border-dashed border-gray-500 rounded-2xl p-2 mb-4">
                     <h3 className="text-[#1a237e] items-start flex text-center py-3 text-[16px] barlow-condensed-regular font-semibold flex-1">
                       {event.title}
@@ -115,7 +117,7 @@ export default function EventsPage() {
                     </div>
                   </div>
 
-                  <div className="bg-[#FF4A11] text-white rounded-[1rem] p-4">
+                  <div className="flex-1 bg-[#FF4A11] text-white rounded-[1rem] p-4">
                     <p className="text-sm leading-relaxed">
                       {event.description}
                     </p>

@@ -7,7 +7,7 @@ const ImageCarousel = () => {
 
   // Fetch the gallery data from the context
   const { gallery } = useContext(GalleryContext);
-  console.log("gallery",gallery)
+  
 
   // Ensure gallery is not undefined and is an array
   const images = gallery && Array.isArray(gallery) ? gallery : [];

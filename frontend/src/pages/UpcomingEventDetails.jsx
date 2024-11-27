@@ -96,9 +96,15 @@ const EventDetailsPage = () => {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  <button className="bg-[#FF4D11] hover:bg-[#ff6b33] text-white font-medium px-6 py-2 rounded-xl">
-                    Register Now
-                  </button>
+                  <a
+                    href={eventDetails.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <button className="bg-[#FF4D11] hover:bg-[#ff6b33] text-white font-medium px-6 py-2 rounded-xl">
+                      Register Now
+                    </button>
+                  </a>
                 </motion.div>
               </div>
             )}
