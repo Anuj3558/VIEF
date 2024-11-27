@@ -19,15 +19,13 @@ import {
   addStartup,
   updateStartup,
   deleteStartup,
-  createEventDetails,
-  updateEventDetails,
-  deleteEventDetails,
-  createSchemeDetails,
-  updateSchemeDetails,
-  deleteSchemeDetails,
+ 
   createMember,
   updateMember,
-  deleteMember
+  deleteMember,
+  createGallery,
+  updateGallery,
+  deleteGallery
 } from '../controller/adminRouter.js'; // Adjust path if needed
 import { upload } from '../cloudinaryConfig.js';
 
@@ -82,6 +80,20 @@ adminRouter.route('/startups/:id')
 adminRouter.route('/sponsors/:id')
     .put(upload.single('image'), updateSponsor)
     .delete(deleteSponsor);
+adminRouter.route('/schemes')
+    .post(upload.single('image'),createScheme )
+  
+
+adminRouter.route('/schemes/:id')
+    .put(upload.single('image'), updateScheme)
+    .delete(deleteScheme);
+    adminRouter.route('/gallery')
+    .post(upload.single('image'),createGallery )
+  
+
+adminRouter.route('/gallery/:id')
+    .put(upload.single('image'), updateGallery)
+    .delete(deleteGallery);
 // adminRouter.route('/newsletter').post(createNewsletter);
 // adminRouter.route('/newsletter/:id').put(updateNewsletter).delete(deleteNewsletter);
 

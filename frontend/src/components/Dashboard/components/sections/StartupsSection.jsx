@@ -356,8 +356,8 @@ const StartupsSection = () => {
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1">Description</label>
-                <textarea
+                <label className="block text-sm font-medium mb-1">Url to Redierct</label>
+                <input
                   name="description"
                   value={formData.description}
                   onChange={handleInputChange}

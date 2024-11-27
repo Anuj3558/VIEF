@@ -7,7 +7,7 @@ const schemeSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    date: {
+    url: {
       type: String, // Or you can use Date type if you need proper date parsing
       required: true,
     },
@@ -21,7 +21,6 @@ const schemeSchema = new mongoose.Schema(
     },
     image: {
       type: String, // Assuming the image is stored as a URL (or you can store a path if you save images locally)
-      required: true,
     },
   },
   {

@@ -9,6 +9,7 @@ import {
   fetchStartups,
   fetchEventDetails,
   fetchSchemeDetails,
+  fetchGallery,
 } from '../controller/clientController.js';
 
 const clientRouter = Router();
@@ -23,6 +24,7 @@ clientRouter.get('/newsletter', fetchNewsletters);
 clientRouter.get('/startups', fetchStartups);//d  
 clientRouter.get('/eventdetails', fetchEventDetails);//d
 clientRouter.get('/scheme-details', fetchSchemeDetails);//d
+clientRouter.get('/gallery', fetchGallery);
 
 // Export the router
 export default clientRouter;

@@ -4,6 +4,8 @@ import Event from "../model/eventSchema.js";
 import Member from "../model/memberShema.js";
 import Startup from "../model/startupSchema.js";
 import Sponsor from "../model/sponsorSchema.js";
+import Scheme from "../model/schemeSchema.js";
+import Gallery from "../model/gallery.js";
 // adminController.js
 
 export const createEvent = async (req, res) => {
@@ -130,17 +132,130 @@ export const deleteEvent = async (req, res) => {
 };
 
   
-  export const createScheme = (req, res) => {
-    res.json({ message: 'Creating a scheme...' });
-  };
-  
-  export const updateScheme = (req, res) => {
-    res.json({ message: `Updating scheme with ID ${req.params.id}...` });
-  };
-  
-  export const deleteScheme = (req, res) => {
-    res.json({ message: `Deleting scheme with ID ${req.params.id}...` });
-  };
+export const createScheme = async (req, res) => {
+    try {
+        if (!req.file) {
+            return res.status(400).json({ message: 'Image file is required' });
+        }
+      console.log(req.body);
+        const newScheme = new Scheme({
+            title: req.body.title,
+            image: req.file.path,
+            deadline: new Date(req.body.deadline),
+            url: req.body.applyButtonLink,
+            description:req.body.description
+        });
+
+        const savedScheme = await newScheme.save();
+        
+        res.status(201).json({
+            success: true,
+            data: savedScheme,
+            message: 'Scheme created successfully'
+        });
+    } catch (error) {
+        // Clean up uploaded image if there's an error
+        if (req.file?.path) {
+            await deleteFromCloudinary(getPublicIdFromUrl(req.file.path));
+        }
+        console.log(error);
+        res.status(500).json({
+            success: false,
+            message: 'Error creating scheme',
+            error: error.message
+        });
+    }
+};
+
+export const updateScheme = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        if (!id) {
+            return res.status(400).json({ message: 'Invalid scheme ID' });
+        }
+
+        const existingScheme = await Scheme.findById(id);
+        if (!existingScheme) {
+            return res.status(404).json({ message: 'Scheme not found' });
+        }
+
+        let updateData = {
+            title: req.body.title,
+            image: req.file.path,
+            deadline: new Date(req.body.deadline),
+            url: req.body.applyButtonLink,
+            description:req.body.description
+        };
+
+        // Handle image update if new file is uploaded
+        if (req.file) {
+            // Delete old image from Cloudinary
+            if (existingScheme.image) {
+                await deleteFromCloudinary(getPublicIdFromUrl(existingScheme.image));
+            }
+            updateData.image = req.file.path;
+        }
+
+        const updatedScheme = await Scheme.findByIdAndUpdate(
+            id,
+            { $set: updateData },
+            { new: true, runValidators: true }
+        );
+
+        res.json({
+            success: true,
+            data: updatedScheme,
+            message: 'Scheme updated successfully'
+        });
+    } catch (error) {
+        console.log(error)
+        // Clean up uploaded image if there's an error
+        if (req.file?.path) {
+            await deleteFromCloudinary(getPublicIdFromUrl(req.file.path));
+        }
+
+        res.status(500).json({
+            success: false,
+            message: 'Error updating scheme',
+            error: error.message
+        });
+    }
+};
+
+export const deleteScheme = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        if (!id) {
+            return res.status(400).json({ message: 'Invalid scheme ID' });
+        }
+
+        const scheme = await Scheme.findById(id);
+        if (!scheme) {
+            return res.status(404).json({ message: 'Scheme not found' });
+        }
+
+        // Delete image from Cloudinary first
+        if (scheme.image) {
+            await deleteFromCloudinary(getPublicIdFromUrl(scheme.image));
+        }
+
+        // Delete the scheme document
+        await scheme.deleteOne();
+
+        res.json({
+            success: true,
+            message: 'Scheme deleted successfully'
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: 'Error deleting scheme',
+            error: error.message
+        });
+    }
+};
   
   export const createAward = async (req, res) => {
     try {
@@ -652,27 +767,124 @@ export const deleteStartup = async (req, res) => {
     }
 };
   
-  export const createEventDetails = (req, res) => {
-    res.json({ message: 'Creating event details...' });
-  };
+export const createGallery = async (req, res) => {
+    try {
+        if (!req.file) {
+            return res.status(400).json({ message: 'Image file is required' });
+        }
+
+        const newGalleryItem = new Gallery({
+            title: req.body.title,
+            subtitle: req.body.subtitle || '',
+            photo: req.file.path // Cloudinary URL from multer
+        });
+
+        const savedGalleryItem = await newGalleryItem.save();
+        
+        res.status(201).json({
+            success: true,
+            data: savedGalleryItem,
+            message: 'Gallery item created successfully'
+        });
+    } catch (error) {
+        // Clean up uploaded image if there's an error
+        if (req.file?.path) {
+            await deleteFromCloudinary(getPublicIdFromUrl(req.file.path));
+        }
+        console.log(error);
+        res.status(500).json({
+            success: false,
+            message: 'Error creating gallery item',
+            error: error.message
+        });
+    }
+};
+
+export const updateGallery = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        if (!id) {
+            return res.status(400).json({ message: 'Invalid gallery item ID' });
+        }
+
+        const existingGalleryItem = await Gallery.findById(id);
+        if (!existingGalleryItem) {
+            return res.status(404).json({ message: 'Gallery item not found' });
+        }
+
+        let updateData = {
+            title: req.body.title,
+            subtitle: req.body.subtitle || existingGalleryItem.subtitle
+        };
+
+        // Handle image update if new file is uploaded
+        if (req.file) {
+            // Delete old image from Cloudinary
+            if (existingGalleryItem.photo) {
+                await deleteFromCloudinary(getPublicIdFromUrl(existingGalleryItem.photo));
+            }
+            updateData.photo = req.file.path;
+        }
+
+        const updatedGalleryItem = await Gallery.findByIdAndUpdate(
+            id,
+            { $set: updateData },
+            { new: true, runValidators: true }
+        );
+
+        res.json({
+            success: true,
+            data: updatedGalleryItem,
+            message: 'Gallery item updated successfully'
+        });
+    } catch (error) {
+        // Clean up uploaded image if there's an error
+        if (req.file?.path) {
+            await deleteFromCloudinary(getPublicIdFromUrl(req.file.path));
+        }
+
+        res.status(500).json({
+            success: false,
+            message: 'Error updating gallery item',
+            error: error.message
+        });
+    }
+};
+
+export const deleteGallery = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        if (!id) {
+            return res.status(400).json({ message: 'Invalid gallery item ID' });
+        }
+
+        const galleryItem = await Gallery.findById(id);
+        if (!galleryItem) {
+            return res.status(404).json({ message: 'Gallery item not found' });
+        }
+
+        // Delete image from Cloudinary first
+        if (galleryItem.photo) {
+            await deleteFromCloudinary(getPublicIdFromUrl(galleryItem.photo));
+        }
+
+        // Delete the gallery item document
+        await galleryItem.deleteOne();
+
+        res.json({
+            success: true,
+            message: 'Gallery item deleted successfully'
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: 'Error deleting gallery item',
+            error: error.message
+        });
+    }
+};
   
-  export const updateEventDetails = (req, res) => {
-    res.json({ message: `Updating event details with ID ${req.params.id}...` });
-  };
-  
-  export const deleteEventDetails = (req, res) => {
-    res.json({ message: `Deleting event details with ID ${req.params.id}...` });
-  };
-  
-  export const createSchemeDetails = (req, res) => {
-    res.json({ message: 'Creating scheme details...' });
-  };
-  
-  export const updateSchemeDetails = (req, res) => {
-    res.json({ message: `Updating scheme details with ID ${req.params.id}...` });
-  };
-  
-  export const deleteSchemeDetails = (req, res) => {
-    res.json({ message: `Deleting scheme details with ID ${req.params.id}...` });
-  };
+
   
