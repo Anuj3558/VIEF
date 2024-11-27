@@ -5,6 +5,7 @@ import Member from "../model/memberShema.js";
 import Startup from "../model/startupSchema.js";
 import Sponsor from "../model/sponsorSchema.js";
 import Scheme from "../model/schemeSchema.js";
+import Gallery from "../model/gallery.js";
 // adminController.js
 
 export const createEvent = async (req, res) => {
@@ -766,17 +767,124 @@ export const deleteStartup = async (req, res) => {
     }
 };
   
-  export const createEventDetails = (req, res) => {
-    res.json({ message: 'Creating event details...' });
-  };
-  
-  export const updateEventDetails = (req, res) => {
-    res.json({ message: `Updating event details with ID ${req.params.id}...` });
-  };
-  
-  export const deleteEventDetails = (req, res) => {
-    res.json({ message: `Deleting event details with ID ${req.params.id}...` });
-  };
+export const createGallery = async (req, res) => {
+    try {
+        if (!req.file) {
+            return res.status(400).json({ message: 'Image file is required' });
+        }
+
+        const newGalleryItem = new Gallery({
+            title: req.body.title,
+            subtitle: req.body.subtitle || '',
+            photo: req.file.path // Cloudinary URL from multer
+        });
+
+        const savedGalleryItem = await newGalleryItem.save();
+        
+        res.status(201).json({
+            success: true,
+            data: savedGalleryItem,
+            message: 'Gallery item created successfully'
+        });
+    } catch (error) {
+        // Clean up uploaded image if there's an error
+        if (req.file?.path) {
+            await deleteFromCloudinary(getPublicIdFromUrl(req.file.path));
+        }
+        console.log(error);
+        res.status(500).json({
+            success: false,
+            message: 'Error creating gallery item',
+            error: error.message
+        });
+    }
+};
+
+export const updateGallery = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        if (!id) {
+            return res.status(400).json({ message: 'Invalid gallery item ID' });
+        }
+
+        const existingGalleryItem = await Gallery.findById(id);
+        if (!existingGalleryItem) {
+            return res.status(404).json({ message: 'Gallery item not found' });
+        }
+
+        let updateData = {
+            title: req.body.title,
+            subtitle: req.body.subtitle || existingGalleryItem.subtitle
+        };
+
+        // Handle image update if new file is uploaded
+        if (req.file) {
+            // Delete old image from Cloudinary
+            if (existingGalleryItem.photo) {
+                await deleteFromCloudinary(getPublicIdFromUrl(existingGalleryItem.photo));
+            }
+            updateData.photo = req.file.path;
+        }
+
+        const updatedGalleryItem = await Gallery.findByIdAndUpdate(
+            id,
+            { $set: updateData },
+            { new: true, runValidators: true }
+        );
+
+        res.json({
+            success: true,
+            data: updatedGalleryItem,
+            message: 'Gallery item updated successfully'
+        });
+    } catch (error) {
+        // Clean up uploaded image if there's an error
+        if (req.file?.path) {
+            await deleteFromCloudinary(getPublicIdFromUrl(req.file.path));
+        }
+
+        res.status(500).json({
+            success: false,
+            message: 'Error updating gallery item',
+            error: error.message
+        });
+    }
+};
+
+export const deleteGallery = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        if (!id) {
+            return res.status(400).json({ message: 'Invalid gallery item ID' });
+        }
+
+        const galleryItem = await Gallery.findById(id);
+        if (!galleryItem) {
+            return res.status(404).json({ message: 'Gallery item not found' });
+        }
+
+        // Delete image from Cloudinary first
+        if (galleryItem.photo) {
+            await deleteFromCloudinary(getPublicIdFromUrl(galleryItem.photo));
+        }
+
+        // Delete the gallery item document
+        await galleryItem.deleteOne();
+
+        res.json({
+            success: true,
+            message: 'Gallery item deleted successfully'
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: 'Error deleting gallery item',
+            error: error.message
+        });
+    }
+};
   
 
   

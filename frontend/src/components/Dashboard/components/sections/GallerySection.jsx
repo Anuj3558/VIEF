@@ -116,7 +116,7 @@ const GallerySection = () => {
       formDataToSend.append('title', formData.title);
       formDataToSend.append('subtitle', formData.subtitle);
       if (formData.photo) {
-        formDataToSend.append('photo', formData.photo);
+        formDataToSend.append('image', formData.photo);
       }
 
       await apiRequests.createGalleryItem(formDataToSend);

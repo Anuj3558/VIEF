@@ -8,6 +8,7 @@ import Scheme from "../model/schemeSchema.js";
 
 import PreIncubation from "../model/SchemSchma.js";
 import Member from "../model/memberShema.js";
+import Gallery from "../model/gallery.js";
 
 // Controller for fetching events
 export const fetchEvents = async (req, res) => {
@@ -111,7 +112,13 @@ export const fetchContacted= async (req, res) => {
  
 };
 export const fetchGallery= async (req, res) => {
- 
+  try {
+    const GalleryData = await Gallery.find().sort({ createdAt: -1 });  // Sorting by 'createdAt' in descending order
+    res.status(200).json(GalleryData||"hii");  // Send 200 OK with the startups data
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error while fetching startups.' });
+  }
 };
 export const fetchBlog= async (req, res) => {
  
