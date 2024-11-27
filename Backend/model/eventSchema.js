@@ -23,6 +23,12 @@ const eventSchema = new mongoose.Schema(
       type: Date,
       required: true,
     },
+    url:
+      {
+        type: String,
+        required: true,
+      },
+    
   },
   {
     timestamps: true, // Adds createdAt and updatedAt fields
