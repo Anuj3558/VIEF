@@ -5,41 +5,50 @@ import { motion } from "framer-motion";
 import { ExternalLink } from "lucide-react";
 import { StartupContext } from "../contexts/StartupContext";
 
-const StartupCard = ({ name, logo, website }) => (
-  <motion.div
-    initial={{ opacity: 0, y: 20 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true }}
-    transition={{ duration: 0.5 }}
-    className="flex flex-col items-center"
-  >
-    <div className="w-full max-w-[280px] overflow-hidden rounded-lg bg-white shadow-md hover:shadow-lg transition-shadow duration-300">
-      <div className="relative aspect-square">
-        <img
-          src={logo || "/placeholder-logo.png"}
-          alt={`${name} logo`}
-          className="w-full object-contain"
-        />
+const StartupCard = ({ name, image, description }) => {
+  const formatUrl = (url) => {
+    if (!url.startsWith("http://") && !url.startsWith("https://")) {
+      return `https://${url}`;
+    }
+    return url;
+  };
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5 }}
+      className="flex flex-col items-center"
+    >
+      <div className="w-full max-w-[280px] overflow-hidden rounded-lg bg-white shadow-md hover:shadow-lg transition-shadow duration-300">
+        <div className="relative aspect-square flex items-center justify-center bg-gray-100">
+          <img
+            src={image || "/placeholder-image.png"}
+            alt={`${name} image`}
+            className="w-full h-full object-cover"
+          />
+        </div>
+        <div className="bg-[#1a237e] py-2 px-4">
+          <h3 className="text-center text-white font-medium">{name}</h3>
+        </div>
+        <motion.a
+          href={formatUrl(description)}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="block py-2 px-4 text-center text-[#1a237e] hover:text-[#FF4D00] transition-colors duration-300"
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+        >
+          <span className="flex items-center justify-center gap-2">
+            Visit Website
+            <ExternalLink className="w-4 h-4" />
+          </span>
+        </motion.a>
       </div>
-      <div className="bg-[#1a237e] py-2 px-4">
-        <h3 className="text-center text-white font-medium">{name}</h3>
-      </div>
-      <motion.a
-        href={website}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="block py-2 px-4 text-center text-[#1a237e] hover:text-[#FF4D00] transition-colors duration-300"
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
-      >
-        <span className="flex items-center justify-center gap-2">
-          Visit Website
-          <ExternalLink className="w-4 h-4" />
-        </span>
-      </motion.a>
-    </div>
-  </motion.div>
-);
+    </motion.div>
+  );
+};
 
 const StartupSection = ({ title, startups }) => {
   const [showAll, setShowAll] = React.useState(false);
