@@ -66,7 +66,8 @@ const NewsSection = () => {
     title: '',
     publishDate: '',
     content: '',
-    image: null
+    image: null,
+    type: 'news'
   });
   const [previewUrl, setPreviewUrl] = useState('');
 
@@ -117,6 +118,7 @@ const NewsSection = () => {
       formDataToSend.append('title', formData.title);
       formDataToSend.append('publishDate', formData.publishDate);
       formDataToSend.append('content', formData.content);
+      formDataToSend.append('type', formData.type);
       if (formData.image) {
         formDataToSend.append('image', formData.image);
       }
@@ -124,7 +126,7 @@ const NewsSection = () => {
       await apiRequests.createNews(formDataToSend);
       notification.success({
         message: 'Success',
-        description: 'News added successfully',
+        description: `${formData.type === 'news' ? 'News' : 'Article'} added successfully`,
         placement: 'topRight',
       });
       setIsAddOpen(false);
@@ -133,11 +135,11 @@ const NewsSection = () => {
     } catch (error) {
       notification.error({
         message: 'Error',
-        description: 'Failed to add news',
+        description: `Failed to add ${formData.type === 'news' ? 'news' : 'article'}`,
         placement: 'topRight',
       });
-      setError('Failed to add news');
-      console.error('Error adding news:', error);
+      setError(`Failed to add ${formData.type === 'news' ? 'news' : 'article'}`);
+      console.error(`Error adding ${formData.type === 'news' ? 'news' : 'article'}:`, error);
     } finally {
       setIsLoading(false);
     }
@@ -151,6 +153,7 @@ const NewsSection = () => {
       formDataToSend.append('title', formData.title);
       formDataToSend.append('publishDate', formData.publishDate);
       formDataToSend.append('content', formData.content);
+      formDataToSend.append('type', selectedNews.type); // Use the existing type
       if (formData.image) {
         formDataToSend.append('image', formData.image);
       }
@@ -158,7 +161,7 @@ const NewsSection = () => {
       await apiRequests.updateNews(selectedNews._id, formDataToSend);
       notification.success({
         message: 'Success',
-        description: 'News updated successfully',
+        description: `${selectedNews.type === 'news' ? 'News' : 'Article'} updated successfully`,
         placement: 'topRight',
       });
       setIsEditOpen(false);
@@ -167,11 +170,11 @@ const NewsSection = () => {
     } catch (error) {
       notification.error({
         message: 'Error',
-        description: 'Failed to update news',
+        description: `Failed to update ${selectedNews.type === 'news' ? 'news' : 'article'}`,
         placement: 'topRight',
       });
-      setError('Failed to update news');
-      console.error('Error updating news:', error);
+      setError(`Failed to update ${selectedNews.type === 'news' ? 'news' : 'article'}`);
+      console.error(`Error updating ${selectedNews.type === 'news' ? 'news' : 'article'}:`, error);
     } finally {
       setIsLoading(false);
     }
@@ -183,7 +186,7 @@ const NewsSection = () => {
       await apiRequests.deleteNews(selectedNews._id);
       notification.success({
         message: 'Success',
-        description: 'News deleted successfully',
+        description: `${selectedNews.type === 'news' ? 'News' : 'Article'} deleted successfully`,
         placement: 'topRight',
       });
       setIsDeleteOpen(false);
@@ -192,11 +195,11 @@ const NewsSection = () => {
     } catch (error) {
       notification.error({
         message: 'Error',
-        description: 'Failed to delete news',
+        description: `Failed to delete ${selectedNews.type === 'news' ? 'news' : 'article'}`,
         placement: 'topRight',
       });
-      setError('Failed to delete news');
-      console.error('Error deleting news:', error);
+      setError(`Failed to delete ${selectedNews.type === 'news' ? 'news' : 'article'}`);
+      console.error(`Error deleting ${selectedNews.type === 'news' ? 'news' : 'article'}:`, error);
     } finally {
       setIsLoading(false);
     }
@@ -207,7 +210,8 @@ const NewsSection = () => {
       title: '',
       publishDate: '',
       content: '',
-      image: null
+      image: null,
+      type: 'news'
     });
     setPreviewUrl('');
     setSelectedNews(null);
@@ -228,21 +232,21 @@ const NewsSection = () => {
         animate={{ opacity: 1, y: 0 }}
         className="text-3xl font-bold mb-6"
       >
-        NEWS
+        NEWS & ARTICLES
       </motion.h1>
       
       <div className="relative mb-4">
         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
         <input
           type="text"
-          placeholder="Search news..."
+          placeholder="Search news and articles..."
           className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           onChange={(e) => console.log('Search:', e.target.value)}
         />
       </div>
 
       <div className="mb-6">
-        <AddButton title="NEWS" onClick={() => setIsAddOpen(true)} />
+        <AddButton title="NEWS/ARTICLE" onClick={() => setIsAddOpen(true)} />
       </div>
 
       <motion.div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -255,7 +259,8 @@ const NewsSection = () => {
             />
             <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
             <p className="text-gray-600 text-sm mb-2">Published: {new Date(item.publishDate).toLocaleDateString()}</p>
-            <p className="text-gray-700 mb-4">{item.content.substring(0, 100)}...</p>
+            <p className="text-gray-700 mb-2">{item.description.substring(0, 100)}...</p>
+            <p className="text-blue-600 text-sm mb-4">{item.Type === 'news' ? 'News' : 'Article'}</p>
             <div className="flex justify-between items-center">
               <div className="flex gap-2">
                 <button
@@ -265,7 +270,8 @@ const NewsSection = () => {
                       title: item.title,
                       publishDate: item.publishDate.split('T')[0],
                       content: item.content,
-                      image: null
+                      image: null,
+                      type: item.type
                     });
                     setPreviewUrl(item.image);
                     setIsEditOpen(true);
@@ -295,7 +301,7 @@ const NewsSection = () => {
           <div className="bg-white rounded-lg p-6 w-full max-w-md max-h-[90vh] overflow-y-auto">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-xl font-semibold">
-                {isAddOpen ? 'Add New News' : 'Edit News'}
+                {isAddOpen ? 'Add New News/Article' : 'Edit News/Article'}
               </h2>
               <button
                 onClick={() => {
@@ -371,12 +377,50 @@ const NewsSection = () => {
                   required
                 />
               </div>
+              {isAddOpen && (
+                <div>
+                  <label className="block text-sm font-medium mb-1">Type</label>
+                  <div className="flex gap-4">
+                    <label className="inline-flex items-center">
+                      <input
+                        type="radio"
+                        name="type"
+                        value="news"
+                        checked={formData.type === 'news'}
+                        onChange={handleInputChange}
+                        className="form-radio h-5 w-5 text-blue-600"
+                      />
+                      <span className="ml-2">News</span>
+                    </label>
+                    <label className="inline-flex items-center">
+                      <input
+                        type="radio"
+                        name="type"
+                        value="article"
+                        checked={formData.type === 'article'}
+                        onChange={handleInputChange}
+                        className="form-radio h-5 w-5 text-blue-600"
+                      />
+                      <span className="ml-2">Article</span>
+                    </label>
+                  </div>
+                </div>
+              )}
               <button
                 type="submit"
-                className="w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-blue-300"
+                className="w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-blue-300 relative"
                 disabled={isLoading}
               >
-                {isLoading ? 'Processing...' : (isAddOpen ? 'Add News' : 'Update News')}
+                {isLoading ? (
+                  <>
+                    <span className="opacity-0">Processing...</span>
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="w-5 h-5 border-t-2 border-b-2 border-white rounded-full animate-spin"></div>
+                    </div>
+                  </>
+                ) : (
+                  isAddOpen ? 'Add News/Article' : 'Update News/Article'
+                )}
               </button>
             </form>
           </div>
@@ -403,17 +447,25 @@ const NewsSection = () => {
               </button>
               <button
                 onClick={handleDeleteNews}
-                className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 disabled:bg-red-300"
+                className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 disabled:bg-red-300 relative"
                 disabled={isLoading}
               >
-                {isLoading ? 'Deleting...' : 'Delete'}
+                {isLoading ? (
+                  <>
+                    <span className="opacity-0">Deleting...</span>
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="w-5 h-5 border-t-2 border-b-2 border-white rounded-full animate-spin"></div>
+                    </div>
+                  </>
+                ) : (
+                  'Delete'
+                )}
               </button>
             </div>
           </div>
         </div>
       )}
-    </
-div>
+    </div>
   );
 };
 

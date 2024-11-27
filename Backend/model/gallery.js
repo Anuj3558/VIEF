@@ -19,6 +19,6 @@ const GallerySchema = new mongoose.Schema(
   { timestamps: true } // Adds createdAt and updatedAt fields
 );
 
-const Gallery = mongoose.model('MyModel', GallerySchema);
+const Gallery = mongoose.model('Gallery', GallerySchema);
 
 export default Gallery;

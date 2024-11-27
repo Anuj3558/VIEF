@@ -6,6 +6,7 @@ import Startup from "../model/startupSchema.js";
 import Sponsor from "../model/sponsorSchema.js";
 import Scheme from "../model/schemeSchema.js";
 import Gallery from "../model/gallery.js";
+import Article from "../model/articleSchema.js";
 // adminController.js
 
 export const createEvent = async (req, res) => {
@@ -635,16 +636,127 @@ export const deleteMember = async (req, res) => {
     }
 };
 
-  export const createNewsletter = (req, res) => {
-    res.json({ message: 'Creating a newsletter...' });
+export const createNewsletter = async (req, res) => {
+    try {
+      if (!req.file) {
+        return res.status(400).json({ message: 'Image file is required' });
+      }
+  
+      const newArticle = new Article({
+        title: req.body.title,
+        Type: req.body.type, // Explicitly set Type as Newsletter
+        publishDate: new Date(req.body.publishDate),
+        description: req.body.content,
+        image: req.file.path,
+      });
+  
+      const savedNewsletter = await newArticle.save();
+      
+      res.status(201).json({
+        success: true,
+        data: savedNewsletter,
+        message: 'Newsletter created successfully'
+      });
+    } catch (error) {
+      // Clean up uploaded image if there's an error
+      if (req.file?.path) {
+        await deleteFromCloudinary(getPublicIdFromUrl(req.file.path));
+      }
+      console.log(error);
+      res.status(500).json({
+        success: false,
+        message: 'Error creating newsletter',
+        error: error.message
+      });
+    }
   };
   
-  export const updateNewsletter = (req, res) => {
-    res.json({ message: `Updating newsletter with ID ${req.params.id}...` });
+  export const updateNewsletter = async (req, res) => {
+    try {
+      const { id } = req.params;
+  
+      if (!id) {
+        return res.status(400).json({ message: 'Invalid newsletter ID' });
+      }
+  
+      const existingNewsletter = await Article.findById(id);
+      if (!existingNewsletter) {
+        return res.status(404).json({ message: 'Newsletter not found' });
+      }
+  
+      let updateData = {
+        title: req.body.title,
+        publishDate: new Date(req.body.publishDate),
+        description: req.body.content,
+
+      };
+  
+      // Handle image update if new file is uploaded
+      if (req.file) {
+        // Delete old image from Cloudinary
+        if (existingNewsletter.image) {
+          await deleteFromCloudinary(getPublicIdFromUrl(existingNewsletter.image));
+        }
+        updateData.image = req.file.path;
+      }
+  
+      const updatedNewsletter = await Article.findByIdAndUpdate(
+        id,
+        { $set: updateData },
+        { new: true, runValidators: true }
+      );
+  
+      res.json({
+        success: true,
+        data: updatedNewsletter,
+        message: 'Newsletter updated successfully'
+      });
+    } catch (error) {
+      // Clean up uploaded image if there's an error
+      if (req.file?.path) {
+        await deleteFromCloudinary(getPublicIdFromUrl(req.file.path));
+      }
+  
+      res.status(500).json({
+        success: false,
+        message: 'Error updating newsletter',
+        error: error.message
+      });
+    }
   };
   
-  export const deleteNewsletter = (req, res) => {
-    res.json({ message: `Deleting newsletter with ID ${req.params.id}...` });
+  export const deleteNewsletter = async (req, res) => {
+    try {
+      const { id } = req.params;
+  
+      if (!id) {
+        return res.status(400).json({ message: 'Invalid newsletter ID' });
+      }
+  
+      const newsletter = await Article.findById(id);
+      if (!newsletter) {
+        return res.status(404).json({ message: 'Newsletter not found' });
+      }
+  
+      // Delete image from Cloudinary first
+      if (newsletter.image) {
+        await deleteFromCloudinary(getPublicIdFromUrl(newsletter.image));
+      }
+  
+      // Delete the newsletter document
+      await newsletter.deleteOne();
+  
+      res.json({
+        success: true,
+        message: 'Newsletter deleted successfully'
+      });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: 'Error deleting newsletter',
+        error: error.message
+      });
+    }
   };
   
   export const addStartup = async (req, res) => {

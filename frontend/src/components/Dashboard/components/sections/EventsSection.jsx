@@ -68,9 +68,12 @@ const EventsSection = () => {
     description: '',
     mode: 'OFFLINE',
     image: null,
-    nameUrl: '' // New field for name URL
+    nameUrl: ''
   });
   const [previewUrl, setPreviewUrl] = useState('');
+  const [isAddLoading, setIsAddLoading] = useState(false);
+  const [isEditLoading, setIsEditLoading] = useState(false);
+  const [isDeleteLoading, setIsDeleteLoading] = useState(false);
 
   useEffect(() => {
     fetchEvents();
@@ -114,13 +117,13 @@ const EventsSection = () => {
   const handleAddEvent = async (e) => {
     e.preventDefault();
     try {
-      setIsLoading(true);
+      setIsAddLoading(true);
       const formDataToSend = new FormData();
       formDataToSend.append('title', formData.title);
       formDataToSend.append('date', formData.date);
       formDataToSend.append('description', formData.description);
       formDataToSend.append('mode', formData.mode);
-      formDataToSend.append('nameUrl', formData.nameUrl); // Add nameUrl to form data
+      formDataToSend.append('nameUrl', formData.nameUrl);
       if (formData.image) {
         formDataToSend.append('image', formData.image);
       }
@@ -133,7 +136,7 @@ const EventsSection = () => {
       });
       setIsAddOpen(false);
       resetForm();
-      fetchEvents(); // Fetch events instead of reloading the page
+      fetchEvents();
     } catch (error) {
       notification.error({
         message: 'Error',
@@ -143,20 +146,20 @@ const EventsSection = () => {
       setError('Failed to add event');
       console.error('Error adding event:', error);
     } finally {
-      setIsLoading(false);
+      setIsAddLoading(false);
     }
   };
 
   const handleEditEvent = async (e) => {
     e.preventDefault();
     try {
-      setIsLoading(true);
+      setIsEditLoading(true);
       const formDataToSend = new FormData();
       formDataToSend.append('title', formData.title);
       formDataToSend.append('date', formData.date);
       formDataToSend.append('description', formData.description);
       formDataToSend.append('mode', formData.mode);
-      formDataToSend.append('url', formData.nameUrl); // Add nameUrl to form data
+      formDataToSend.append('url', formData.nameUrl);
       if (formData.image) {
         formDataToSend.append('image', formData.image);
       }
@@ -169,7 +172,7 @@ const EventsSection = () => {
       });
       setIsEditOpen(false);
       resetForm();
-      fetchEvents(); // Fetch events instead of reloading the page
+      fetchEvents();
     } catch (error) {
       notification.error({
         message: 'Error',
@@ -179,13 +182,13 @@ const EventsSection = () => {
       setError('Failed to update event');
       console.error('Error updating event:', error);
     } finally {
-      setIsLoading(false);
+      setIsEditLoading(false);
     }
   };
 
   const handleDeleteEvent = async () => {
     try {
-      setIsLoading(true);
+      setIsDeleteLoading(true);
       await apiRequests.deleteEvent(selectedEvent._id);
       notification.success({
         message: 'Success',
@@ -194,7 +197,7 @@ const EventsSection = () => {
       });
       setIsDeleteOpen(false);
       setSelectedEvent(null);
-      fetchEvents(); // Fetch events instead of reloading the page
+      fetchEvents();
     } catch (error) {
       notification.error({
         message: 'Error',
@@ -204,7 +207,7 @@ const EventsSection = () => {
       setError('Failed to delete event');
       console.error('Error deleting event:', error);
     } finally {
-      setIsLoading(false);
+      setIsDeleteLoading(false);
     }
   };
 
@@ -215,7 +218,7 @@ const EventsSection = () => {
       description: '',
       mode: 'OFFLINE',
       image: null,
-      nameUrl: '' // Reset nameUrl
+      nameUrl: ''
     });
     setPreviewUrl('');
     setSelectedEvent(null);
@@ -275,7 +278,7 @@ const EventsSection = () => {
                       description: event.description,
                       mode: event.mode,
                       image: null,
-                      nameUrl: event.nameUrl // Set nameUrl when editing
+                      nameUrl: event.nameUrl
                     });
                     setPreviewUrl(event.image);
                     setIsEditOpen(true);
@@ -407,10 +410,20 @@ const EventsSection = () => {
               </div>
               <button
                 type="submit"
-                className="w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-blue-300"
-                disabled={isLoading}
+                className="w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-blue-300 flex items-center justify-center"
+                disabled={isAddLoading || isEditLoading}
               >
-                {isLoading ? 'Processing...' : (isAddOpen ? 'Add Event' : 'Update Event')}
+                {isAddLoading || isEditLoading ? (
+                  <>
+                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Processing...
+                  </>
+                ) : (
+                  isAddOpen ? 'Add Event' : 'Update Event'
+                )}
               </button>
             </form>
           </div>
@@ -432,15 +445,23 @@ const EventsSection = () => {
                   setSelectedEvent(null);
                 }}
                 className="px-4 py-2 border rounded-lg hover:bg-gray-50"
+                disabled={isDeleteLoading}
               >
                 Cancel
               </button>
               <button
                 onClick={handleDeleteEvent}
-                className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 disabled:bg-red-300"
-                disabled={isLoading}
+                className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 disabled:bg-red-300 flex items-center justify-center"
+                disabled={isDeleteLoading}
               >
-                {isLoading ? 'Deleting...' : 'Delete'}
+                {isDeleteLoading ? (
+                  <>
+                   
+                    Deleting...
+                  </>
+                ) : (
+                  'Delete'
+                )}
               </button>
             </div>
           </div>
