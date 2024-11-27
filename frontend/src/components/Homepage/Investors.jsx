@@ -39,7 +39,7 @@ const Investors =()=>{
         }
       ];
     return(
-        <div className='px-32'>
+        <div className='px-2 md:px-32'>
             <TeamSection title="Investors" homePage={"true"} members={investors} />
         </div>
           
