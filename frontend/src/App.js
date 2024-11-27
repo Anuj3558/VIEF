@@ -22,6 +22,10 @@ import SchemeDetailPage from "./pages/SchemeDetails";
 import LoginPage from "./pages/Login";
 import ProtectedRoute from "./pages/Protected";
 import NotFound from "./pages/NotFound";
+import Blog from "./pages/Blog"; 
+import Coworking from "./pages/Coworking"; 
+import BlogContentPage from "./pages/BlogContentPage";
+
 
 function App() {
   return (
@@ -46,6 +50,9 @@ function App() {
             <Route path="/apply-now" element={<ApplyNowPage />} />
             <Route path="/startup" element={<StartupsPage />} />
             <Route path="/achievements" element={<Awards />} />
+            <Route path="/Blog" element={<Blog />} />
+            <Route path="/Coworking" element={<Coworking />} />
+            
             <Route
               path="/admin"
               element={<ProtectedRoute element={<Dashboard />} />}

@@ -25,19 +25,26 @@ const Navbar = () => {
   const navItems = [
     { name: "Home", href: "/" },
     { 
-      name: 'About us', 
+      name: 'About us ', 
       href: "", 
       hasDropdown: true,
       dropdownItems: [
         { name: 'Facilities', href: '/facilities' },
         { name: 'Our Team', href: '/about-us' },
-        { name: 'Domains', href: '/innovation-hub' }
+        { name: 'Domains', href: '/innovation-hub' },
+        { name: 'Our Co-working place', href: '/Coworking' }
       ]
     },
     { name: 'Startup', href: '/startup' },
     { name: 'Schemes', href: '/apply-now' },
-    { name: 'Events', href: '/events' },
+    { name: 'Events', href:" ", hasDropdown: true,
+      dropdownItems: [
+        { name: 'Our events', href: '/Events' },
+        { name: 'Ideathon', href: '' },
+        
+      ] },
     { name: 'Achievements', href: '/achievements' },
+     { name: 'Blog', href: '/Blog' },
     { name: 'Career', href: '/career' },
     { name: 'Contact', href: '/contact' },
   ];
@@ -51,7 +58,7 @@ const Navbar = () => {
       >
         <Link
           to={item.href}
-          className={`${textColorClass} px-2 py-1 text-sm font-medium hover:bg-gray-100 rounded transition duration-300`}
+          className={`${textColorClass} px-2 py-1 text-xs font-medium hover:bg-gray-100 rounded transition duration-300`}
         >
           {item.name}
         </Link>
@@ -102,15 +109,15 @@ const Navbar = () => {
             <motion.div whileTap={{ scale: 0.95 }} className="flex space-x-2">
               <Link
                 to="/vief-scholar"
-                className="bg-orange-500 text-white px-4 py-2 rounded text-base font-medium hover:bg-orange-600 transition duration-300"
+                className="bg-orange-500 text-white px-4 py-2 rounded text-xs font-medium hover:bg-orange-600 transition duration-300"
               >
-                VIEF Scholar
+                 VIEF Scholar
               </Link>
               <Link
-                to="/event-ideathon"
-                className="border border-orange-500 text-orange-500 px-4 py-2 rounded text-base font-medium hover:bg-orange-100 transition duration-300"
+                to="/ip"
+                className="border border-orange-500 text-orange-500 px-4 py-2 rounded text-xs font-medium hover:bg-orange-100 transition duration-300"
               >
-                Event Ideathon
+                Intellectual property
               </Link>
             </motion.div>
           </div>
