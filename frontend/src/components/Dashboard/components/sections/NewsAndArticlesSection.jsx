@@ -7,7 +7,7 @@ import { notification } from 'antd';
 import AddButton from '../components/AddButton';
 
 const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_BACKEND_URL,
+  baseURL: process.env.REACT_APP_BACKEND_URL,
 });
 
 const getAccessToken = () => {
@@ -17,7 +17,7 @@ const getAccessToken = () => {
 const apiRequests = {
   getAllNews: () => {
     const accessToken = getAccessToken();
-    return api.get('/client/newsletters', {
+    return api.get('/client/newsletter', {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
@@ -260,7 +260,7 @@ const NewsSection = () => {
             <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
             <p className="text-gray-600 text-sm mb-2">Published: {new Date(item.publishDate).toLocaleDateString()}</p>
             <p className="text-gray-700 mb-2">{item.description.substring(0, 100)}...</p>
-            <p className="text-blue-600 text-sm mb-4">{item.type === 'news' ? 'News' : 'Article'}</p>
+            <p className="text-blue-600 text-sm mb-4">{item.Type === 'news' ? 'News' : 'Article'}</p>
             <div className="flex justify-between items-center">
               <div className="flex gap-2">
                 <button

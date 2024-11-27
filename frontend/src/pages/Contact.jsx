@@ -1,17 +1,29 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { MapPin, Phone, Mail} from 'lucide-react';
+import { 
+  motion 
+} from 'framer-motion';
+import { 
+  MapPin, 
+  Phone, 
+  Mail
+} from 'lucide-react';
+import { 
+  Form, 
+  Input, 
+  Select, 
+  Radio, 
+  Button, 
+  message 
+} from 'antd';
+import axios from 'axios';
 import { contact } from '../Assets/images';
 
+const { TextArea } = Input;
+const { Option } = Select;
+
 const ContactPage = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    message: '',
-    type: 'individual',
-    subject: ''
-  });
+  const [form] = Form.useForm();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const subjects = [
     'Project',
@@ -27,18 +39,31 @@ const ContactPage = () => {
     'Acceleration'
   ];
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prevState => ({
-      ...prevState,
-      [name]: value
-    }));
-  };
+  const handleSubmit = async (values) => {
+    setIsSubmitting(true);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(formData);
-    // Here you would typically send the data to your backend
+    try {
+      // Send data to backend
+      const response = await axios.post('/api/contact/submit-contact', values, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      // Success notification
+      message.success('Message sent successfully!');
+      
+      // Reset form
+      form.resetFields();
+    } catch (error) {
+      // Error notification
+      message.error(
+        error.response?.data?.message || 
+        'Failed to send message. Please try again.'
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -126,112 +151,107 @@ const ContactPage = () => {
             transition={{ duration: 0.5, delay: 0.4 }}
           >
             <div className="bg-white shadow-md rounded-lg p-6">
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 text-left">Full Name</label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-                    placeholder="John Doe"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 text-left mb-2">Type</label>
-                  <div className="flex gap-4">
-                    <label className="inline-flex items-center">
-                      <input
-                        type="radio"
-                        name="type"
-                        value="individual"
-                        checked={formData.type === 'individual'}
-                        onChange={handleChange}
-                        className="form-radio h-4 w-4 text-blue-600"
-                      />
-                      <span className="ml-2">Individual</span>
-                    </label>
-                    <label className="inline-flex items-center">
-                      <input
-                        type="radio"
-                        name="type"
-                        value="company"
-                        checked={formData.type === 'company'}
-                        onChange={handleChange}
-                        className="form-radio h-4 w-4 text-blue-600"
-                      />
-                      <span className="ml-2">Company</span>
-                    </label>
-                  </div>
-                </div>
-
-                <div>
-                  <label htmlFor="subject" className="block text-sm font-medium text-gray-700 text-left">Subject</label>
-                  <select
-                    id="subject"
-                    name="subject"
-                    value={formData.subject}
-                    onChange={handleChange}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-                  >
-                    <option value="">Select a subject</option>
-                    {subjects.map((subject, index) => (
-                      <option key={index} value={subject}>
-                        {subject}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-                    placeholder="john@example.com"
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="phone" className="block text-sm font-medium text-gray-700">Phone Number</label>
-                  <input
-                    type="tel"
-                    id="phone"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-                    placeholder="+1 (555) 000-0000"
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-gray-700">Your Message</label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    rows="4"
-                    value={formData.message}
-                    onChange={handleChange}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-                    placeholder="Type your message here..."
-                  ></textarea>
-                </div>
-
-                <button
-                  type="submit"
-                  className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#1A2587] hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              <Form
+                form={form}
+                layout="vertical"
+                onFinish={handleSubmit}
+                requiredMark={false}
+              >
+                <Form.Item
+                  name="name"
+                  label="Full Name"
+                  rules={[
+                    { 
+                      required: true, 
+                      message: 'Please input your full name!' 
+                    }
+                  ]}
                 >
-                  Send Message
-                </button>
-              </form>
+                  <Input placeholder="John Doe" />
+                </Form.Item>
+
+                <Form.Item
+                  name="type"
+                  label="Type"
+                  initialValue="individual"
+                >
+                  <Radio.Group>
+                    <Radio value="individual">Individual</Radio>
+                    <Radio value="company">Company</Radio>
+                  </Radio.Group>
+                </Form.Item>
+
+                <Form.Item
+                  name="subject"
+                  label="Subject"
+                  rules={[
+                    { 
+                      required: true, 
+                      message: 'Please select a subject!' 
+                    }
+                  ]}
+                >
+                  <Select placeholder="Select a subject">
+                    {subjects.map((subject, index) => (
+                      <Option key={index} value={subject}>
+                        {subject}
+                      </Option>
+                    ))}
+                  </Select>
+                </Form.Item>
+
+                <Form.Item
+                  name="email"
+                  label="Email"
+                  rules={[
+                    { 
+                      required: true, 
+                      message: 'Please input your email!' 
+                    },
+                    { 
+                      type: 'email', 
+                      message: 'Please enter a valid email!' 
+                    }
+                  ]}
+                >
+                  <Input placeholder="john@example.com" />
+                </Form.Item>
+
+                <Form.Item
+                  name="phone"
+                  label="Phone Number"
+                >
+                  <Input placeholder="+1 (555) 000-0000" />
+                </Form.Item>
+
+                <Form.Item
+                  name="message"
+                  label="Your Message"
+                  rules={[
+                    { 
+                      required: true, 
+                      message: 'Please input your message!' 
+                    }
+                  ]}
+                >
+                  <TextArea 
+                    rows={4} 
+                    placeholder="Type your message here..." 
+                  />
+                </Form.Item>
+
+                <Form.Item>
+                  <Button 
+                    type="primary" 
+                    htmlType="submit" 
+                    block 
+                    loading={isSubmitting}
+                    className="bg-[#1A2587] hover:bg-blue-700"
+                  >
+                    Send Message
+                  </Button>
+                </Form.Item>
+              </Form>
             </div>
           </motion.div>
         </div>
@@ -241,4 +261,3 @@ const ContactPage = () => {
 };
 
 export default ContactPage;
-
