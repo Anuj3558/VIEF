@@ -6,7 +6,6 @@ import Cookies from 'js-cookie';
 import { notification } from 'antd';
 import AddButton from '../components/AddButton';
 
-
 const api = axios.create({
   baseURL: process.env.REACT_APP_BACKEND_URL,
 });
@@ -67,7 +66,7 @@ const SchemeSection = () => {
     title: '',
     image: null,
     applyButtonLink: '',
-    deadline: null,
+    deadline: '',
     description: '',
   });
   const [previewUrl, setPreviewUrl] = useState('');
@@ -95,19 +94,17 @@ const SchemeSection = () => {
   };
 
   const handleInputChange = (e) => {
-    const { name, value, files } = e.target;
-    if (name === 'image' && files && files[0]) {
-      setFormData(prev => ({
-        ...prev,
-        image: files[0]
-      }));
-      const url = URL.createObjectURL(files[0]);
-      setPreviewUrl(url);
-    } else if (name === 'deadline') {
-      setFormData(prev => ({
-        ...prev,
-        [name]: new Date(value)
-      }));
+    const { name, value, type } = e.target;
+    if (type === 'file') {
+      const fileInput = e.target;
+      if (fileInput.files && fileInput.files[0]) {
+        setFormData(prev => ({
+          ...prev,
+          image: fileInput.files[0]
+        }));
+        const url = URL.createObjectURL(fileInput.files[0]);
+        setPreviewUrl(url);
+      }
     } else {
       setFormData(prev => ({
         ...prev,
@@ -116,15 +113,22 @@ const SchemeSection = () => {
     }
   };
 
-
   const handleAddScheme = async (e) => {
     e.preventDefault();
+    if (!formData.image) {
+      notification.error({
+        message: 'Error',
+        description: 'Please upload an image for the scheme.',
+        placement: 'topRight',
+      });
+      return;
+    }
     try {
       setIsLoading(true);
       const formDataToSend = new FormData();
       formDataToSend.append('title', formData.title);
       formDataToSend.append('applyButtonLink', formData.applyButtonLink);
-      formDataToSend.append('deadline', formData.deadline.toISOString());
+      formDataToSend.append('deadline', formData.deadline);
       formDataToSend.append('description', formData.description);
       if (formData.image) {
         formDataToSend.append('image', formData.image);
@@ -154,12 +158,21 @@ const SchemeSection = () => {
 
   const handleEditScheme = async (e) => {
     e.preventDefault();
+    if (!selectedScheme) return;
+    if (!formData.image && !previewUrl) {
+      notification.error({
+        message: 'Error',
+        description: 'Please upload an image for the scheme.',
+        placement: 'topRight',
+      });
+      return;
+    }
     try {
       setIsLoading(true);
       const formDataToSend = new FormData();
       formDataToSend.append('title', formData.title);
       formDataToSend.append('applyButtonLink', formData.applyButtonLink);
-      formDataToSend.append('deadline', formData.deadline.toISOString());
+      formDataToSend.append('deadline', formData.deadline);
       formDataToSend.append('description', formData.description);
       if (formData.image) {
         formDataToSend.append('image', formData.image);
@@ -188,6 +201,7 @@ const SchemeSection = () => {
   };
 
   const handleDeleteScheme = async () => {
+    if (!selectedScheme) return;
     try {
       setIsLoading(true);
       await apiRequests.deleteScheme(selectedScheme._id);
@@ -217,7 +231,7 @@ const SchemeSection = () => {
       title: '',
       image: null,
       applyButtonLink: '',
-      deadline: null,
+      deadline: '',
       description: '',
     });
     setPreviewUrl('');
@@ -267,17 +281,9 @@ const SchemeSection = () => {
             <h3 className="text-xl font-semibold mb-2">{scheme.title}</h3>
             <p className="text-gray-600 text-sm mb-2">
               <Calendar className="inline-block mr-2" />
-              Deadline: {scheme.deadline}
+              Deadline: {new Date(scheme.deadline).toLocaleDateString()}
             </p>
             <p className="text-gray-700 mb-4">{scheme.description}</p>
-            <a
-              href={scheme.applyButtonLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-blue-600 hover:underline"
-            >
-              Apply Now
-            </a>
             <div className="flex justify-end gap-2 mt-4">
               <button
                 onClick={() => {
@@ -286,7 +292,7 @@ const SchemeSection = () => {
                     title: scheme.title,
                     image: null,
                     applyButtonLink: scheme.applyButtonLink,
-                    deadline: scheme.deadline,
+                    deadline: new Date(scheme.deadline).toISOString().split('T')[0],
                     description: scheme.description,
                   });
                   setPreviewUrl(scheme.image);
@@ -330,7 +336,9 @@ const SchemeSection = () => {
             </div>
             <form onSubmit={isAddOpen ? handleAddScheme : handleEditScheme} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium mb-1">Image</label>
+                <label className="block text-sm font-medium mb-1">
+                  Image <span className="text-red-500">*</span>
+                </label>
                 <div className="space-y-2">
                   {previewUrl && (
                     <img
@@ -347,7 +355,7 @@ const SchemeSection = () => {
                       accept="image/*"
                       className="hidden"
                       id="image-upload"
-                      required={isAddOpen}
+                      required
                     />
                     <label
                       htmlFor="image-upload"
@@ -386,7 +394,7 @@ const SchemeSection = () => {
                 <input
                   type="date"
                   name="deadline"
-                  value={formData.deadline ? formData.deadline.toISOString().split('T')[0] : ''}
+                  value={formData.deadline}
                   onChange={handleInputChange}
                   className="w-full p-2 border rounded-lg"
                   required
@@ -399,7 +407,7 @@ const SchemeSection = () => {
                   value={formData.description}
                   onChange={handleInputChange}
                   className="w-full p-2 border rounded-lg"
-                  rows="3"
+                  rows={3}
                   required
                 />
               </div>
@@ -424,7 +432,6 @@ const SchemeSection = () => {
               Are you sure you want to delete "{selectedScheme?.title}"? This action cannot be undone.
             </p>
             <div className="flex justify-end gap-4">
-              
               <button
                 onClick={() => {
                   setIsDeleteOpen(false);

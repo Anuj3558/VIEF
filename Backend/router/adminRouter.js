@@ -22,9 +22,6 @@ import {
   createEventDetails,
   updateEventDetails,
   deleteEventDetails,
-  createSchemeDetails,
-  updateSchemeDetails,
-  deleteSchemeDetails,
   createMember,
   updateMember,
   deleteMember
@@ -82,6 +79,13 @@ adminRouter.route('/startups/:id')
 adminRouter.route('/sponsors/:id')
     .put(upload.single('image'), updateSponsor)
     .delete(deleteSponsor);
+adminRouter.route('/schemes')
+    .post(upload.single('image'),createScheme )
+  
+
+adminRouter.route('/schemes/:id')
+    .put(upload.single('image'), updateScheme)
+    .delete(deleteScheme);
 // adminRouter.route('/newsletter').post(createNewsletter);
 // adminRouter.route('/newsletter/:id').put(updateNewsletter).delete(deleteNewsletter);
 

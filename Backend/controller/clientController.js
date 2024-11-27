@@ -107,3 +107,12 @@ export const fetchSchemeDetails = async (req, res) => {
     res.status(500).json({ message: 'Server error while fetching scheme details.' });
   }
 };
+export const fetchContacted= async (req, res) => {
+ 
+};
+export const fetchGallery= async (req, res) => {
+ 
+};
+export const fetchBlog= async (req, res) => {
+ 
+};

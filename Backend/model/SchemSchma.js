@@ -11,7 +11,6 @@ const PreIncubationSchema = new Schema({
   },
   image: {
     type: String,
-    required: true,
     trim: true
   },
   applyButtonLink: {
