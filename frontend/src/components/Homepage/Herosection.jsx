@@ -41,14 +41,14 @@ const Hero = () => {
               >
 VIEF empowers entrepreneurs to overcome challenges and turn their vision into reality. With personalized mentorship, resources, and funding, we ignite your potential to build a successful startup. Join us and shape your future!              </motion.p>
               <motion.div 
-                className="mt-5 sm:mt-8 flex flex-col items-center lg:items-start"
+                className="mt-5 sm:mt-8 flex gap-5 items-center lg:items-start"
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.4 }}
               >
                 <ApplyButton text={"Apply Now"} route={"/apply"} />
                 <motion.div
-                  className="mt-4 flex items-center text-white"
+                  className=" flex mt-1 items-center text-white"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.5, delay: 0.6 }}

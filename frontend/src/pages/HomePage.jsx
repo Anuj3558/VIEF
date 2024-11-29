@@ -12,24 +12,25 @@ import HowToJoinSection from "../components/Homepage/HowtoJoin.jsx";
 
 import EventsSectionHome from "../components/Homepage/OurEvents.jsx";
 import Investors from "../components/Homepage/Investors.jsx";
+import CurrentStartups from "../components/Homepage/CurrentStartups.jsx";
+import SchemeHomePage from "../components/Homepage/SchemeHomePage.jsx";
 
 
 const  HomePage =()=>{
     return (
-      <> 
-      <TrendingEventOverlay />
+      <>
+        <TrendingEventOverlay />
         <Hero />
-        <AnimatedCounters/>
-        <StoriesSection />
+        <AnimatedCounters />
+        <CurrentStartups/>
         <GlimpseOfWork />
         <HowToJoinSection />
-        <ImageCarousel/>
-        
-        <EventsSectionHome  />
+        <ImageCarousel />
+        <StoriesSection />
+        <EventsSectionHome />
+        <SchemeHomePage />
         <Investors />
-        <SupportersSection/>
-        
-       
+        <SupportersSection />
       </>
     );
 }

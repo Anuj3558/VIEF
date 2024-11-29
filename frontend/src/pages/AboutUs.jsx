@@ -99,7 +99,7 @@ export const TeamSection = ({ title, members, homePage }) => {
 
       {/* If homePage is true, redirect to about-us page */}
       {homePage && (
-        <a href="/about-us">
+        <a href="/investors">
           <div className="mt-8 text-center">
             <button className="bg-transparent text-black underline font-bold py-2 px-4 rounded transition duration-300">
               See All
@@ -133,8 +133,11 @@ const AboutUs = () => {
         className="relative pt-36"
       >
         <div
-          className="absolute inset-0 bg-cover bg-center opacity-"
-          style={{ backgroundImage: `url(${AboutUsbg})` }}
+          className="absolute inset-0 bg-cover bg-center bg-black/50"
+          style={{
+            backgroundImage: `url(${AboutUsbg})`,
+            backgroundBlendMode: "multiply", // Adds an additional darkening effect
+          }}
         />
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.h1
@@ -172,9 +175,6 @@ const AboutUs = () => {
         )}
         {mentorsList.length > 0 && (
           <TeamSection title="Mentors" members={mentorsList} />
-        )}
-        {investors.length > 0 && (
-          <TeamSection title="Investors" members={investors} />
         )}
       </main>
     </div>

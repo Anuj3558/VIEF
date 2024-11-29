@@ -1,52 +1,55 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Link, useLocation } from 'react-router-dom';
-import { logoPng } from '../Assets/images';
+import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Link, useLocation } from "react-router-dom";
+import { logoPng } from "../Assets/images";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
   const location = useLocation();
-  
-  const isHomePage = location.pathname === '/';
-  const isAdminPage = location.pathname === '/admin';
-  const textColorClass = 'text-gray-800';
-  const borderColorClass = 'border-gray-200';
+
+  const isHomePage = location.pathname === "/";
+  const isAdminPage = location.pathname === "/admin";
+  const textColorClass = "text-gray-800";
+  const borderColorClass = "border-gray-200";
 
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 1024);
     };
 
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const navItems = [
     { name: "Home", href: "/" },
-    { 
-      name: 'About us ', 
-      href: "", 
+    {
+      name: "About us ",
+      href: "",
       hasDropdown: true,
       dropdownItems: [
-        { name: 'Facilities', href: '/facilities' },
-        { name: 'Our Team', href: '/about-us' },
-        { name: 'Domains', href: '/innovation-hub' },
-        { name: 'Our Co-working place', href: '/Coworking' }
-      ]
+        { name: "Facilities", href: "/facilities" },
+        { name: "Our Team", href: "/about-us" },
+        { name: "Domains", href: "/innovation-hub" },
+        { name: "Our Co-working place", href: "/Coworking" },
+      ],
     },
-    { name: 'Startup', href: '/startup' },
-    { name: 'Schemes', href: '/apply-now' },
-    { name: 'Events', href:" ", hasDropdown: true,
+    { name: "Startup", href: "/startup" },
+    { name: "Schemes", href: "/apply-now" },
+    {
+      name: "Events",
+      href: " ",
+      hasDropdown: true,
       dropdownItems: [
-        { name: 'Our events', href: '/Events' },
-        { name: 'Ideathon', href: '' },
-        
-      ] },
-    { name: 'Achievements', href: '/achievements' },
-     { name: 'Blog', href: '/Blog' },
-    { name: 'Career', href: '/career' },
-    { name: 'Contact', href: '/contact' },
+        { name: "Our events", href: "/Events" },
+        { name: "VIIP", href: "" },
+      ],
+    },
+    { name: "Achievements", href: "/achievements" },
+    { name: "Blog", href: "/Blog" },
+    { name: "Career", href: "/career" },
+    { name: "Contact", href: "/contact" },
   ];
 
   const renderNavItems = (items) =>
@@ -89,7 +92,11 @@ const Navbar = () => {
   if (isAdminPage) return null;
 
   return (
-    <nav className={`py-2 z-20 fixed top-0 left-0 right-0 bg-white shadow-md transition-all duration-300 ${isOpen ? 'h-screen lg:h-auto' : ''}`}>
+    <nav
+      className={`py-2 z-20 fixed top-0 left-0 right-0 bg-white shadow-md transition-all duration-300 ${
+        isOpen ? "h-screen lg:h-auto" : ""
+      }`}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-14">
           {/* Logo on the left */}
@@ -111,7 +118,7 @@ const Navbar = () => {
                 to="/vief-scholar"
                 className="bg-orange-500 text-white px-4 py-2 rounded text-xs font-medium hover:bg-orange-600 transition duration-300"
               >
-                 VIEF Scholar
+                VIEF Scholar
               </Link>
               <Link
                 to="/ip"
@@ -174,7 +181,7 @@ const Navbar = () => {
           <motion.div
             className="lg:hidden bg-white overflow-y-auto max-h-[calc(100vh-3.5rem)]"
             initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
+            animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
           >
@@ -227,4 +234,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-

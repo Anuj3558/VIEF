@@ -25,6 +25,7 @@ import NotFound from "./pages/NotFound";
 import Blog from "./pages/Blog"; 
 import Coworking from "./pages/Coworking"; 
 import BlogContentPage from "./pages/BlogContentPage";
+import Investers from "./pages/InvestersPage";
 
 
 function App() {
@@ -52,7 +53,7 @@ function App() {
             <Route path="/achievements" element={<Awards />} />
             <Route path="/Blog" element={<Blog />} />
             <Route path="/Coworking" element={<Coworking />} />
-            
+            <Route path="/investors" element={<Investers/>}/>
             <Route
               path="/admin"
               element={<ProtectedRoute element={<Dashboard />} />}

@@ -18,7 +18,7 @@ function StoriesSection() {
     {
       title: "NEW STORY",
       subtitle: "Inspiring growth",
-      image: COCA, // Using bgTexture as a placeholder for the third image
+      image: COCA, // Using COCA as a placeholder for the third image
     },
   ];
 
@@ -45,16 +45,16 @@ function StoriesSection() {
   };
 
   return (
-    <motion.div 
+    <motion.div
       className="max-w-6xl mx-auto p-4 sm:p-6 lg:p-8"
       variants={containerVariants}
       initial="hidden"
       animate="visible"
     >
-      <div className="flex flex-col lg:flex-row items-start gap-8">
+      <div className="flex flex-col lg:flex-row items-center lg:items-start gap-8">
         {/* Left Section */}
-        <motion.div 
-          className="lg:w-1/3 flex flex-col justify-start items-start"
+        <motion.div
+          className="w-full lg:w-1/3 flex flex-col justify-start items-center lg:items-start"
           variants={itemVariants}
         >
           <h2 className="text-3xl sm:text-4xl font-bold mb-6 text-center lg:text-left">
@@ -62,20 +62,17 @@ function StoriesSection() {
             <br />
             <span className="text-[#1a237e]">Inspire You</span>
           </h2>
-          <div className="w-full sm:w-auto mb-6">
+          <div className="w-full flex justify-center lg:justify-start mb-6">
             <ApplyButton text={"Explore"} route={"/sucess-story"} />
           </div>
-          
+
           {/* New image below Apply button */}
-          <motion.div
-            className="w-full mt-6"
-            variants={itemVariants}
-          >
+          <motion.div className="w-full mt-6" variants={itemVariants}>
             <div className="relative rounded-2xl overflow-hidden group cursor-pointer">
               <img
                 src={stories[2].image}
                 alt={stories[2].title}
-                className="w-full h-[200px] sm:h-[200px] object-cover transition-transform duration-300 group-hover:scale-105"
+                className="w-full h-[250px] sm:h-[300px] lg:h-[200px] object-cover transition-transform duration-300 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
               <div className="absolute bottom-0 left-0 p-4 text-white">
@@ -87,25 +84,29 @@ function StoriesSection() {
         </motion.div>
 
         {/* Right Section - Stories Grid */}
-        <motion.div 
-          className="grid sm:grid-cols-2 gap-6 flex-1"
+        <motion.div
+          className="grid grid-cols-1 sm:grid-cols-2 gap-6 flex-1 w-full"
           variants={containerVariants}
         >
           {stories.slice(0, 2).map((story, index) => (
             <motion.div
               key={index}
-              className="relative rounded-2xl overflow-hidden group cursor-pointer"
+              className="relative rounded-2xl overflow-hidden group cursor-pointer mx-auto w-full max-w-sm lg:max-w-none"
               variants={itemVariants}
             >
               <img
                 src={story.image}
                 alt={story.title}
-                className="w-full h-[300px] sm:h-[400px] object-cover transition-transform duration-300 group-hover:scale-105"
+                className="w-full h-[250px] sm:h-[300px] lg:h-[400px] object-cover transition-transform duration-300 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
               <div className="absolute bottom-0 left-0 p-4 sm:p-6 text-white">
-                <h3 className="text-lg sm:text-xl font-bold mb-2">{story.title}</h3>
-                <p className="text-xs sm:text-sm opacity-90">{story.subtitle}</p>
+                <h3 className="text-lg sm:text-xl font-bold mb-2">
+                  {story.title}
+                </h3>
+                <p className="text-xs sm:text-sm opacity-90">
+                  {story.subtitle}
+                </p>
               </div>
             </motion.div>
           ))}
@@ -116,4 +117,4 @@ function StoriesSection() {
 }
 
 export default StoriesSection;
-
+  
