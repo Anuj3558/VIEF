@@ -36,7 +36,7 @@ export default function EventsSectionHome() {
   };
 
   const EventSection = ({ title, events }) => (
-    <section className="my-20">
+    <section className="">
       <motion.h2
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}

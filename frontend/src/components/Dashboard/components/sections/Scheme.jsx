@@ -256,7 +256,7 @@ const SchemeSection = () => {
         SCHEMES
       </motion.h1>
       
-    \
+    
 
       <div className="mb-6">
         <AddButton title="SCHEME" onClick={() => setIsAddOpen(true)} />

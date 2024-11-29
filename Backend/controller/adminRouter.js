@@ -8,8 +8,8 @@ import Scheme from "../model/schemeSchema.js";
 import Gallery from "../model/gallery.js";
 import Article from "../model/articleSchema.js";
 import Contact from "../model/ContactSchema.js";
-import Blog from "../model/BlogSchems.js";
 import CoworkingSpace from "../model/coworkingSchema.js";
+import Blog from "../model/BlogSchems.js";
 // adminController.js
 
 export const createEvent = async (req, res) => {
@@ -1034,359 +1034,310 @@ export const deleteContact = async (req, res) => {
     }
 };
 
-// Blog Controllers
-// Blog Controllers
 export const createBlog = async (req, res) => {
     try {
-      if (!req.file) {
-        return res.status(400).json({ message: 'Image file is required' });
-      }
-  
-      const newBlog = new Blog({
-        title: req.body.title,
-        author: req.body.author,
-        date: req.body.date,
-        excerpt: req.body.excerpt,
-        image: req.file.path,
-        content: req.body.content
-      });
-  
-      const savedBlog = await newBlog.save();
-      res.status(201).json({
-        success: true,
-        data: savedBlog,
-        message: 'Blog created successfully'
-      });
-    } catch (error) {
-      // Clean up uploaded image if there's an error
-      if (req.file?.path) {
-        await deleteFromCloudinary(getPublicIdFromUrl(req.file.path));
-      }
-      
-      console.log(error);
-      res.status(500).json({
-        success: false,
-        message: 'Error creating blog',
-        error: error.message
-      });
-    }
-  };
-  
-  export const getAllBlogs = async (req, res) => {
-    try {
-      const blogs = await Blog.find().sort({ date: -1 });
-      res.status(200).json({
-        success: true,
-        data: blogs
-      });
-    } catch (error) {
-      res.status(500).json({
-        success: false,
-        message: 'Error fetching blogs',
-        error: error.message
-      });
-    }
-  };
-  
-  export const getBlogById = async (req, res) => {
-    try {
-      const blog = await Blog.findOne({ id: req.params.id });
-      
-      if (!blog) {
-        return res.status(404).json({ 
-          success: false,
-          message: 'Blog not found' 
-        });
-      }
-      
-      res.status(200).json({
-        success: true,
-        data: blog
-      });
-    } catch (error) {
-      res.status(500).json({
-        success: false,
-        message: 'Error fetching blog',
-        error: error.message
-      });
-    }
-  };
-  
-  export const updateBlog = async (req, res) => {
-    try {
-      const { id } = req.params;
-      
-      if (!id) {
-        return res.status(400).json({ message: 'Invalid blog ID' });
-      }
-  
-      const existingBlog = await Blog.findOne({ id });
-      
-      if (!existingBlog) {
-        return res.status(404).json({ 
-          success: false,
-          message: 'Blog not found' 
-        });
-      }
-  
-      let updateData = {
-        title: req.body.title,
-        author: req.body.author,
-        date: req.body.date,
-        excerpt: req.body.excerpt,
-        content: req.body.content
-      };
-  
-      // Handle image update
-      if (req.file) {
-        // Delete old image from Cloudinary
-        if (existingBlog.image) {
-          await deleteFromCloudinary(getPublicIdFromUrl(existingBlog.image));
+        if (!req.file) {
+            return res.status(400).json({ message: 'Image file is required' });
         }
-        updateData.image = req.file.path;
-      }
-  
-      const updatedBlog = await Blog.findOneAndUpdate(
-        { id },
-        { $set: updateData },
-        { new: true, runValidators: true }
-      );
-  
-      res.status(200).json({
-        success: true,
-        data: updatedBlog,
-        message: 'Blog updated successfully'
-      });
-    } catch (error) {
-      // Clean up uploaded image if there's an error
-      if (req.file?.path) {
-        await deleteFromCloudinary(getPublicIdFromUrl(req.file.path));
-      }
-  
-      res.status(500).json({
-        success: false,
-        message: 'Error updating blog',
-        error: error.message
-      });
-    }
-  };
-  
-  export const deleteBlog = async (req, res) => {
-    try {
-      const { id } = req.params;
-  
-      if (!id) {
-        return res.status(400).json({ message: 'Invalid blog ID' });
-      }
-  
-      const blogToDelete = await Blog.findOne({ id });
-  
-      if (!blogToDelete) {
-        return res.status(404).json({ 
-          success: false,
-          message: 'Blog not found' 
+
+        const newBlog = new Blog({
+            title: req.body.title,
+            author: req.body.author,
+            date: req.body.date,
+            excerpt: req.body.excerpt,
+            content: req.body.content,
+            image: req.file.path
         });
-      }
-  
-      // Delete image from Cloudinary
-      if (blogToDelete.image) {
-        await deleteFromCloudinary(getPublicIdFromUrl(blogToDelete.image));
-      }
-  
-      // Delete the blog
-      await Blog.deleteOne({ id });
-  
-      res.status(200).json({ 
-        success: true,
-        message: 'Blog deleted successfully' 
-      });
-    } catch (error) {
-      res.status(500).json({
-        success: false,
-        message: 'Error deleting blog',
-        error: error.message
-      });
-    }
-  };
-  
-  // Coworking Space Controllers
-  export const createCoworkingSpace = async (req, res) => {
-    try {
-      if (!req.file) {
-        return res.status(400).json({ message: 'Image file is required' });
-      }
-  
-      const newSpace = new CoworkingSpace({
-        name: req.body.name,
-        address: req.body.address,
-        description: req.body.description,
-        amenities: req.body.amenities,
-        image: req.file.path,
-        mapLink: req.body.mapLink
-      });
-  
-      const savedSpace = await newSpace.save();
-      
-      res.status(201).json({
-        success: true,
-        data: savedSpace,
-        message: 'Coworking space created successfully'
-      });
-    } catch (error) {
-      // Clean up uploaded image if there's an error
-      if (req.file?.path) {
-        await deleteFromCloudinary(getPublicIdFromUrl(req.file.path));
-      }
-  
-      console.log(error);
-      res.status(500).json({
-        success: false,
-        message: 'Error creating coworking space',
-        error: error.message
-      });
-    }
-  };
-  
-  export const getAllCoworkingSpaces = async (req, res) => {
-    try {
-      const spaces = await CoworkingSpace.find();
-      
-      res.status(200).json({
-        success: true,
-        data: spaces
-      });
-    } catch (error) {
-      res.status(500).json({
-        success: false,
-        message: 'Error fetching coworking spaces',
-        error: error.message
-      });
-    }
-  };
-  
-  export const getCoworkingSpaceById = async (req, res) => {
-    try {
-      const { id } = req.params;
-  
-      if (!id) {
-        return res.status(400).json({ message: 'Invalid coworking space ID' });
-      }
-  
-      const space = await CoworkingSpace.findOne({ id });
-      
-      if (!space) {
-        return res.status(404).json({ 
-          success: false,
-          message: 'Coworking space not found' 
+
+        const savedBlog = await newBlog.save();
+        
+        res.status(201).json({
+            success: true,
+            data: savedBlog,
+            message: 'Blog article created successfully'
         });
-      }
-      
-      res.status(200).json({
-        success: true,
-        data: space
-      });
     } catch (error) {
-      res.status(500).json({
-        success: false,
-        message: 'Error fetching coworking space',
-        error: error.message
-      });
-    }
-  };
-  
-  export const updateCoworkingSpace = async (req, res) => {
-    try {
-      const { id } = req.params;
-  
-      if (!id) {
-        return res.status(400).json({ message: 'Invalid coworking space ID' });
-      }
-  
-      const existingSpace = await CoworkingSpace.findOne({ id });
-      
-      if (!existingSpace) {
-        return res.status(404).json({ 
-          success: false,
-          message: 'Coworking space not found' 
-        });
-      }
-  
-      let updateData = {
-        name: req.body.name,
-        address: req.body.address,
-        description: req.body.description,
-        amenities: req.body.amenities,
-        mapLink: req.body.mapLink
-      };
-  
-      // Handle image update
-      if (req.file) {
-        // Delete old image from Cloudinary
-        if (existingSpace.image) {
-          await deleteFromCloudinary(getPublicIdFromUrl(existingSpace.image));
+        // Clean up uploaded image if there's an error
+        if (req.file?.path) {
+            await deleteFromCloudinary(getPublicIdFromUrl(req.file.path));
         }
-        updateData.image = req.file.path;
-      }
-  
-      const updatedSpace = await CoworkingSpace.findOneAndUpdate(
-        { id },
-        { $set: updateData },
-        { new: true, runValidators: true }
-      );
-  
-      res.status(200).json({
-        success: true,
-        data: updatedSpace,
-        message: 'Coworking space updated successfully'
-      });
-    } catch (error) {
-      // Clean up uploaded image if there's an error
-      if (req.file?.path) {
-        await deleteFromCloudinary(getPublicIdFromUrl(req.file.path));
-      }
-  
-      res.status(500).json({
-        success: false,
-        message: 'Error updating coworking space',
-        error: error.message
-      });
-    }
-  };
-  
-  export const deleteCoworkingSpace = async (req, res) => {
-    try {
-      const { id } = req.params;
-  
-      if (!id) {
-        return res.status(400).json({ message: 'Invalid coworking space ID' });
-      }
-  
-      const spaceToDelete = await CoworkingSpace.findOne({ id });
-  
-      if (!spaceToDelete) {
-        return res.status(404).json({ 
-          success: false,
-          message: 'Coworking space not found' 
+        console.log(error);
+        res.status(500).json({
+            success: false,
+            message: 'Error creating blog article',
+            error: error.message
         });
-      }
-  
-      // Delete image from Cloudinary
-      if (spaceToDelete.image) {
-        await deleteFromCloudinary(getPublicIdFromUrl(spaceToDelete.image));
-      }
-  
-      // Delete the coworking space
-      await CoworkingSpace.deleteOne({ id });
-  
-      res.status(200).json({ 
-        success: true,
-        message: 'Coworking space deleted successfully' 
-      });
-    } catch (error) {
-      res.status(500).json({
-        success: false,
-        message: 'Error deleting coworking space',
-        error: error.message
-      });
     }
-  };
+};
+
+export const updateBlog = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        if (!id) {
+            return res.status(400).json({ message: 'Invalid blog article ID' });
+        }
+
+        const existingBlog = await Blog.findById(id);
+        if (!existingBlog) {
+            return res.status(404).json({ message: 'Blog article not found' });
+        }
+
+        let updateData = {
+            title: req.body.title,
+            author: req.body.author,
+            date: req.body.date,
+            excerpt: req.body.excerpt,
+            content: req.body.content
+        };
+
+        // Handle image update if new file is uploaded
+        if (req.file) {
+            // Delete old image from Cloudinary
+            if (existingBlog.image) {
+                await deleteFromCloudinary(getPublicIdFromUrl(existingBlog.image));
+            }
+            updateData.image = req.file.path;
+        }
+
+        const updatedBlog = await Blog.findByIdAndUpdate(
+            id,
+            { $set: updateData },
+            { new: true, runValidators: true }
+        );
+
+        res.json({
+            success: true,
+            data: updatedBlog,
+            message: 'Blog article updated successfully'
+        });
+    } catch (error) {
+        // Clean up uploaded image if there's an error
+        if (req.file?.path) {
+            await deleteFromCloudinary(getPublicIdFromUrl(req.file.path));
+        }
+
+        res.status(500).json({
+            success: false,
+            message: 'Error updating blog article',
+            error: error.message
+        });
+    }
+};
+
+export const createCoworking = async (req, res) => {
+    try {
+        // Validate required fields
+        const { name, address, description, mapLink } = req.body;
+        if (!name || !address || !description || !mapLink) {
+            return res.status(400).json({ 
+                success: false, 
+                message: 'Missing required fields' 
+            });
+        }
+
+        // Validate image
+        if (!req.file) {
+            return res.status(400).json({ 
+                success: false,
+                message: 'Image file is required' 
+            });
+        }
+
+        // Prepare amenities
+        const amenities = req.body.amenities 
+            ? req.body.amenities.split(',').map(amenity => amenity.trim()).filter(Boolean)
+            : [];
+
+        // Create new coworking space
+        const newCoworkingSpace = new CoworkingSpace({
+            name,
+            address,
+            description,
+            amenities,
+            image: req.file.path,
+            mapLink
+        });
+
+        // Save the new coworking space
+        const savedCoworkingSpace = await newCoworkingSpace.save();
+        
+        res.status(201).json({
+            success: true,
+            data: savedCoworkingSpace,
+            message: 'Coworking space added successfully'
+        });
+    } catch (error) {
+        // Clean up uploaded image if there's an error
+        if (req.file?.path) {
+            try {
+                await deleteFromCloudinary(getPublicIdFromUrl(req.file.path));
+            } catch (cleanupError) {
+                console.error('Error cleaning up image:', cleanupError);
+            }
+        }
+
+        // Log the full error for debugging
+        console.error('Create coworking space error:', error);
+
+        res.status(500).json({
+            success: false,
+            message: 'Error adding coworking space',
+            error: error.message
+        });
+    }
+};
+
+export const updateCoworking = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        // Validate ID
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({ 
+                success: false,
+                message: 'Invalid coworking space ID' 
+            });
+        }
+
+        // Find existing coworking space
+        const existingCoworkingSpace = await CoworkingSpace.findById(id);
+        if (!existingCoworkingSpace) {
+            return res.status(404).json({ 
+                success: false,
+                message: 'Coworking space not found' 
+            });
+        }
+
+        // Prepare update data
+        const updateData = {
+            name: req.body.name || existingCoworkingSpace.name,
+            address: req.body.address || existingCoworkingSpace.address,
+            description: req.body.description || existingCoworkingSpace.description,
+            mapLink: req.body.mapLink || existingCoworkingSpace.mapLink,
+            amenities: req.body.amenities 
+                ? req.body.amenities.split(',').map(amenity => amenity.trim()).filter(Boolean)
+                : existingCoworkingSpace.amenities
+        };
+
+        // Handle image update
+        let oldImagePath = null;
+        if (req.file) {
+            // Delete old image from Cloudinary if it exists
+            if (existingCoworkingSpace.image) {
+                oldImagePath = existingCoworkingSpace.image;
+                await deleteFromCloudinary(getPublicIdFromUrl(oldImagePath));
+            }
+            updateData.image = req.file.path;
+        }
+
+        // Update the coworking space
+        const updatedCoworkingSpace = await CoworkingSpace.findByIdAndUpdate(
+            id,
+            { $set: updateData },
+            { new: true, runValidators: true }
+        );
+
+        res.json({
+            success: true,
+            data: updatedCoworkingSpace,
+            message: 'Coworking space updated successfully'
+        });
+    } catch (error) {
+        // Clean up newly uploaded image if there's an error
+        if (req.file?.path) {
+            try {
+                await deleteFromCloudinary(getPublicIdFromUrl(req.file.path));
+            } catch (cleanupError) {
+                console.error('Error cleaning up image:', cleanupError);
+            }
+        }
+
+        // Log the full error for debugging
+        console.error('Update coworking space error:', error);
+
+        res.status(500).json({
+            success: false,
+            message: 'Error updating coworking space',
+            error: error.message
+        });
+    }
+};
+
+export const deleteCoworking = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        // Validate ID
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({ 
+                success: false,
+                message: 'Invalid coworking space ID' 
+            });
+        }
+
+        // Find the coworking space
+        const coworkingSpace = await CoworkingSpace.findById(id);
+        if (!coworkingSpace) {
+            return res.status(404).json({ 
+                success: false,
+                message: 'Coworking space not found' 
+            });
+        }
+
+        // Delete image from Cloudinary first
+        if (coworkingSpace.image) {
+            await deleteFromCloudinary(getPublicIdFromUrl(coworkingSpace.image));
+        }
+
+        // Delete the coworking space document
+        await coworkingSpace.deleteOne();
+
+        res.json({
+            success: true,
+            message: 'Coworking space deleted successfully'
+        });
+    } catch (error) {
+        // Log the full error for debugging
+        console.error('Delete coworking space error:', error);
+
+        res.status(500).json({
+            success: false,
+            message: 'Error deleting coworking space',
+            error: error.message
+        });
+    }
+};
+export const deleteBlog = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        if (!id) {
+            return res.status(400).json({ message: 'Invalid blog article ID' });
+        }
+
+        const blog = await Blog.findById(id);
+        if (!blog) {
+            return res.status(404).json({ message: 'Blog article not found' });
+        }
+
+        // Delete image from Cloudinary first
+        if (blog.image) {
+            await deleteFromCloudinary(getPublicIdFromUrl(blog.image));
+        }
+
+        // Delete the blog article document
+        await blog.deleteOne();
+
+        res.json({
+            success: true,
+            message: 'Blog article deleted successfully'
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: 'Error deleting blog article',
+            error: error.message
+        });
+    }
+};
