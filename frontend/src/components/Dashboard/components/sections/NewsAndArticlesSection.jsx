@@ -388,7 +388,7 @@ const NewsSection = () => {
               </div>
               {isAddOpen && (
                 <div>
-                  <label className="block text-sm font-medium mb-1">Type</label>
+                  <label className="block text-sm mt-20 font-medium mb-1">Type</label>
                   <div className="flex gap-4">
                     <label className="inline-flex items-center">
                       <input

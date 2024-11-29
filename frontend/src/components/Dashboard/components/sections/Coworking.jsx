@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Search, X, Upload } from 'lucide-react';
+import { X, Upload } from 'lucide-react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { Card, notification } from 'antd';
+import { notification } from 'antd';
+
 import AddButton from '../components/AddButton';
+import CoworkingSpaceCard from '../components/CoworkingSpaceCardProps';
 
 const api = axios.create({
   baseURL: process.env.REACT_APP_BACKEND_URL,
@@ -15,28 +17,18 @@ const getAccessToken = () => {
 };
 
 const apiRequests = {
-  getAllSpaces: () => {
+  getAllCoworkingSpaces: () => {
     const accessToken = getAccessToken();
-    return api.get('client/coworking-spaces', {
+    return api.get('/client/coworking-spaces', {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     });
   },
 
-  createSpace: (formData) => {
+  createCoworkingSpace: (formData) => {
     const accessToken = getAccessToken();
-    return api.post('admin/coworking-spaces', formData, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-  },
-
-  updateSpace: (id, formData) => {
-    const accessToken = getAccessToken();
-    return api.put(`admin/coworking-spaces/${id}`, formData, {
+    return api.post('/admin/coworking-spaces', formData, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
         'Content-Type': 'multipart/form-data',
@@ -44,9 +36,19 @@ const apiRequests = {
     });
   },
 
-  deleteSpace: (id) => {
+  updateCoworkingSpace: (id, formData) => {
     const accessToken = getAccessToken();
-    return api.delete(`admin/coworking-spaces/${id}`, {
+    return api.put(`/admin/coworking-spaces/${id}`, formData, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+  },
+
+  deleteCoworkingSpace: (id) => {
+    const accessToken = getAccessToken();
+    return api.delete(`/admin/coworking-spaces/${id}`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
@@ -54,8 +56,8 @@ const apiRequests = {
   },
 };
 
-const CoworkingSpacesSection = () => {
-  const [spaces, setSpaces] = useState([]);
+const CoworkingSection = () => {
+  const [coworkingSpaces, setCoworkingSpaces] = useState([]);
   const [isAddOpen, setIsAddOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
@@ -66,22 +68,21 @@ const CoworkingSpacesSection = () => {
     name: '',
     address: '',
     description: '',
-    amenities: '',
+    amenities: [],
     image: null,
     mapLink: '',
   });
   const [previewUrl, setPreviewUrl] = useState('');
 
   useEffect(() => {
-    fetchSpaces();
+    fetchCoworkingSpaces();
   }, []);
 
-  const fetchSpaces = async () => {
+  const fetchCoworkingSpaces = async () => {
     try {
       setIsLoading(true);
-      const response = await apiRequests.getAllSpaces();
-      setSpaces(response.data);
-      console.log(spaces)
+      const response = await apiRequests.getAllCoworkingSpaces();
+      setCoworkingSpaces(response.data);
     } catch (error) {
       setError('Failed to fetch coworking spaces');
       notification.error({
@@ -90,6 +91,105 @@ const CoworkingSpacesSection = () => {
         placement: 'topRight',
       });
       console.error('Error fetching coworking spaces:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleAddCoworkingSpace = async (e) => {
+    e.preventDefault();
+    try {
+      setIsLoading(true);
+      const formDataToSend = new FormData();
+      Object.keys(formData).forEach(key => {
+        if (key === 'image' && formData[key]) {
+          formDataToSend.append(key, formData[key]);
+        } else if (key === 'amenities') {
+          formDataToSend.append(key, JSON.stringify(formData[key]));
+        } else {
+          formDataToSend.append(key, formData[key]);
+        }
+      });
+
+      await apiRequests.createCoworkingSpace(formDataToSend);
+      notification.success({
+        message: 'Success',
+        description: 'Coworking space added successfully',
+        placement: 'topRight',
+      });
+      setIsAddOpen(false);
+      resetForm();
+      fetchCoworkingSpaces();
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Failed to add coworking space',
+        placement: 'topRight',
+      });
+      setError('Failed to add coworking space');
+      console.error('Error adding coworking space:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleEditCoworkingSpace = async (e) => {
+    e.preventDefault();
+    try {
+      setIsLoading(true);
+      const formDataToSend = new FormData();
+      Object.keys(formData).forEach(key => {
+        if (key === 'image' && formData[key]) {
+          formDataToSend.append(key, formData[key]);
+        } else if (key === 'amenities') {
+          formDataToSend.append(key, JSON.stringify(formData[key]));
+        } else {
+          formDataToSend.append(key, formData[key]);
+        }
+      });
+
+      await apiRequests.updateCoworkingSpace(selectedSpace._id, formDataToSend);
+      notification.success({
+        message: 'Success',
+        description: 'Coworking space updated successfully',
+        placement: 'topRight',
+      });
+      setIsEditOpen(false);
+      resetForm();
+      fetchCoworkingSpaces();
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Failed to update coworking space',
+        placement: 'topRight',
+      });
+      setError('Failed to update coworking space');
+      console.error('Error updating coworking space:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleDeleteCoworkingSpace = async () => {
+    try {
+      setIsLoading(true);
+      await apiRequests.deleteCoworkingSpace(selectedSpace._id);
+      notification.success({
+        message: 'Success',
+        description: 'Coworking space deleted successfully',
+        placement: 'topRight',
+      });
+      setIsDeleteOpen(false);
+      setSelectedSpace(null);
+      fetchCoworkingSpaces();
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Failed to delete coworking space',
+        placement: 'topRight',
+      });
+      setError('Failed to delete coworking space');
+      console.error('Error deleting coworking space:', error);
     } finally {
       setIsLoading(false);
     }
@@ -117,107 +217,12 @@ const CoworkingSpacesSection = () => {
     }
   };
 
-  const handleAddSpace = async (e) => {
-    e.preventDefault();
-    try {
-      setIsLoading(true);
-      const formDataToSend = new FormData();
-      Object.keys(formData).forEach(key => {
-        if (key === 'amenities') {
-          formDataToSend.append(key, JSON.stringify(formData[key]));
-        } else {
-          formDataToSend.append(key, formData[key]);
-        }
-      });
-
-      await apiRequests.createSpace(formDataToSend);
-      notification.success({
-        message: 'Success',
-        description: 'Coworking space added successfully',
-        placement: 'topRight',
-      });
-      setIsAddOpen(false);
-      resetForm();
-      fetchSpaces();
-    } catch (error) {
-      notification.error({
-        message: 'Error',
-        description: 'Failed to add coworking space',
-        placement: 'topRight',
-      });
-      setError('Failed to add coworking space');
-      console.error('Error adding coworking space:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleEditSpace = async (e) => {
-    e.preventDefault();
-    try {
-      setIsLoading(true);
-      const formDataToSend = new FormData();
-      Object.keys(formData).forEach(key => {
-        if (key === 'amenities') {
-          formDataToSend.append(key, JSON.stringify(formData[key]));
-        } else {
-          formDataToSend.append(key, formData[key]);
-        }
-      });
-
-      await apiRequests.updateSpace(selectedSpace._id, formDataToSend);
-      notification.success({
-        message: 'Success',
-        description: 'Coworking space updated successfully',
-        placement: 'topRight',
-      });
-      setIsEditOpen(false);
-      resetForm();
-      fetchSpaces();
-    } catch (error) {
-      notification.error({
-        message: 'Error',
-        description: 'Failed to update coworking space',
-        placement: 'topRight',
-      });
-      setError('Failed to update coworking space');
-      console.error('Error updating coworking space:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleDeleteSpace = async () => {
-    try {
-      setIsLoading(true);
-      await apiRequests.deleteSpace(selectedSpace._id);
-      notification.success({
-        message: 'Success',
-        description: 'Coworking space deleted successfully',
-        placement: 'topRight',
-      });
-      setIsDeleteOpen(false);
-      setSelectedSpace(null);
-      fetchSpaces();
-    } catch (error) {
-      notification.error({
-        message: 'Error',
-        description: 'Failed to delete coworking space',
-        placement: 'topRight',
-      });
-      setError('Failed to delete coworking space');
-      console.error('Error deleting coworking space:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   const resetForm = () => {
     setFormData({
       name: '',
       address: '',
       description: '',
-      amenities: '',
+      amenities: [],
       image: null,
       mapLink: '',
     });
@@ -225,7 +230,7 @@ const CoworkingSpacesSection = () => {
     setSelectedSpace(null);
   };
 
-  if (isLoading && !spaces.length) {
+  if (isLoading && !coworkingSpaces.length) {
     return <div className="p-6">Loading...</div>;
   }
 
@@ -234,7 +239,7 @@ const CoworkingSpacesSection = () => {
   }
 
   return (
-    <div className="p-6">
+    <div className="p-6 max-h-[100vh] overflow-y-auto">
       <motion.h1 
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -242,57 +247,34 @@ const CoworkingSpacesSection = () => {
       >
         COWORKING SPACES
       </motion.h1>
-      
-      <div className="mb-6">
+
+      <div className="my-6">
         <AddButton title="COWORKING SPACE" onClick={() => setIsAddOpen(true)} />
       </div>
 
-      <motion.div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {spaces.map((space) => (
-          <Card
+      <motion.div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {coworkingSpaces.map((space) => (
+          <CoworkingSpaceCard
             key={space._id}
-            cover={
-              <img
-                alt={space.name}
-                src={space.image}
-                className="h-48 object-cover"
-              />
-            }
-            actions={[
-              <button onClick={() => {
-                setSelectedSpace(space);
-                setFormData({
-                  name: space.name,
-                  address: space.address,
-                  description: space.description,
-                  amenities: space.amenities.join(', '),
-                  image: null,
-                  mapLink: space.mapLink,
-                });
-                setPreviewUrl(space.image);
-                setIsEditOpen(true);
-              }}>
-                <Search className="w-5 h-5" />
-              </button>,
-              <button onClick={() => {
-                setSelectedSpace(space);
-                setIsDeleteOpen(true);
-              }}>
-                <X className="w-5 h-5" />
-              </button>,
-            ]}
-          >
-            <Card.Meta
-              title={space.name}
-              description={
-                <>
-                  <p><strong>Address:</strong> {space.address}</p>
-                  <p><strong>Description:</strong> {space.description}</p>
-                  <p><strong>Amenities:</strong> {space.amenities.join(', ')}</p>
-                </>
-              }
-            />
-          </Card>
+            space={space}
+            onEdit={() => {
+              setSelectedSpace(space);
+              setFormData({
+                name: space.name,
+                address: space.address,
+                description: space.description,
+                amenities: space.amenities,
+                image: null,
+                mapLink: space.mapLink,
+              });
+              setPreviewUrl(space.image);
+              setIsEditOpen(true);
+            }}
+            onRemove={() => {
+              setSelectedSpace(space);
+              setIsDeleteOpen(true);
+            }}
+          />
         ))}
       </motion.div>
 
@@ -304,47 +286,17 @@ const CoworkingSpacesSection = () => {
               <h2 className="text-xl font-semibold">
                 {isAddOpen ? 'Add New Coworking Space' : 'Edit Coworking Space'}
               </h2>
-              <button
+              <button 
                 onClick={() => {
                   isAddOpen ? setIsAddOpen(false) : setIsEditOpen(false);
                   resetForm();
-                }}
+                }} 
                 className="p-1"
               >
                 <X className="w-6 h-6" />
               </button>
             </div>
-            <form onSubmit={isAddOpen ? handleAddSpace : handleEditSpace} className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium mb-1">Space Image</label>
-                <div className="space-y-2">
-                  {previewUrl && (
-                    <img
-                      src={previewUrl}
-                      alt="Preview"
-                      className="w-full h-48 object-cover rounded-lg"
-                    />
-                  )}
-                  <div className="relative">
-                    <input
-                      type="file"
-                      name="image"
-                      onChange={handleInputChange}
-                      accept="image/*"
-                      className="hidden"
-                      id="image-upload"
-                      required={isAddOpen}
-                    />
-                    <label
-                      htmlFor="image-upload"
-                      className="flex items-center justify-center w-full p-2 border-2 border-dashed rounded-lg cursor-pointer hover:border-blue-500"
-                    >
-                      <Upload className="w-5 h-5 mr-2" />
-                      <span>{formData.image ? 'Change Image' : 'Upload Image'}</span>
-                    </label>
-                  </div>
-                </div>
-              </div>
+            <form onSubmit={isAddOpen ? handleAddCoworkingSpace : handleEditCoworkingSpace} className="space-y-4">
               <div>
                 <label className="block text-sm font-medium mb-1">Name</label>
                 <input
@@ -374,7 +326,7 @@ const CoworkingSpacesSection = () => {
                   value={formData.description}
                   onChange={handleInputChange}
                   className="w-full p-2 border rounded-lg"
-                  rows={3}
+                  rows="3"
                   required
                 />
               </div>
@@ -383,11 +335,10 @@ const CoworkingSpacesSection = () => {
                 <input
                   type="text"
                   name="amenities"
-                  value={formData.amenities}
+                  value={formData.amenities.join(', ')}
                   onChange={handleInputChange}
                   className="w-full p-2 border rounded-lg"
-                  placeholder="Wi-Fi, Meeting Rooms, Coffee"
-                  required
+                  placeholder="e.g. WiFi, Coffee, Meeting Rooms"
                 />
               </div>
               <div>
@@ -398,9 +349,38 @@ const CoworkingSpacesSection = () => {
                   value={formData.mapLink}
                   onChange={handleInputChange}
                   className="w-full p-2 border rounded-lg"
-                  placeholder="https://maps.google.com/..."
                   required
                 />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">Image</label>
+                <div className="space-y-2">
+                  {previewUrl && (
+                    <img 
+                      src={previewUrl} 
+                      alt="Preview" 
+                      className="w-full h-40 object-cover rounded-lg"
+                    />
+                  )}
+                  <div className="relative">
+                    <input
+                      type="file"
+                      name="image"
+                      onChange={handleInputChange}
+                      accept="image/*"
+                      className="hidden"
+                      id="image-upload"
+                      required={isAddOpen}
+                    />
+                    <label
+                      htmlFor="image-upload"
+                      className="flex items-center justify-center w-full p-2 border-2 border-dashed rounded-lg cursor-pointer hover:border-blue-500"
+                    >
+                      <Upload className="w-5 h-5 mr-2" />
+                      <span>{formData.image ? 'Change Image' : 'Upload Image'}</span>
+                    </label>
+                  </div>
+                </div>
               </div>
               <button
                 type="submit"
@@ -420,7 +400,7 @@ const CoworkingSpacesSection = () => {
           <div className="bg-white rounded-lg p-6 w-full max-w-md">
             <h2 className="text-xl font-semibold mb-4">Confirm Delete</h2>
             <p className="mb-6">
-              Are you sure you want to remove {selectedSpace?.name} from the coworking spaces list? This action cannot be undone.
+              Are you sure you want to delete "{selectedSpace?.name}"? This action cannot be undone.
             </p>
             <div className="flex justify-end gap-4">
               <button
@@ -433,7 +413,7 @@ const CoworkingSpacesSection = () => {
                 Cancel
               </button>
               <button
-                onClick={handleDeleteSpace}
+                onClick={handleDeleteCoworkingSpace}
                 className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 disabled:bg-red-300"
                 disabled={isLoading}
               >
@@ -447,4 +427,5 @@ const CoworkingSpacesSection = () => {
   );
 };
 
-export default CoworkingSpacesSection;
+export default CoworkingSection;
+

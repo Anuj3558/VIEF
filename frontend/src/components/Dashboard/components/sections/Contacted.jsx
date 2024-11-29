@@ -97,7 +97,7 @@ const ContactsSection = () => {
       Name: contact.name,
       Email: contact.email,
       Phone: contact.phone,
-      Company: contact.company,
+      type:contact.type,
       Message: contact.message
     }));
 
@@ -190,7 +190,7 @@ const ContactsSection = () => {
                 className="mt-2 space-y-2"
               >
                 <p className="text-gray-700"><strong>Phone:</strong> {contact.phone}</p>
-                <p className="text-gray-700"><strong>Company:</strong> {contact.company}</p>
+                <p className="text-gray-700"><strong>Company:</strong> {contact.type}</p>
                 <p className="text-gray-700"><strong>Message:</strong> {contact.message}</p>
               </motion.div>
             )}

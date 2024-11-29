@@ -51,7 +51,7 @@ const Dashboard = () => {
       <motion.main 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="flex-1 p-4 lg:p-8 overflow-auto"
+        className="flex-1 p-4 lg:p-8 max-h-[100vh] overflow-auto"
       >
         <AnimatePresence mode="wait">
           <motion.div

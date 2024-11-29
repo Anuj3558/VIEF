@@ -1127,19 +1127,39 @@ export const updateBlog = async (req, res) => {
 
 export const createCoworking = async (req, res) => {
     try {
-        if (!req.file) {
-            return res.status(400).json({ message: 'Image file is required' });
+        // Validate required fields
+        const { name, address, description, mapLink } = req.body;
+        if (!name || !address || !description || !mapLink) {
+            return res.status(400).json({ 
+                success: false, 
+                message: 'Missing required fields' 
+            });
         }
 
+        // Validate image
+        if (!req.file) {
+            return res.status(400).json({ 
+                success: false,
+                message: 'Image file is required' 
+            });
+        }
+
+        // Prepare amenities
+        const amenities = req.body.amenities 
+            ? req.body.amenities.split(',').map(amenity => amenity.trim()).filter(Boolean)
+            : [];
+
+        // Create new coworking space
         const newCoworkingSpace = new CoworkingSpace({
-            name: req.body.name,
-            address: req.body.address,
-            description: req.body.description,
-            amenities: req.body.amenities ? req.body.amenities.split(',') : [],
+            name,
+            address,
+            description,
+            amenities,
             image: req.file.path,
-            mapLink: req.body.mapLink
+            mapLink
         });
 
+        // Save the new coworking space
         const savedCoworkingSpace = await newCoworkingSpace.save();
         
         res.status(201).json({
@@ -1150,9 +1170,16 @@ export const createCoworking = async (req, res) => {
     } catch (error) {
         // Clean up uploaded image if there's an error
         if (req.file?.path) {
-            await deleteFromCloudinary(getPublicIdFromUrl(req.file.path));
+            try {
+                await deleteFromCloudinary(getPublicIdFromUrl(req.file.path));
+            } catch (cleanupError) {
+                console.error('Error cleaning up image:', cleanupError);
+            }
         }
-        console.log(error);
+
+        // Log the full error for debugging
+        console.error('Create coworking space error:', error);
+
         res.status(500).json({
             success: false,
             message: 'Error adding coworking space',
@@ -1165,32 +1192,46 @@ export const updateCoworking = async (req, res) => {
     try {
         const { id } = req.params;
 
-        if (!id) {
-            return res.status(400).json({ message: 'Invalid coworking space ID' });
+        // Validate ID
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({ 
+                success: false,
+                message: 'Invalid coworking space ID' 
+            });
         }
 
+        // Find existing coworking space
         const existingCoworkingSpace = await CoworkingSpace.findById(id);
         if (!existingCoworkingSpace) {
-            return res.status(404).json({ message: 'Coworking space not found' });
+            return res.status(404).json({ 
+                success: false,
+                message: 'Coworking space not found' 
+            });
         }
 
-        let updateData = {
-            name: req.body.name,
-            address: req.body.address,
-            description: req.body.description,
-            amenities: req.body.amenities ? req.body.amenities.split(',') : existingCoworkingSpace.amenities,
-            mapLink: req.body.mapLink
+        // Prepare update data
+        const updateData = {
+            name: req.body.name || existingCoworkingSpace.name,
+            address: req.body.address || existingCoworkingSpace.address,
+            description: req.body.description || existingCoworkingSpace.description,
+            mapLink: req.body.mapLink || existingCoworkingSpace.mapLink,
+            amenities: req.body.amenities 
+                ? req.body.amenities.split(',').map(amenity => amenity.trim()).filter(Boolean)
+                : existingCoworkingSpace.amenities
         };
 
-        // Handle image update if new file is uploaded
+        // Handle image update
+        let oldImagePath = null;
         if (req.file) {
-            // Delete old image from Cloudinary
+            // Delete old image from Cloudinary if it exists
             if (existingCoworkingSpace.image) {
-                await deleteFromCloudinary(getPublicIdFromUrl(existingCoworkingSpace.image));
+                oldImagePath = existingCoworkingSpace.image;
+                await deleteFromCloudinary(getPublicIdFromUrl(oldImagePath));
             }
             updateData.image = req.file.path;
         }
 
+        // Update the coworking space
         const updatedCoworkingSpace = await CoworkingSpace.findByIdAndUpdate(
             id,
             { $set: updateData },
@@ -1203,10 +1244,17 @@ export const updateCoworking = async (req, res) => {
             message: 'Coworking space updated successfully'
         });
     } catch (error) {
-        // Clean up uploaded image if there's an error
+        // Clean up newly uploaded image if there's an error
         if (req.file?.path) {
-            await deleteFromCloudinary(getPublicIdFromUrl(req.file.path));
+            try {
+                await deleteFromCloudinary(getPublicIdFromUrl(req.file.path));
+            } catch (cleanupError) {
+                console.error('Error cleaning up image:', cleanupError);
+            }
         }
+
+        // Log the full error for debugging
+        console.error('Update coworking space error:', error);
 
         res.status(500).json({
             success: false,
@@ -1219,15 +1267,22 @@ export const updateCoworking = async (req, res) => {
 export const deleteCoworking = async (req, res) => {
     try {
         const { id } = req.params;
-        console.log(id)
 
-        if (!id) {
-            return res.status(400).json({ message: 'Invalid coworking space ID' });
+        // Validate ID
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({ 
+                success: false,
+                message: 'Invalid coworking space ID' 
+            });
         }
 
+        // Find the coworking space
         const coworkingSpace = await CoworkingSpace.findById(id);
         if (!coworkingSpace) {
-            return res.status(404).json({ message: 'Coworking space not found' });
+            return res.status(404).json({ 
+                success: false,
+                message: 'Coworking space not found' 
+            });
         }
 
         // Delete image from Cloudinary first
@@ -1243,7 +1298,9 @@ export const deleteCoworking = async (req, res) => {
             message: 'Coworking space deleted successfully'
         });
     } catch (error) {
-        console.log(error)
+        // Log the full error for debugging
+        console.error('Delete coworking space error:', error);
+
         res.status(500).json({
             success: false,
             message: 'Error deleting coworking space',
@@ -1251,7 +1308,6 @@ export const deleteCoworking = async (req, res) => {
         });
     }
 };
-
 export const deleteBlog = async (req, res) => {
     try {
         const { id } = req.params;

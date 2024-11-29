@@ -25,8 +25,9 @@ const  HomePage =()=>{
         <CurrentStartups/>
         <GlimpseOfWork />
         <HowToJoinSection />
-        <ImageCarousel />
         <StoriesSection />
+        <ImageCarousel />
+        
         <EventsSectionHome />
         <SchemeHomePage />
         <Investors />
