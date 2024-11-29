@@ -6,7 +6,6 @@ import Cookies from 'js-cookie';
 import { Card, notification } from 'antd';
 import AddButton from '../components/AddButton';
 
-
 const api = axios.create({
   baseURL: process.env.REACT_APP_BACKEND_URL,
 });
@@ -82,6 +81,7 @@ const CoworkingSpacesSection = () => {
       setIsLoading(true);
       const response = await apiRequests.getAllSpaces();
       setSpaces(response.data);
+      console.log(spaces)
     } catch (error) {
       setError('Failed to fetch coworking spaces');
       notification.error({
@@ -165,7 +165,7 @@ const CoworkingSpacesSection = () => {
         }
       });
 
-      await apiRequests.updateSpace(selectedSpace.id, formDataToSend);
+      await apiRequests.updateSpace(selectedSpace._id, formDataToSend);
       notification.success({
         message: 'Success',
         description: 'Coworking space updated successfully',
@@ -190,7 +190,7 @@ const CoworkingSpacesSection = () => {
   const handleDeleteSpace = async () => {
     try {
       setIsLoading(true);
-      await apiRequests.deleteSpace(selectedSpace.id);
+      await apiRequests.deleteSpace(selectedSpace._id);
       notification.success({
         message: 'Success',
         description: 'Coworking space deleted successfully',
@@ -243,38 +243,56 @@ const CoworkingSpacesSection = () => {
         COWORKING SPACES
       </motion.h1>
       
-    
-
       <div className="mb-6">
         <AddButton title="COWORKING SPACE" onClick={() => setIsAddOpen(true)} />
       </div>
 
-      <motion.div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <motion.div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {spaces.map((space) => (
           <Card
-            key={space.id}
-            image={space.image}
-            title={space.name}
-            subtitle={`Address: ${space.address}`}
-            description={space.description}
-            onEdit={() => {
-              setSelectedSpace(space);
-              setFormData({
-                name: space.name,
-                address: space.address,
-                description: space.description,
-                amenities: space.amenities.join(', '),
-                image: null,
-                mapLink: space.mapLink,
-              });
-              setPreviewUrl(space.image);
-              setIsEditOpen(true);
-            }}
-            onRemove={() => {
-              setSelectedSpace(space);
-              setIsDeleteOpen(true);
-            }}
-          />
+            key={space._id}
+            cover={
+              <img
+                alt={space.name}
+                src={space.image}
+                className="h-48 object-cover"
+              />
+            }
+            actions={[
+              <button onClick={() => {
+                setSelectedSpace(space);
+                setFormData({
+                  name: space.name,
+                  address: space.address,
+                  description: space.description,
+                  amenities: space.amenities.join(', '),
+                  image: null,
+                  mapLink: space.mapLink,
+                });
+                setPreviewUrl(space.image);
+                setIsEditOpen(true);
+              }}>
+                <Search className="w-5 h-5" />
+              </button>,
+              <button onClick={() => {
+                setSelectedSpace(space);
+                setIsDeleteOpen(true);
+              }}>
+                <X className="w-5 h-5" />
+              </button>,
+            ]}
+          >
+            <Card.Meta
+              title={space.name}
+              description={
+                <>
+                  <p><strong>Address:</strong> {space.address}</p>
+                  <p><strong>Description:</strong> {space.description}</p>
+                  <p><strong>Amenities:</strong> {space.amenities.join(', ')}</p>
+                </>
+              }
+            />
+          </Card>
         ))}
       </motion.div>
 
@@ -430,4 +448,3 @@ const CoworkingSpacesSection = () => {
 };
 
 export default CoworkingSpacesSection;
-

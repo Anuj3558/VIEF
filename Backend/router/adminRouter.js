@@ -30,9 +30,10 @@ import {
     createBlog,
     updateBlog,
     deleteBlog,
-    createCoworkingSpace,
-    deleteCoworkingSpace,
-    updateCoworkingSpace
+ 
+    createCoworking,
+    updateCoworking,
+    deleteCoworking
 } from '../controller/adminRouter.js'; // Adjust path if needed
 import { upload } from '../cloudinaryConfig.js';
 
@@ -113,8 +114,8 @@ adminRouter.route('/news/:id')
 adminRouter.route('/blogs').post(upload.single('image'),createBlog);
 adminRouter.route('/blogs/:id').put(upload.single('image'),updateBlog).delete(deleteBlog);
 
-adminRouter.route('/coworking-spaces').post(upload.single('image'),createCoworkingSpace);
-adminRouter.route('/coworking-spaces/:id').put(updateCoworkingSpace).delete(upload.single('image'),deleteCoworkingSpace);
+adminRouter.route('/coworking-spaces').post(upload.single('image'),createCoworking);
+adminRouter.route('/coworking-spaces/:id').put(updateCoworking).delete(upload.single('image'),deleteCoworking);
 
 
 

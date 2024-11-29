@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Search, Trash2, X, ChevronDown, ChevronUp } from 'lucide-react';
+import { Search, Trash2, X, ChevronDown, ChevronUp, Download } from 'lucide-react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { notification } from 'antd';
+import * as XLSX from 'xlsx';
 
 const api = axios.create({
   baseURL: process.env.REACT_APP_BACKEND_URL,
@@ -89,6 +90,35 @@ const ContactsSection = () => {
     }
   };
 
+  // New function to export contacts to Excel
+  const exportToExcel = () => {
+    // Prepare data for Excel export
+    const exportData = contacts.map(contact => ({
+      Name: contact.name,
+      Email: contact.email,
+      Phone: contact.phone,
+      Company: contact.company,
+      Message: contact.message
+    }));
+
+    // Create a new workbook and worksheet
+    const worksheet = XLSX.utils.json_to_sheet(exportData);
+    const workbook = XLSX.utils.book_new();
+    
+    // Add the worksheet to the workbook
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Contacts");
+    
+    // Generate and save the Excel file
+    XLSX.writeFile(workbook, "contacts_export.xlsx");
+
+    // Optional: Show a notification
+    notification.success({
+      message: 'Export Successful',
+      description: 'Contacts exported to Excel',
+      placement: 'topRight',
+    });
+  };
+
   const toggleExpand = (contactId) => {
     if (expandedContact === contactId) {
       setExpandedContact(null);
@@ -112,19 +142,31 @@ const ContactsSection = () => {
 
   return (
     <div className="p-6">
-      <motion.h1 
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="text-3xl font-bold mb-6"
-      >
-        CONTACTS
-      </motion.h1>
+      <div className="flex justify-between items-center mb-6">
+        <motion.h1 
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-3xl font-bold"
+        >
+          CONTACTS
+        </motion.h1>
+        
+        {/* Export to Excel Button */}
+        <button 
+          onClick={exportToExcel}
+          className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:bg-green-300"
+          disabled={contacts.length === 0}
+        >
+          <Download className="w-5 h-5" />
+          Export to Excel
+        </button>
+      </div>
       
-   
-
+      {/* Rest of the existing component remains the same */}
       <motion.div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {filteredContacts.map((contact) => (
           <div key={contact._id} className="bg-white rounded-lg shadow-sm p-4">
+            {/* Existing contact card rendering */}
             <div className="flex justify-between items-center mb-2">
               <h3 className="text-xl font-semibold">{contact.name}</h3>
               <button
@@ -167,7 +209,7 @@ const ContactsSection = () => {
         ))}
       </motion.div>
 
-      {/* Delete Confirmation Modal */}
+      {/* Existing delete confirmation modal */}
       {isDeleteOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="bg-white rounded-lg p-6 w-full max-w-md">
@@ -212,4 +254,3 @@ const ContactsSection = () => {
 };
 
 export default ContactsSection;
-
