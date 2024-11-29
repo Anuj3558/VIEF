@@ -83,6 +83,7 @@ const CoworkingSection = () => {
       setIsLoading(true);
       const response = await apiRequests.getAllCoworkingSpaces();
       setCoworkingSpaces(response.data);
+      console.log(response.data)
     } catch (error) {
       setError('Failed to fetch coworking spaces');
       notification.error({

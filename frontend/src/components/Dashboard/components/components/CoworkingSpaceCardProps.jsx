@@ -25,7 +25,7 @@ const CoworkingSpaceCard = ({ space, onEdit, onRemove }) => {
           <div className="flex flex-wrap gap-2">
             {space.amenities.map((amenity, index) => (
               <span key={index} className="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">
-                {amenity}
+                {amenity.replace(/"/g, '')}
               </span>
             ))}
           </div>
