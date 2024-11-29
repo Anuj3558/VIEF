@@ -40,7 +40,7 @@ const Newsletter = () => {
   const { newsletters } = useContext(NewsletterContext);
 
   return (
-    <div className="container mx-auto px-4 pt-10 py-12">
+    <div className="container mx-auto px-4 pt-20 py-12 ">
       <h1 className="text-4xl font-bold mb-10">Newsletter</h1>
 
       <section className="mb-16">
