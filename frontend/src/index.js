@@ -10,6 +10,8 @@ import { MentorProvider } from "./contexts/MentorContext.js";
 import { NewsletterProvider } from "./contexts/NewsletterContext.js";
 import { StartupProvider } from "./contexts/StartupContext.js";
 import GalleryProvider from "./contexts/GalleryContext.js";
+import { BlogProvider } from "./contexts/BlogContext.js";
+import { CoWorkingProvider } from "./contexts/CoworkingContext.js";
 
 // Wrap the App with all the context providers
 const Root = () => (
@@ -21,7 +23,13 @@ const Root = () => (
             <NewsletterProvider>
               <StartupProvider>
                 <GalleryProvider>
-                  <App />
+                  <BlogProvider>
+                    <CoWorkingProvider>
+                      <NewsletterProvider>
+                        <App />
+                      </NewsletterProvider>
+                    </CoWorkingProvider>
+                  </BlogProvider>
                 </GalleryProvider>
               </StartupProvider>
             </NewsletterProvider>

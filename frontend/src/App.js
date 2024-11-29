@@ -22,11 +22,14 @@ import SchemeDetailPage from "./pages/SchemeDetails";
 import LoginPage from "./pages/Login";
 import ProtectedRoute from "./pages/Protected";
 import NotFound from "./pages/NotFound";
-import Blog from "./pages/Blog"; 
-import Coworking from "./pages/Coworking"; 
+import Blog from "./pages/Blog";
+import Coworking from "./pages/Coworking";
 import BlogContentPage from "./pages/BlogContentPage";
 import Investers from "./pages/InvestersPage";
-
+import Newsletter from "./pages/NewsLetter";
+import ArticleDetail from "./pages/ArticleDetail"
+import NewsDetail from "./pages/NewsDetails"
+import DetailPage from "./components/Newsletter/DetailPage";
 
 function App() {
   return (
@@ -43,7 +46,9 @@ function App() {
             <Route path="/career" element={<CareerSection />} />
             <Route path="/facilities" element={<WhyChooseUs />} />
             <Route path="/contact" element={<ContactPage />} />
-            <Route path="/news-letter" element={<NewsletterPage />} />
+            <Route path="news-letter" element={<Newsletter />} />
+            <Route path="/news-letter/:id" element={<DetailPage />} />
+
             <Route path="/event/past" element={<PastEventDetailsPage />} />
             <Route path="/event/:id" element={<EventDetailsPage />} />
             <Route path="/events" element={<EventsPage />} />
@@ -52,16 +57,15 @@ function App() {
             <Route path="/startup" element={<StartupsPage />} />
             <Route path="/achievements" element={<Awards />} />
             <Route path="/Blog" element={<Blog />} />
+            <Route path="/post/:id" element={<BlogContentPage />} />
+
             <Route path="/Coworking" element={<Coworking />} />
-            <Route path="/investors" element={<Investers/>}/>
+            <Route path="/investors" element={<Investers />} />
             <Route
               path="/admin"
               element={<ProtectedRoute element={<Dashboard />} />}
             />
-            <Route
-              path="/admin"
-              element={<Dashboard />} 
-            />
+            <Route path="/admin" element={<Dashboard />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/scheme-details/:id" element={<SchemeDetailPage />} />
             <Route path="/scheme-details" element={<SchemeDetailPage />} />
@@ -76,4 +80,3 @@ function App() {
 }
 
 export default App;
-

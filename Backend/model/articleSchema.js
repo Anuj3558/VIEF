@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const { Schema } = mongoose;
 
@@ -8,9 +8,9 @@ const articleSchema = new Schema(
       type: String,
       required: true,
     },
-    Type:{
-      type:String,
-      required:true
+    Type: {
+      type: String,
+      required: true,
     },
     publishDate: {
       type: Date,
@@ -21,8 +21,8 @@ const articleSchema = new Schema(
       required: true,
     },
     image: {
-      type: String,  // URL or base64 string
-      default: '',
+      type: String, // URL or base64 string
+      default: "",
     },
   },
   {
@@ -30,6 +30,6 @@ const articleSchema = new Schema(
   }
 );
 
-const Article = mongoose.model('Article', articleSchema);
+const Article = mongoose.model("Article", articleSchema);
 
 export default Article;

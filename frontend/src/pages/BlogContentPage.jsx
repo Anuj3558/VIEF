@@ -1,244 +1,86 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { MapPin, Phone, Mail} from 'lucide-react';
-import { contact } from '../Assets/images';
+import { useContext } from "react";
+import { useParams } from "react-router-dom";
+import { BlogContext } from "../contexts/BlogContext";
+import { motion } from "framer-motion"; // Import motion if not already imported
+import { ArrowLeft } from "react-feather"; // Import the arrow icon (ensure you have the correct package)
 
-const ContactPage = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    message: '',
-    type: 'individual',
-    subject: ''
-  });
+const BlogContentPage = ({ onBack }) => {
+  const { id } = useParams(); // Get the id from the URL params
+  const { blogPosts } = useContext(BlogContext); // Get blogPosts from context
 
-  const subjects = [
-    'Project',
-    'Incubation',
-    'Course',
-    'Other',
-    'Funding',
-    'Incubation at VIEF',
-    'R&D',
-    'Booking (Meeting Room/suites/Guest Rooms)',
-    'IPR Patent',
-    'Technology Transfer',
-    'Acceleration'
-  ];
+  // Find the post by id
+  const post = blogPosts.find((post) => post._id === id);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prevState => ({
-      ...prevState,
-      [name]: value
-    }));
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(formData);
-    // Here you would typically send the data to your backend
-  };
+  // If the post is not found, you can show a loading or not found message
+  if (!post) {
+    return (
+      <div className="container mx-auto px-4 py-12">
+        <h2 className="text-xl text-gray-800">Blog post not found!</h2>
+      </div>
+    );
+  }
 
   return (
-    <div className="min-h-screen">
-      {/* Hero Section */}
-      <div className="relative h-[400px] w-full">
-        <div 
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ 
-            backgroundImage: `url(${contact})`,
-          }}
-        >
-          <div className="absolute inset-0 bg-gray-300 bg-opacity-50" />
-        </div>
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="relative pt-20 px-4 md:px-6 lg:px-8 max-w-7xl mx-auto"
-        >
-          <h1 className="text-2xl md:text-5xl mt-20 text-left text-black font-semibold mt-32">
-            Contact Us
-          </h1>
-        </motion.div>
-      </div>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.5 }}
+      className="container mx-auto px-4 py-12"
+    >
+      {/* Back Button */}
+      <motion.button
+        onClick={onBack}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        className="mb-6 flex items-center text-[#FF4D00] hover:text-[#FF3D00] transition-colors duration-300"
+      >
+        <ArrowLeft className="mr-2" />
+        Back to Blog
+      </motion.button>
 
-      {/* Contact Section */}
-      <div className="max-w-7xl mx-auto px-4 py-16 md:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-12">
-          {/* Contact Info */}
-          <motion.div 
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="space-y-8"
-          >
-            <div>
-              <h2 className="text-3xl font-bold text-left text-[#011334] mb-4">Let's talk with us</h2>
-              <p className="text-gray-600 text-left">
-                Questions, comments, or suggestions?
-                Simply fill in the form and we'll be in touch shortly.
-              </p>
-            </div>
+      {/* Title */}
+      <motion.h1
+        initial={{ y: -50, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.5 }}
+        className="text-2xl mb-4 text-gray-800"
+      >
+        {post.title}
+      </motion.h1>
 
-            <div className="rounded-lg py-4 gap-12 space-y-12">
-              <div className="flex items-center space-x-4">
-                <div className="p-2 bg-purple-100 rounded-full">
-                  <MapPin className="h-6 w-6 text-purple-600" />
-                </div>
-                <div>
-                  <p className="font-medium text-left">Our Location</p>
-                  <p className="text-sm text-gray-600">
-                    1055 Arthur ave Elk Groot, 67,<br />
-                    New Palmas South Carolina.
-                  </p>
-                </div>
-              </div>
+      {/* Author and Date */}
+      <motion.div
+        initial={{ y: 50, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.5, delay: 0.2 }}
+        className="mb-6 text-gray-600"
+      >
+        <span>
+          By {post.author} | {post.date}
+        </span>
+      </motion.div>
 
-              <div className="flex items-center space-x-4">
-                <div className="p-2 bg-purple-100 rounded-full">
-                  <Phone className="h-6 w-6 text-purple-600" />
-                </div>
-                <div>
-                  <p className="font-medium text-left">Phone Number</p>
-                  <p className="text-sm text-gray-600">+1 234 678 9108 99</p>
-                </div>
-              </div>
+      {/* Image */}
+      <motion.img
+        src={post.image}
+        alt={post.title}
+        initial={{ scale: 0.9, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 0.5 }}
+        className="w-full h-64 object-cover rounded-lg mb-6"
+      />
 
-              <div className="flex items-center space-x-4 text-left">
-                <div className="p-2 bg-purple-100 rounded-full">
-                  <Mail className="h-6 w-6 text-purple-600" />
-                </div>
-                <div>
-                  <p className="font-medium text-left">Email Address</p>
-                  <p className="text-sm text-gray-600">Contact@moralizer.com</p>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Contact Form */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-          >
-            <div className="bg-white shadow-md rounded-lg p-6">
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 text-left">Full Name</label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-                    placeholder="John Doe"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 text-left mb-2">Type</label>
-                  <div className="flex gap-4">
-                    <label className="inline-flex items-center">
-                      <input
-                        type="radio"
-                        name="type"
-                        value="individual"
-                        checked={formData.type === 'individual'}
-                        onChange={handleChange}
-                        className="form-radio h-4 w-4 text-blue-600"
-                      />
-                      <span className="ml-2">Individual</span>
-                    </label>
-                    <label className="inline-flex items-center">
-                      <input
-                        type="radio"
-                        name="type"
-                        value="company"
-                        checked={formData.type === 'company'}
-                        onChange={handleChange}
-                        className="form-radio h-4 w-4 text-blue-600"
-                      />
-                      <span className="ml-2">Company</span>
-                    </label>
-                  </div>
-                </div>
-
-                <div>
-                  <label htmlFor="subject" className="block text-sm font-medium text-gray-700 text-left">Subject</label>
-                  <select
-                    id="subject"
-                    name="subject"
-                    value={formData.subject}
-                    onChange={handleChange}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-                  >
-                    <option value="">Select a subject</option>
-                    {subjects.map((subject, index) => (
-                      <option key={index} value={subject}>
-                        {subject}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-                    placeholder="john@example.com"
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="phone" className="block text-sm font-medium text-gray-700">Phone Number</label>
-                  <input
-                    type="tel"
-                    id="phone"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-                    placeholder="+1 (555) 000-0000"
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-gray-700">Your Message</label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    rows="4"
-                    value={formData.message}
-                    onChange={handleChange}
-                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-                    placeholder="Type your message here..."
-                  ></textarea>
-                </div>
-
-                <button
-                  type="submit"
-                  className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#1A2587] hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                >
-                  Send Message
-                </button>
-              </form>
-            </div>
-          </motion.div>
-        </div>
-      </div>
-    </div>
+      {/* Blog Content */}
+      <motion.div
+        initial={{ y: 50, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.5, delay: 0.4 }}
+        className="text-gray-700 leading-relaxed"
+        dangerouslySetInnerHTML={{ __html: post.content }}
+      />
+    </motion.div>
   );
 };
 
-export default ContactPage;
-
+export default BlogContentPage;

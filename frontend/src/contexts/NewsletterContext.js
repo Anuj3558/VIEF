@@ -7,20 +7,20 @@ export const NewsletterProvider = ({ children }) => {
   const [newsletters, setNewsletters] = useState([]);
   const [loading, setLoading] = useState(true);
 
-//   useEffect(() => {
-//     const fetchNewsletters = async () => {
-//       try {
-//         const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/newsletter`);
-//         setNewsletters(response.data);
-//         setLoading(false);
-//       } catch (error) {
-//         console.error("Error fetching newsletters:", error);
-//         setLoading(false);
-//       }
-//     };
+  useEffect(() => {
+    const fetchNewsletters = async () => {
+      try {
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/newsletter`);
+        setNewsletters(response.data);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching newsletters:", error);
+        setLoading(false);
+      }
+    };
 
-//     fetchNewsletters();
-//   }, []);
+    fetchNewsletters();
+  }, []);
 
   return (
     <NewsletterContext.Provider value={{ newsletters, loading }}>
