@@ -63,7 +63,7 @@ const LoginPage = () => {
     setError('');
 
     try {
-      const response = await axios.post('http://localhost:5000/auth/login', formData);
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/auth/login`, formData);
 
       if (response.status === 200) {
         Cookies.set('authToken', response.data.token, { expires: 7 });

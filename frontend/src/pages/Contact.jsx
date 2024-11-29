@@ -1,22 +1,12 @@
+'use client'
+
 import React, { useState } from 'react';
-import { 
-  motion 
-} from 'framer-motion';
-import { 
-  MapPin, 
-  Phone, 
-  Mail
-} from 'lucide-react';
-import { 
-  Form, 
-  Input, 
-  Select, 
-  Radio, 
-  Button, 
-  message 
-} from 'antd';
+import { motion } from 'framer-motion';
+import { MapPin, Phone, Mail } from 'lucide-react';
+import { Form, Input, Select, Radio, Button, notification } from 'antd';
 import axios from 'axios';
 import { contact } from '../Assets/images';
+
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -44,23 +34,28 @@ const ContactPage = () => {
 
     try {
       // Send data to backend
-      const response = await axios.post('/api/contact/submit-contact', values, {
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/client/contact/submit-contact`, values, {
         headers: {
           'Content-Type': 'application/json'
         }
       });
 
       // Success notification
-      message.success('Message sent successfully!');
+      notification.success({
+        message: 'Success',
+        description: 'Message sent successfully!',
+        placement: 'bottomLeft',
+      });
       
       // Reset form
       form.resetFields();
     } catch (error) {
       // Error notification
-      message.error(
-        error.response?.data?.message || 
-        'Failed to send message. Please try again.'
-      );
+      notification.error({
+        message: 'Error',
+        description: error.response?.data?.message || 'Failed to send message. Please try again.',
+        placement: 'bottomLeft',
+      });
     } finally {
       setIsSubmitting(false);
     }
@@ -70,14 +65,13 @@ const ContactPage = () => {
     <div className="min-h-screen">
       {/* Hero Section */}
       <div className="relative h-[400px] w-full">
-        <div 
+      <div 
           className="absolute inset-0 bg-cover bg-center"
           style={{ 
             backgroundImage: `url(${contact})`,
           }}
         >
-          <div className="absolute inset-0 bg-gray-300 bg-opacity-50" />
-        </div>
+          <div className="absolute inset-0 bg-gray-300 bg-opacity-50" /></div>
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -111,7 +105,7 @@ const ContactPage = () => {
             <div className="rounded-lg py-4 gap-12 space-y-12">
               <div className="flex items-center space-x-4">
                 <div className="p-2 bg-purple-100 rounded-full">
-                  <MapPin className="h-6 w-6 text-purple-600" />
+                  <MapPin className="h-6 w-6 text-purple-600" aria-hidden="true" />
                 </div>
                 <div>
                   <p className="font-medium text-left">Our Location</p>
@@ -124,7 +118,7 @@ const ContactPage = () => {
 
               <div className="flex items-center space-x-4">
                 <div className="p-2 bg-purple-100 rounded-full">
-                  <Phone className="h-6 w-6 text-purple-600" />
+                  <Phone className="h-6 w-6 text-purple-600" aria-hidden="true" />
                 </div>
                 <div>
                   <p className="font-medium text-left">Phone Number</p>
@@ -134,7 +128,7 @@ const ContactPage = () => {
 
               <div className="flex items-center space-x-4 text-left">
                 <div className="p-2 bg-purple-100 rounded-full">
-                  <Mail className="h-6 w-6 text-purple-600" />
+                  <Mail className="h-6 w-6 text-purple-600" aria-hidden="true" />
                 </div>
                 <div>
                   <p className="font-medium text-left">Email Address</p>
@@ -246,7 +240,7 @@ const ContactPage = () => {
                     htmlType="submit" 
                     block 
                     loading={isSubmitting}
-                    className="bg-[#1A2587] hover:bg-blue-700"
+                    className="bg-[#1A2587] hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                   >
                     Send Message
                   </Button>
@@ -261,3 +255,4 @@ const ContactPage = () => {
 };
 
 export default ContactPage;
+

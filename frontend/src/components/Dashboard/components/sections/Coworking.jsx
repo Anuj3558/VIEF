@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Search, Edit2, Trash2, X, Upload } from 'lucide-react';
+import { Search, X, Upload } from 'lucide-react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { notification } from 'antd';
+import { Card, notification } from 'antd';
 import AddButton from '../components/AddButton';
+
 
 const api = axios.create({
   baseURL: process.env.REACT_APP_BACKEND_URL,
@@ -15,28 +16,18 @@ const getAccessToken = () => {
 };
 
 const apiRequests = {
-  getAllEvents: () => {
+  getAllSpaces: () => {
     const accessToken = getAccessToken();
-    return api.get('/client/events', {
+    return api.get('client/coworking-spaces', {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     });
   },
 
-  createEvent: (formData) => {
+  createSpace: (formData) => {
     const accessToken = getAccessToken();
-    return api.post('/admin/events', formData, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-  },
-
-  updateEvent: (id, formData) => {
-    const accessToken = getAccessToken();
-    return api.put(`/admin/events/${id}`, formData, {
+    return api.post('admin/coworking-spaces', formData, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
         'Content-Type': 'multipart/form-data',
@@ -44,9 +35,19 @@ const apiRequests = {
     });
   },
 
-  deleteEvent: (id) => {
+  updateSpace: (id, formData) => {
     const accessToken = getAccessToken();
-    return api.delete(`/admin/events/${id}`, {
+    return api.put(`admin/coworking-spaces/${id}`, formData, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+  },
+
+  deleteSpace: (id) => {
+    const accessToken = getAccessToken();
+    return api.delete(`admin/coworking-spaces/${id}`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
@@ -54,44 +55,41 @@ const apiRequests = {
   },
 };
 
-const EventsSection = () => {
-  const [events, setEvents] = useState([]);
+const CoworkingSpacesSection = () => {
+  const [spaces, setSpaces] = useState([]);
   const [isAddOpen, setIsAddOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
-  const [selectedEvent, setSelectedEvent] = useState(null);
+  const [selectedSpace, setSelectedSpace] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [formData, setFormData] = useState({
-    title: '',
-    date: '',
+    name: '',
+    address: '',
     description: '',
-    mode: 'OFFLINE',
+    amenities: '',
     image: null,
-    nameUrl: ''
+    mapLink: '',
   });
   const [previewUrl, setPreviewUrl] = useState('');
-  const [isAddLoading, setIsAddLoading] = useState(false);
-  const [isEditLoading, setIsEditLoading] = useState(false);
-  const [isDeleteLoading, setIsDeleteLoading] = useState(false);
 
   useEffect(() => {
-    fetchEvents();
+    fetchSpaces();
   }, []);
 
-  const fetchEvents = async () => {
+  const fetchSpaces = async () => {
     try {
       setIsLoading(true);
-      const response = await apiRequests.getAllEvents();
-      setEvents(response.data);
+      const response = await apiRequests.getAllSpaces();
+      setSpaces(response.data);
     } catch (error) {
-      setError('Failed to fetch events');
+      setError('Failed to fetch coworking spaces');
       notification.error({
         message: 'Error',
-        description: 'Failed to fetch events',
+        description: 'Failed to fetch coworking spaces',
         placement: 'topRight',
       });
-      console.error('Error fetching events:', error);
+      console.error('Error fetching coworking spaces:', error);
     } finally {
       setIsLoading(false);
     }
@@ -106,6 +104,11 @@ const EventsSection = () => {
       }));
       const url = URL.createObjectURL(files[0]);
       setPreviewUrl(url);
+    } else if (name === 'amenities') {
+      setFormData(prev => ({
+        ...prev,
+        amenities: value.split(',').map(item => item.trim())
+      }));
     } else {
       setFormData(prev => ({
         ...prev,
@@ -114,117 +117,115 @@ const EventsSection = () => {
     }
   };
 
-  const handleAddEvent = async (e) => {
+  const handleAddSpace = async (e) => {
     e.preventDefault();
     try {
-      setIsAddLoading(true);
+      setIsLoading(true);
       const formDataToSend = new FormData();
-      formDataToSend.append('title', formData.title);
-      formDataToSend.append('date', formData.date);
-      formDataToSend.append('description', formData.description);
-      formDataToSend.append('mode', formData.mode);
-      formDataToSend.append('nameUrl', formData.nameUrl);
-      if (formData.image) {
-        formDataToSend.append('image', formData.image);
-      }
+      Object.keys(formData).forEach(key => {
+        if (key === 'amenities') {
+          formDataToSend.append(key, JSON.stringify(formData[key]));
+        } else {
+          formDataToSend.append(key, formData[key]);
+        }
+      });
 
-      await apiRequests.createEvent(formDataToSend);
+      await apiRequests.createSpace(formDataToSend);
       notification.success({
         message: 'Success',
-        description: 'Event added successfully',
+        description: 'Coworking space added successfully',
         placement: 'topRight',
       });
       setIsAddOpen(false);
       resetForm();
-      fetchEvents();
+      fetchSpaces();
     } catch (error) {
       notification.error({
         message: 'Error',
-        description: 'Failed to add event',
+        description: 'Failed to add coworking space',
         placement: 'topRight',
       });
-      setError('Failed to add event');
-      console.error('Error adding event:', error);
+      setError('Failed to add coworking space');
+      console.error('Error adding coworking space:', error);
     } finally {
-      setIsAddLoading(false);
+      setIsLoading(false);
     }
   };
 
-  const handleEditEvent = async (e) => {
+  const handleEditSpace = async (e) => {
     e.preventDefault();
     try {
-      setIsEditLoading(true);
+      setIsLoading(true);
       const formDataToSend = new FormData();
-      formDataToSend.append('title', formData.title);
-      formDataToSend.append('date', formData.date);
-      formDataToSend.append('description', formData.description);
-      formDataToSend.append('mode', formData.mode);
-      formDataToSend.append('url', formData.nameUrl);
-      if (formData.image) {
-        formDataToSend.append('image', formData.image);
-      }
+      Object.keys(formData).forEach(key => {
+        if (key === 'amenities') {
+          formDataToSend.append(key, JSON.stringify(formData[key]));
+        } else {
+          formDataToSend.append(key, formData[key]);
+        }
+      });
 
-      await apiRequests.updateEvent(selectedEvent._id, formDataToSend);
+      await apiRequests.updateSpace(selectedSpace.id, formDataToSend);
       notification.success({
         message: 'Success',
-        description: 'Event updated successfully',
+        description: 'Coworking space updated successfully',
         placement: 'topRight',
       });
       setIsEditOpen(false);
       resetForm();
-      fetchEvents();
+      fetchSpaces();
     } catch (error) {
       notification.error({
         message: 'Error',
-        description: 'Failed to update event',
+        description: 'Failed to update coworking space',
         placement: 'topRight',
       });
-      setError('Failed to update event');
-      console.error('Error updating event:', error);
+      setError('Failed to update coworking space');
+      console.error('Error updating coworking space:', error);
     } finally {
-      setIsEditLoading(false);
+      setIsLoading(false);
     }
   };
 
-  const handleDeleteEvent = async () => {
+  const handleDeleteSpace = async () => {
     try {
-      setIsDeleteLoading(true);
-      await apiRequests.deleteEvent(selectedEvent._id);
+      setIsLoading(true);
+      await apiRequests.deleteSpace(selectedSpace.id);
       notification.success({
         message: 'Success',
-        description: 'Event deleted successfully',
+        description: 'Coworking space deleted successfully',
         placement: 'topRight',
       });
       setIsDeleteOpen(false);
-      setSelectedEvent(null);
-      fetchEvents();
+      setSelectedSpace(null);
+      fetchSpaces();
     } catch (error) {
       notification.error({
         message: 'Error',
-        description: 'Failed to delete event',
+        description: 'Failed to delete coworking space',
         placement: 'topRight',
       });
-      setError('Failed to delete event');
-      console.error('Error deleting event:', error);
+      setError('Failed to delete coworking space');
+      console.error('Error deleting coworking space:', error);
     } finally {
-      setIsDeleteLoading(false);
+      setIsLoading(false);
     }
   };
 
   const resetForm = () => {
     setFormData({
-      title: '',
-      date: '',
+      name: '',
+      address: '',
       description: '',
-      mode: 'OFFLINE',
+      amenities: '',
       image: null,
-      nameUrl: ''
+      mapLink: '',
     });
     setPreviewUrl('');
-    setSelectedEvent(null);
+    setSelectedSpace(null);
   };
 
-  if (isLoading && !events.length) {
+  if (isLoading && !spaces.length) {
     return <div className="p-6">Loading...</div>;
   }
 
@@ -233,65 +234,47 @@ const EventsSection = () => {
   }
 
   return (
-    <div className="">
+    <div className="p-6">
       <motion.h1 
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         className="text-3xl font-bold mb-6"
       >
-        EVENTS
+        COWORKING SPACES
       </motion.h1>
       
     
 
       <div className="mb-6">
-        <AddButton title="EVENT" onClick={() => setIsAddOpen(true)} />
+        <AddButton title="COWORKING SPACE" onClick={() => setIsAddOpen(true)} />
       </div>
 
       <motion.div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {events.map((event) => (
-          <div key={event._id} className="bg-white rounded-lg shadow-sm p-4">
-            <img
-              src={event.image}
-              alt={event.title}
-              className="w-full h-48 object-cover rounded-lg mb-4"
-            />
-            <h3 className="text-xl font-semibold mb-2">{event.title}</h3>
-            <p className="text-gray-600 text-sm mb-2">Date: {new Date(event.date).toLocaleDateString()}</p>
-            <p className="text-gray-700 mb-4">{event.description}</p>
-            <div className="flex justify-between items-center">
-              <div className="flex gap-2">
-                <button
-                  onClick={() => {
-                    setSelectedEvent(event);
-                    setFormData({
-                      title: event.title,
-                      date: event.date.split('T')[0],
-                      description: event.description,
-                      mode: event.mode,
-                      image: null,
-                      nameUrl: event.nameUrl
-                    });
-                    setPreviewUrl(event.image);
-                    setIsEditOpen(true);
-                  }}
-                  className="p-2 hover:bg-gray-100 rounded-lg"
-                >
-                  <Edit2 className="w-4 h-4 text-gray-600" />
-                </button>
-                <button
-                  onClick={() => {
-                    setSelectedEvent(event);
-                    setIsDeleteOpen(true);
-                  }}
-                  className="p-2 hover:bg-gray-100 rounded-lg"
-                >
-                  <Trash2 className="w-4 h-4 text-red-500" />
-                </button>
-              </div>
-              <span className="text-sm text-gray-600">{event.mode}</span>
-            </div>
-          </div>
+        {spaces.map((space) => (
+          <Card
+            key={space.id}
+            image={space.image}
+            title={space.name}
+            subtitle={`Address: ${space.address}`}
+            description={space.description}
+            onEdit={() => {
+              setSelectedSpace(space);
+              setFormData({
+                name: space.name,
+                address: space.address,
+                description: space.description,
+                amenities: space.amenities.join(', '),
+                image: null,
+                mapLink: space.mapLink,
+              });
+              setPreviewUrl(space.image);
+              setIsEditOpen(true);
+            }}
+            onRemove={() => {
+              setSelectedSpace(space);
+              setIsDeleteOpen(true);
+            }}
+          />
         ))}
       </motion.div>
 
@@ -301,7 +284,7 @@ const EventsSection = () => {
           <div className="bg-white rounded-lg p-6 w-full max-w-md max-h-[90vh] overflow-y-auto">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-xl font-semibold">
-                {isAddOpen ? 'Add New Event' : 'Edit Event'}
+                {isAddOpen ? 'Add New Coworking Space' : 'Edit Coworking Space'}
               </h2>
               <button
                 onClick={() => {
@@ -313,9 +296,9 @@ const EventsSection = () => {
                 <X className="w-6 h-6" />
               </button>
             </div>
-            <form onSubmit={isAddOpen ? handleAddEvent : handleEditEvent} className="space-y-4">
+            <form onSubmit={isAddOpen ? handleAddSpace : handleEditSpace} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium mb-1">Image</label>
+                <label className="block text-sm font-medium mb-1">Space Image</label>
                 <div className="space-y-2">
                   {previewUrl && (
                     <img
@@ -345,22 +328,22 @@ const EventsSection = () => {
                 </div>
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1">Title</label>
+                <label className="block text-sm font-medium mb-1">Name</label>
                 <input
                   type="text"
-                  name="title"
-                  value={formData.title}
+                  name="name"
+                  value={formData.name}
                   onChange={handleInputChange}
                   className="w-full p-2 border rounded-lg"
                   required
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1">Date</label>
+                <label className="block text-sm font-medium mb-1">Address</label>
                 <input
-                  type="date"
-                  name="date"
-                  value={formData.date}
+                  type="text"
+                  name="address"
+                  value={formData.address}
                   onChange={handleInputChange}
                   className="w-full p-2 border rounded-lg"
                   required
@@ -373,49 +356,40 @@ const EventsSection = () => {
                   value={formData.description}
                   onChange={handleInputChange}
                   className="w-full p-2 border rounded-lg"
-                  rows="3"
+                  rows={3}
                   required
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1">Mode</label>
-                <select
-                  name="mode"
-                  value={formData.mode}
+                <label className="block text-sm font-medium mb-1">Amenities (comma-separated)</label>
+                <input
+                  type="text"
+                  name="amenities"
+                  value={formData.amenities}
                   onChange={handleInputChange}
                   className="w-full p-2 border rounded-lg"
-                >
-                  <option value="OFFLINE">Offline</option>
-                  <option value="ONLINE">Online</option>
-                </select>
+                  placeholder="Wi-Fi, Meeting Rooms, Coffee"
+                  required
+                />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1">Name URL</label>
+                <label className="block text-sm font-medium mb-1">Map Link</label>
                 <input
                   type="url"
-                  name="nameUrl"
-                  value={formData.nameUrl}
+                  name="mapLink"
+                  value={formData.mapLink}
                   onChange={handleInputChange}
                   className="w-full p-2 border rounded-lg"
+                  placeholder="https://maps.google.com/..."
                   required
                 />
               </div>
               <button
                 type="submit"
-                className="w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-blue-300 flex items-center justify-center"
-                disabled={isAddLoading || isEditLoading}
+                className="w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-blue-300"
+                disabled={isLoading}
               >
-                {isAddLoading || isEditLoading ? (
-                  <>
-                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                    Processing...
-                  </>
-                ) : (
-                  isAddOpen ? 'Add Event' : 'Update Event'
-                )}
+                {isLoading ? 'Processing...' : (isAddOpen ? 'Add Coworking Space' : 'Update Coworking Space')}
               </button>
             </form>
           </div>
@@ -428,32 +402,24 @@ const EventsSection = () => {
           <div className="bg-white rounded-lg p-6 w-full max-w-md">
             <h2 className="text-xl font-semibold mb-4">Confirm Delete</h2>
             <p className="mb-6">
-              Are you sure you want to delete "{selectedEvent?.title}"? This action cannot be undone.
+              Are you sure you want to remove {selectedSpace?.name} from the coworking spaces list? This action cannot be undone.
             </p>
             <div className="flex justify-end gap-4">
               <button
                 onClick={() => {
                   setIsDeleteOpen(false);
-                  setSelectedEvent(null);
+                  setSelectedSpace(null);
                 }}
                 className="px-4 py-2 border rounded-lg hover:bg-gray-50"
-                disabled={isDeleteLoading}
               >
                 Cancel
               </button>
               <button
-                onClick={handleDeleteEvent}
-                className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 disabled:bg-red-300 flex items-center justify-center"
-                disabled={isDeleteLoading}
+                onClick={handleDeleteSpace}
+                className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 disabled:bg-red-300"
+                disabled={isLoading}
               >
-                {isDeleteLoading ? (
-                  <>
-                   
-                    Deleting...
-                  </>
-                ) : (
-                  'Delete'
-                )}
+                {isLoading ? 'Deleting...' : 'Delete'}
               </button>
             </div>
           </div>
@@ -463,5 +429,5 @@ const EventsSection = () => {
   );
 };
 
-export default EventsSection;
+export default CoworkingSpacesSection;
 

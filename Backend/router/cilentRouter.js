@@ -10,6 +10,10 @@ import {
   fetchEventDetails,
   fetchSchemeDetails,
   fetchGallery,
+  fetchContacted,
+  submitContact,
+  fetchBlog,
+  fetchCoWorking,
 } from '../controller/clientController.js';
 
 const clientRouter = Router();
@@ -25,6 +29,10 @@ clientRouter.get('/startups', fetchStartups);//d
 clientRouter.get('/eventdetails', fetchEventDetails);//d
 clientRouter.get('/scheme-details', fetchSchemeDetails);//d
 clientRouter.get('/gallery', fetchGallery);
+clientRouter.post('/contact/submit-contact', submitContact);
+clientRouter.get('/contact', fetchContacted);
+clientRouter.get('/blogs', fetchBlog);
+clientRouter.get('/coworking-spaces', fetchCoWorking);
 
 // Export the router
 export default clientRouter;

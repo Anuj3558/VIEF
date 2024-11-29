@@ -5,6 +5,8 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import { notification } from 'antd';
 import AddButton from '../components/AddButton';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 const api = axios.create({
   baseURL: process.env.REACT_APP_BACKEND_URL,
@@ -102,6 +104,11 @@ const NewsSection = () => {
       }));
       const url = URL.createObjectURL(files[0]);
       setPreviewUrl(url);
+    } else if (name === 'content') {
+      setFormData(prev => ({
+        ...prev,
+        content: value
+      }));
     } else {
       setFormData(prev => ({
         ...prev,
@@ -153,7 +160,7 @@ const NewsSection = () => {
       formDataToSend.append('title', formData.title);
       formDataToSend.append('publishDate', formData.publishDate);
       formDataToSend.append('content', formData.content);
-      formDataToSend.append('type', selectedNews.type); // Use the existing type
+      formDataToSend.append('type', selectedNews.type);
       if (formData.image) {
         formDataToSend.append('image', formData.image);
       }
@@ -234,16 +241,6 @@ const NewsSection = () => {
       >
         NEWS & ARTICLES
       </motion.h1>
-      
-      <div className="relative mb-4">
-        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-        <input
-          type="text"
-          placeholder="Search news and articles..."
-          className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-          onChange={(e) => console.log('Search:', e.target.value)}
-        />
-      </div>
 
       <div className="mb-6">
         <AddButton title="NEWS/ARTICLE" onClick={() => setIsAddOpen(true)} />
@@ -259,8 +256,8 @@ const NewsSection = () => {
             />
             <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
             <p className="text-gray-600 text-sm mb-2">Published: {new Date(item.publishDate).toLocaleDateString()}</p>
-            <p className="text-gray-700 mb-2">{item.description.substring(0, 100)}...</p>
-            <p className="text-blue-600 text-sm mb-4">{item.Type === 'news' ? 'News' : 'Article'}</p>
+            <p className="text-gray-700 mb-2" dangerouslySetInnerHTML={{ __html: item.description}} />
+            <p className="text-blue-600 text-sm mb-4">{item.type === 'news' ? 'News' : 'Article'}</p>
             <div className="flex justify-between items-center">
               <div className="flex gap-2">
                 <button
@@ -368,13 +365,25 @@ const NewsSection = () => {
               </div>
               <div>
                 <label className="block text-sm font-medium mb-1">Content</label>
-                <textarea
-                  name="content"
+                <ReactQuill
                   value={formData.content}
-                  onChange={handleInputChange}
-                  className="w-full p-2 border rounded-lg"
-                  rows="5"
-                  required
+                  onChange={(content) => handleInputChange({ target: { name: 'content', value: content } })}
+                  modules={{
+                    toolbar: [
+                      [{ 'header': [1, 2, false] }],
+                      ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+                      [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}],
+                      ['link', 'image'],
+                      ['clean']
+                    ],
+                  }}
+                  formats={[
+                    'header',
+                    'bold', 'italic', 'underline', 'strike', 'blockquote',
+                    'list', 'bullet', 'indent',
+                    'link', 'image'
+                  ]}
+                  className="h-64 mb-4"
                 />
               </div>
               {isAddOpen && (
@@ -397,7 +406,7 @@ const NewsSection = () => {
                         type="radio"
                         name="type"
                         value="article"
-                        checked={formData.type === 'article'}
+    
                         onChange={handleInputChange}
                         className="form-radio h-5 w-5 text-blue-600"
                       />
@@ -470,4 +479,3 @@ const NewsSection = () => {
 };
 
 export default NewsSection;
-

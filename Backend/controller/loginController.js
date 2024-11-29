@@ -66,4 +66,4 @@ export const createAdminUser = async () => {
 };
 
 // Call createAdminUser to insert admin if needed (you can call this in your app startup or database initialization script)
-createAdminUser();
+

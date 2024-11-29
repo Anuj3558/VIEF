@@ -6,6 +6,8 @@ import Cookies from 'js-cookie';
 import { notification } from 'antd';
 
 import SearchBar from '../components/SearchBar';
+
+
 import AddButton from '../components/AddButton';
 import Card from '../components/Card';
 
@@ -233,9 +235,7 @@ const AwardsSection = () => {
       >
         AWARDS
       </motion.h1>
-      
-      <SearchBar onSearch={(value) => console.log('Search:', value)} />
-      
+
       <div className="my-6">
         <AddButton title="AWARD" onClick={() => setIsAddOpen(true)} />
       </div>
