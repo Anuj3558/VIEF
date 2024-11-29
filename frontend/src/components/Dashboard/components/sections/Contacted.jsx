@@ -191,7 +191,7 @@ const ContactsSection = () => {
               >
                 <p className="text-gray-700"><strong>Phone:</strong> {contact.phone}</p>
                 <p className="text-gray-700"><strong>Company:</strong> {contact.type}</p>
-                <p className="text-gray-700"><strong>Message:</strong> {contact.message}</p>
+                <p className="text-gray-700"><strong>Message:</strong> {contact.message.slice(0,30)}</p>
               </motion.div>
             )}
             <div className="flex justify-end mt-4">

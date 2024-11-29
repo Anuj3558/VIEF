@@ -10,6 +10,7 @@ import Article from "../model/articleSchema.js";
 import Contact from "../model/ContactSchema.js";
 import CoworkingSpace from "../model/coworkingSchema.js";
 import Blog from "../model/BlogSchems.js";
+import mongoose from "mongoose";
 // adminController.js
 
 export const createEvent = async (req, res) => {
@@ -1201,10 +1202,10 @@ export const updateCoworking = async (req, res) => {
                 message: 'Invalid coworking space ID' 
             });
         }
-        const amenities =  req.body.amenities;
-        let sample=amenities.replace(/\[|\]/g, '')
-        sample=sample.replace(/"/g, '')
-        const amenitiesArray= sample.split(',');
+        const amenities =  req.body?.amenities;
+        let sample=amenities?.replace(/\[|\]/g, '')
+        sample=sample?.replace(/"/g, '')
+        const amenitiesArray= sample?.split(',');
         
         // Find existing coworking space
         const existingCoworkingSpace = await CoworkingSpace.findById(id);
@@ -1221,7 +1222,8 @@ export const updateCoworking = async (req, res) => {
             address: req.body.address || existingCoworkingSpace.address,
             description: req.body.description || existingCoworkingSpace.description,
             mapLink: req.body.mapLink || existingCoworkingSpace.mapLink,
-            amenities: amenitiesArray
+            image:req.file?.path||existingCoworkingSpace.image,
+            amenities: amenitiesArray || existingCoworkingSpace.amenities
         };
 
         // Handle image update

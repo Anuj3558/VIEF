@@ -256,7 +256,7 @@ const NewsSection = () => {
             />
             <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
             <p className="text-gray-600 text-sm mb-2">Published: {new Date(item.publishDate).toLocaleDateString()}</p>
-            <p className="text-gray-700 mb-2" dangerouslySetInnerHTML={{ __html: item.description}} />
+            <p className="text-gray-700 mb-2" dangerouslySetInnerHTML={{ __html: item.description.slice(0,30)}} />
             <p className="text-blue-600 text-sm mb-4">{item.type === 'news' ? 'News' : 'Article'}</p>
             <div className="flex justify-between items-center">
               <div className="flex gap-2">
@@ -372,16 +372,14 @@ const NewsSection = () => {
                     toolbar: [
                       [{ 'header': [1, 2, false] }],
                       ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-                      [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}],
-                      ['link', 'image'],
-                      ['clean']
+                      [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}]
+                     
                     ],
                   }}
                   formats={[
                     'header',
                     'bold', 'italic', 'underline', 'strike', 'blockquote',
                     'list', 'bullet', 'indent',
-                    'link', 'image'
                   ]}
                   className="h-64 mb-4"
                 />

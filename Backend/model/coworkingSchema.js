@@ -20,8 +20,7 @@ const CoworkingSpaceSchema = new mongoose.Schema({
         maxlength: [1000, 'Description cannot exceed 1000 characters']
     },
     amenities: {
-        type: [String],
-        default: []
+        type:[String]
     },
     image: {
         type: String,

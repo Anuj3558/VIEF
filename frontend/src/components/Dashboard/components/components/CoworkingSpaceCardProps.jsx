@@ -19,7 +19,7 @@ const CoworkingSpaceCard = ({ space, onEdit, onRemove }) => {
           <MapPin className="w-4 h-4 mr-1" />
           {space.address}
         </p>
-        <p className="text-gray-700 mb-4">{space.description}</p>
+        <p className="text-gray-700 mb-4">{space.description.slice(0,30)+".."}</p>
         <div className="mb-4">
           <h4 className="text-sm font-semibold mb-1">Amenities:</h4>
           <div className="flex flex-wrap gap-2">

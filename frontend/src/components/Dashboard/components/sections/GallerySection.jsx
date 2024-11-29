@@ -242,7 +242,7 @@ const GallerySection = () => {
               className="w-full h-48 object-cover rounded-lg mb-4"
             />
             <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
-            <p className="text-gray-600 text-sm mb-4">{item.subtitle}</p>
+            <p className="text-gray-600 text-sm mb-4">{item.subtitle.slice(0,20)}</p>
             <div className="flex justify-end gap-2">
               <button
                 onClick={() => {

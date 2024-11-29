@@ -346,6 +346,19 @@ const BlogSection = () => {
                 <ReactQuill
                   value={formData.content}
                   onChange={handleQuillChange}
+                  modules={{
+                    toolbar: [
+                      [{ 'header': [1, 2, false] }],
+                      ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+                      [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}]
+                     
+                    ],
+                  }}
+                  formats={[
+                    'header',
+                    'bold', 'italic', 'underline', 'strike', 'blockquote',
+                    'list', 'bullet', 'indent',
+                  ]}
                   className="h-64 mb-12"
                 />
               </div>
