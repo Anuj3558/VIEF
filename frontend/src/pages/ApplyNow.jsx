@@ -30,6 +30,12 @@ export default function ApplyNowPage() {
     }
   };
 
+  // Function to limit description to 10 words
+  const limitDescription = (description) => {
+    const words = description.split(" ");
+    return words.slice(0, 10).join(" ") + (words.length > 10 ? "..." : "");
+  };
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -52,92 +58,92 @@ export default function ApplyNowPage() {
     },
   };
 
-  const SchemeSection = ({ schemes }) => (
-    <section className="my-20">
-      <motion.h1
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="text-4xl font-bold text-center mb-12"
-      >
-        Schemes Available
-      </motion.h1>
+ const SchemeSection = ({ schemes }) => (
+  <section className="my-20">
+    <motion.h1
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="text-4xl font-bold text-center mb-12"
+    >
+      Schemes Available
+    </motion.h1>
 
-      <motion.div
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12"
-      >
-        {(showAll ? schemes : schemes.slice(0, 6)).map((scheme, index) => (
-          <motion.div
-            key={index}
-            variants={itemVariants}
-            className="relative group h-[500px]" // Fixed height for the entire card
-          >
-            <div className="rounded-2xl overflow-hidden bg-white shadow-sm hover:shadow-md transition-shadow h-full flex flex-col">
-              <div className="relative rounded-[2rem] overflow-hidden h-[250px]">
-                {" "}
-                {/* Fixed height for image container */}
-                <motion.img
-                  whileHover={{ scale: 1.05 }}
-                  transition={{ duration: 0.3 }}
-                  src={scheme.image || "/images/defaultScheme.jpg"}
-                  alt={scheme.title}
-                  className="w-full h-full object-cover"
-                />
-                <motion.div
-                  whileHover={{ rotate: 360 }}
-                  className="absolute bottom-4 right-4 w-12 h-12 bg-white rounded-xl flex items-center justify-center cursor-pointer group-hover:bg-[#FF4D00] transition-colors duration-300"
-                  onClick={() => navigate(`/scheme-details/${scheme._id}`)}
-                >
-                  <ArrowUpRight className="w-6 h-6 text-[#1a237e] rotate-[-45deg] group-hover:text-white transition-colors duration-300" />
-                </motion.div>
+    <motion.div
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+      className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12"
+    >
+      {(showAll ? schemes : schemes.slice(0, 6)).map((scheme, index) => (
+        <motion.div
+          key={index}
+          variants={itemVariants}
+          className="relative group"
+        >
+          <div className="flex flex-col justify-between h-full rounded-2xl overflow-hidden bg-white shadow-sm hover:shadow-md transition-shadow">
+            <div className="relative rounded-[2rem] overflow-hidden">
+              {/* Image container with fixed height */}
+              <motion.img
+                whileHover={{ scale: 1.05 }}
+                transition={{ duration: 0.3 }}
+                src={scheme.image || "/images/defaultScheme.jpg"}
+                alt={scheme.title}
+                className="w-full h-[250px] object-cover"
+              />
+              <motion.div
+                whileHover={{ rotate: 360 }}
+                className="absolute bottom-4 right-4 w-12 h-12 bg-white rounded-xl flex items-center justify-center cursor-pointer group-hover:bg-[#FF4D00] transition-colors duration-300"
+                onClick={() => navigate(`/scheme-details/${scheme._id}`)}
+              >
+                <ArrowUpRight className="w-6 h-6 text-[#1a237e] rotate-[-45deg] group-hover:text-white transition-colors duration-300" />
+              </motion.div>
+            </div>
+
+            <div className="p-4 flex flex-col flex-grow">
+              <div className="flex items-center gap-4 border border-dashed border-gray-200 rounded-2xl p-2 mb-4">
+                <h3 className="text-[#1a237e] text-lg font-semibold line-clamp-1">
+                  {scheme.title}
+                </h3>
+                <div className="flex flex-col items-end gap-1 ml-auto">
+                  <span className="text-sm text-gray-600">
+                    {formatDate(scheme.date)}
+                  </span>
+                  <span className="text-xs text-[#FF4D00]">
+                    {formatDate(scheme.deadline)}
+                  </span>
+                </div>
               </div>
 
-              <div className="p-4 flex flex-col flex-grow">
-                <div className="flex items-center gap-4 border border-dashed border-gray-200 rounded-2xl p-2 mb-4">
-                  <h3 className="text-[#1a237e] text-lg font-semibold line-clamp-1">
-                    {scheme.title}
-                  </h3>
-                  <div className="flex flex-col items-end gap-1 ml-auto">
-                    <span className="text-sm text-gray-600">
-                      {formatDate(scheme.date)}
-                    </span>
-                    <span className="text-xs text-[#FF4D00]">
-                      {formatDate(scheme.deadline)}
-                    </span>
-                  </div>
-                </div>
-
-                <div className="bg-[#1a237e] text-white p-4 rounded-xl flex-grow flex items-center">
-                  <p className="text-sm leading-relaxed line-clamp-4">
-                    {scheme.description}
-                  </p>
-                </div>
+              {/* Blue box only (removed orange box) */}
+              <div className="flex-1 bg-[#1a237e] text-white rounded-[1rem] p-4">
+                <p className="text-sm leading-relaxed">
+                  {limitDescription(scheme.description)}
+                </p>
               </div>
             </div>
-          </motion.div>
-        ))}
-      </motion.div>
+          </div>
+        </motion.div>
+      ))}
+    </motion.div>
 
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.6, duration: 0.5 }}
-        className="text-center"
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.6, duration: 0.5 }}
+      className="text-center"
+    >
+      <motion.button
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        className="text-xl font-medium text-[#1a237e] hover:text-[#FF4D00] transition-colors"
+        onClick={() => setShowAll((prev) => !prev)}
       >
-        <motion.button
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          className="text-xl font-medium text-[#1a237e] hover:text-[#FF4D00] transition-colors"
-          onClick={() => setShowAll((prev) => !prev)}
-        >
-          {showAll ? "Show Less" : "More"}
-        </motion.button>
-      </motion.div>
-    </section>
-  );
+        {showAll ? "Show Less" : "More"}
+      </motion.button>
+    </motion.div>
+  </section>
+);
 
   if (loading) {
     return (

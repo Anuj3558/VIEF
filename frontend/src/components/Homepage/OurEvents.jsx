@@ -115,9 +115,10 @@ export default function EventsSectionHome() {
                     </div>
                   </div>
 
-                  <div className="flex-1 bg-[#FF4A11] text-white rounded-[1rem] p-4">
+                  {/* Reduced height for the orange box */}
+                  <div className="flex-1 bg-[#FF4A11] items-center justify-center text-white rounded-[1rem] p-3">
                     <p className="text-sm leading-relaxed">
-                      {event.description}
+                      {event.description.split(" ").slice(0, 10).join(" ")}...
                     </p>
                   </div>
                 </div>

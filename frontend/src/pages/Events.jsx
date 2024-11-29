@@ -5,6 +5,15 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { EventContext } from "../contexts/EventContext";
 
+// Helper function to truncate description to 10 words
+const truncateDescription = (description, wordLimit = 10) => {
+  const words = description.split(" ");
+  if (words.length > wordLimit) {
+    return words.slice(0, wordLimit).join(" ") + "...";
+  }
+  return description;
+};
+
 export default function EventsPage() {
   const {
     upcomingEvents = [],
@@ -119,7 +128,7 @@ export default function EventsPage() {
 
                   <div className="flex-1 bg-[#FF4A11] text-white rounded-[1rem] p-4">
                     <p className="text-sm leading-relaxed">
-                      {event.description}
+                      {truncateDescription(event.description)}
                     </p>
                   </div>
                 </div>
