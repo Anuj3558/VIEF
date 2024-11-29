@@ -124,8 +124,10 @@ export default function SchemeHomePage() {
                     </div>
 
                     <div className="bg-[#1a237e] text-white p-4 rounded-xl flex-grow flex items-center">
+                      {/* Reduced description with 10 words */}
                       <p className="text-sm leading-relaxed line-clamp-4">
-                        {scheme.description}
+                        {scheme.description.split(" ").slice(0, 10).join(" ")}
+                        ...
                       </p>
                     </div>
                   </div>
