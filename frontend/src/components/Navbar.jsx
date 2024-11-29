@@ -33,6 +33,7 @@ const Navbar = () => {
         { name: "Our Team", href: "/about-us" },
         { name: "Domains", href: "/innovation-hub" },
         { name: "Our Co-working place", href: "/Coworking" },
+        { name: "Our Investors", href: "/investors" },
       ],
     },
     { name: "Startup", href: "/startup" },
@@ -124,7 +125,7 @@ const Navbar = () => {
                 to="/ip"
                 className="border border-orange-500 text-orange-500 px-4 py-2 rounded text-xs font-medium hover:bg-orange-100 transition duration-300"
               >
-                Intellectual property
+                Event Ideathons
               </Link>
             </motion.div>
           </div>
