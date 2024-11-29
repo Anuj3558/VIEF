@@ -275,7 +275,7 @@ const SchemeSection = () => {
               <Calendar className="inline-block mr-2" />
               Deadline: {new Date(scheme.deadline).toLocaleDateString()}
             </p>
-            <p className="text-gray-700 mb-4">{scheme.description}</p>
+            <p className="text-gray-700 mb-4">{scheme.description.slice(0,30)+"..."}</p>
             <div className="flex justify-end gap-2 mt-4">
               <button
                 onClick={() => {
