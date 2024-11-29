@@ -76,19 +76,7 @@ const Footer = () => {
               into reality. Join our vibrant community, connect with mentors, and be the change 
               for India's future.
             </p>
-            <form className="flex flex-col sm:flex-row gap-2 w-full">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="w-full sm:w-auto flex-grow px-4 py-2 border rounded-md text-sm"
-              />
-              <button 
-                type="submit" 
-                className="bg-blue-900 text-white px-4 py-2 rounded-md text-sm whitespace-nowrap"
-              >
-                Subscribe
-              </button>
-            </form>
+          
           </div>
 
           {footerSections.map((section, index) => (
