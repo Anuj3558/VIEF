@@ -29,6 +29,7 @@ import Investers from "./pages/InvestersPage";
 import Newsletter from "./pages/NewsLetter";
 import ArticleDetail from "./pages/ArticleDetail"
 import NewsDetail from "./pages/NewsDetails"
+import DetailPage from "./components/Newsletter/DetailPage";
 
 function App() {
   return (
@@ -46,8 +47,8 @@ function App() {
             <Route path="/facilities" element={<WhyChooseUs />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="news-letter" element={<Newsletter />} />
-            <Route path="/news/:id" element={<NewsDetail />} />
-            <Route path="/article/:id" element={<ArticleDetail />} />
+            <Route path="/news-letter/:id" element={<DetailPage />} />
+
             <Route path="/event/past" element={<PastEventDetailsPage />} />
             <Route path="/event/:id" element={<EventDetailsPage />} />
             <Route path="/events" element={<EventsPage />} />
@@ -56,6 +57,8 @@ function App() {
             <Route path="/startup" element={<StartupsPage />} />
             <Route path="/achievements" element={<Awards />} />
             <Route path="/Blog" element={<Blog />} />
+            <Route path="/post/:id" element={<BlogContentPage />} />
+
             <Route path="/Coworking" element={<Coworking />} />
             <Route path="/investors" element={<Investers />} />
             <Route
