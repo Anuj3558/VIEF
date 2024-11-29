@@ -27,13 +27,11 @@ const CoworkingPlaceCard = ({ place }) => {
         </h3>
 
         <div className="flex-grow">
-          <p
-            className="text-gray-600 text-sm text-justify
-           mb-4 line-clamp-3"
-          >
+          <p className="text-gray-600 text-sm text-justify mb-4 line-clamp-3">
             {place.description}
           </p>
-          <div className="flex flex-wrap gap-2 mt-2 mb-4 min-h-[50px]">
+          {/* Amenity Section */}
+          <div className="flex flex-wrap gap-2 mt-2 mb-4 overflow-y-auto max-h-16">
             {place.amenities.map((amenity, index) => (
               <span
                 key={index}
