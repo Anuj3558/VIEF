@@ -26,7 +26,13 @@ import {
     createGallery,
     updateGallery,
     deleteGallery,
-    deleteContact
+    deleteContact,
+    createBlog,
+    updateBlog,
+    deleteBlog,
+    createCoworkingSpace,
+    deleteCoworkingSpace,
+    updateCoworkingSpace
 } from '../controller/adminRouter.js'; // Adjust path if needed
 import { upload } from '../cloudinaryConfig.js';
 
@@ -104,11 +110,11 @@ adminRouter.route('/news/:id')
     .delete(deleteNewsletter);
     adminRouter.route('/contacts/:id')
     .delete(deleteContact)
-// adminRouter.route('/newsletter').post(createNewsletter);
-// adminRouter.route('/newsletter/:id').put(updateNewsletter).delete(deleteNewsletter);
+adminRouter.route('/blogs').post(upload.single('image'),createBlog);
+adminRouter.route('/blogs/:id').put(upload.single('image'),updateBlog).delete(deleteBlog);
 
-// adminRouter.route('/startups').post(addStartup);
-// adminRouter.route('/startups/:id').put(updateStartup).delete(deleteStartup);
+adminRouter.route('/coworking-spaces').post(upload.single('image'),createCoworkingSpace);
+adminRouter.route('/coworking-spaces/:id').put(updateCoworkingSpace).delete(upload.single('image'),deleteCoworkingSpace);
 
 
 
