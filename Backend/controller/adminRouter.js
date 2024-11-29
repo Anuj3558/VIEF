@@ -1145,16 +1145,18 @@ export const createCoworking = async (req, res) => {
         }
 
         // Prepare amenities
-        const amenities = req.body.amenities 
-            ? req.body.amenities.split(',').map(amenity => amenity.trim()).filter(Boolean)
-            : [];
+        const amenities =  req.body.amenities;
+        let sample=amenities.replace(/\[|\]/g, '')
+        sample=sample.replace(/"/g, '')
+        const amenitiesArray= sample.split(',');
+        
 
         // Create new coworking space
         const newCoworkingSpace = new CoworkingSpace({
             name,
             address,
             description,
-            amenities,
+            amenities:amenitiesArray,
             image: req.file.path,
             mapLink
         });
@@ -1191,7 +1193,7 @@ export const createCoworking = async (req, res) => {
 export const updateCoworking = async (req, res) => {
     try {
         const { id } = req.params;
-
+        console.log(req.params.id)
         // Validate ID
         if (!mongoose.Types.ObjectId.isValid(id)) {
             return res.status(400).json({ 
@@ -1199,7 +1201,11 @@ export const updateCoworking = async (req, res) => {
                 message: 'Invalid coworking space ID' 
             });
         }
-
+        const amenities =  req.body.amenities;
+        let sample=amenities.replace(/\[|\]/g, '')
+        sample=sample.replace(/"/g, '')
+        const amenitiesArray= sample.split(',');
+        
         // Find existing coworking space
         const existingCoworkingSpace = await CoworkingSpace.findById(id);
         if (!existingCoworkingSpace) {
@@ -1215,9 +1221,7 @@ export const updateCoworking = async (req, res) => {
             address: req.body.address || existingCoworkingSpace.address,
             description: req.body.description || existingCoworkingSpace.description,
             mapLink: req.body.mapLink || existingCoworkingSpace.mapLink,
-            amenities: req.body.amenities 
-                ? req.body.amenities.split(',').map(amenity => amenity.trim()).filter(Boolean)
-                : existingCoworkingSpace.amenities
+            amenities: amenitiesArray
         };
 
         // Handle image update
