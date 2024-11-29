@@ -46,7 +46,7 @@ VIEF empowers entrepreneurs to overcome challenges and turn their vision into re
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.4 }}
               >
-                <ApplyButton text={"Apply Now"} route={"/apply"} />
+                <ApplyButton text={"Apply Now"} route={"/apply-now"} />
                 <motion.div
                   className=" flex mt-1 items-center text-white"
                   initial={{ opacity: 0 }}

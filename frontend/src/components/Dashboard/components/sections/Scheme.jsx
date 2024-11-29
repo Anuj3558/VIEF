@@ -130,9 +130,7 @@ const SchemeSection = () => {
       formDataToSend.append('applyButtonLink', formData.applyButtonLink);
       formDataToSend.append('deadline', formData.deadline);
       formDataToSend.append('description', formData.description);
-      if (formData.image) {
-        formDataToSend.append('image', formData.image);
-      }
+      formDataToSend.append('image', formData.image);
 
       await apiRequests.createScheme(formDataToSend);
       notification.success({
@@ -159,14 +157,6 @@ const SchemeSection = () => {
   const handleEditScheme = async (e) => {
     e.preventDefault();
     if (!selectedScheme) return;
-    if (!formData.image && !previewUrl) {
-      notification.error({
-        message: 'Error',
-        description: 'Please upload an image for the scheme.',
-        placement: 'topRight',
-      });
-      return;
-    }
     try {
       setIsLoading(true);
       const formDataToSend = new FormData();
@@ -256,8 +246,6 @@ const SchemeSection = () => {
         SCHEMES
       </motion.h1>
       
-    
-
       <div className="mb-6">
         <AddButton title="SCHEME" onClick={() => setIsAddOpen(true)} />
       </div>
@@ -329,7 +317,7 @@ const SchemeSection = () => {
             <form onSubmit={isAddOpen ? handleAddScheme : handleEditScheme} className="space-y-4">
               <div>
                 <label className="block text-sm font-medium mb-1">
-                  Image <span className="text-red-500">*</span>
+                  Image {isAddOpen && <span className="text-red-500">*</span>}
                 </label>
                 <div className="space-y-2">
                   {previewUrl && (
@@ -347,7 +335,7 @@ const SchemeSection = () => {
                       accept="image/*"
                       className="hidden"
                       id="image-upload"
-                      required
+                      required={isAddOpen}
                     />
                     <label
                       htmlFor="image-upload"

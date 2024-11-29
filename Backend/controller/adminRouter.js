@@ -149,6 +149,7 @@ export const createScheme = async (req, res) => {
         const newScheme = new Scheme({
             title: req.body.title,
             image: req.file.path,
+            Type:req.body.Type,
             deadline: new Date(req.body.deadline),
             url: req.body.applyButtonLink,
             description:req.body.description
@@ -190,7 +191,8 @@ export const updateScheme = async (req, res) => {
 
         let updateData = {
             title: req.body.title,
-            image: req.file.path,
+            image: req.file?.path || existingScheme.image,
+            Type:req.body.Type,
             deadline: new Date(req.body.deadline),
             url: req.body.applyButtonLink,
             description:req.body.description

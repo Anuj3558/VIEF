@@ -61,7 +61,7 @@ const NewsDetail = ({ slug }) => {
               />
               <div>
                 <p className="font-medium">{newsData.author.name}</p>
-                <p className="text-sm text-gray-500">{newsData.date}</p>
+                <p className="text-sm text-gray-500">{newsData.date.slice(0,8)}</p>
               </div>
             </div>
 
