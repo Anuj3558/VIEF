@@ -21,7 +21,7 @@ const Card = ({ image, title, subtitle, description, onEdit, onRemove }) => {
           <h3 className="font-semibold">{title}</h3>
           {subtitle && <p className="text-sm text-gray-600">{subtitle}</p>}
           {description && (
-            <p className="mt-2 text-sm text-gray-600 line-clamp-2">{description}</p>
+            <p className="mt-2 text-sm text-gray-600 line-clamp-2">{description.slice(0,30)}</p>
           )}
         </div>
       </div>

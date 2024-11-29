@@ -115,7 +115,7 @@ adminRouter.route('/blogs').post(upload.single('image'),createBlog);
 adminRouter.route('/blogs/:id').put(upload.single('image'),updateBlog).delete(deleteBlog);
 
 adminRouter.route('/coworking-spaces').post(upload.single('image'),createCoworking);
-adminRouter.route('/coworking-spaces/:id').put(updateCoworking).delete(upload.single('image'),deleteCoworking);
+adminRouter.route('/coworking-spaces/:id').put(upload.single('image'),updateCoworking).delete(upload.single('image'),deleteCoworking);
 
 
 

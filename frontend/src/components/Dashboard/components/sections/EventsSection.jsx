@@ -258,7 +258,7 @@ const EventsSection = () => {
             />
             <h3 className="text-xl font-semibold mb-2">{event.title}</h3>
             <p className="text-gray-600 text-sm mb-2">Date: {new Date(event.date).toLocaleDateString()}</p>
-            <p className="text-gray-700 mb-4">{event.description}</p>
+            <p className="text-gray-700 mb-4">{event.description.slice(0,30)+"..."}</p>
             <div className="flex justify-between items-center">
               <div className="flex gap-2">
                 <button
