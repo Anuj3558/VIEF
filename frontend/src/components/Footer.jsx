@@ -31,7 +31,7 @@ const Footer = () => {
       title: 'Careers',
       links: [
         { name: 'Jobs at VIEF', url: 'https://forms.gle/Aw2MwpAGsxwS4Xri7' },
-        { name: 'Jobs as volunteer', url: ': https://forms.gle/bGnuEqjWbkC4gjcp8 ' },
+        { name: 'Jobs as volunteer', url: 'https://forms.gle/bGnuEqjWbkC4gjcp8 ' },
         { name: 'Apply for Internship', url: 'https://forms.gle/Jg8CRqzvHR6CdfPJA ' },
         { name: 'Jobs at startups', url: 'https://forms.gle/Vk3rHv52Rn775qBt7 ' },
       ],
