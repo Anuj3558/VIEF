@@ -397,124 +397,136 @@ export const deleteAward = async (req, res) => {
   
 export const addSponsor = async (req, res) => {
   try {
-      if (!req.file) {
-          return res.status(400).json({ message: 'Image file is required' });
-      }
+    if (!req.file) {
+      return res.status(400).json({ message: "Image file is required" });
+    }
 
-      const newSponsor = new Sponsor({
-          title: req.body.title,
-          subtitle: req.body.subtitle,
-          description: req.body.description,
-          image: req.file.path
-      });
+    const newSponsor = new Sponsor({
+      title: req.body.title,
+      subtitle: req.body.subtitle,
+      description: req.body.description,
+      image: req.file.path,
+      type: req.body.type,
+    });
 
-      const savedSponsor = await newSponsor.save();
-      
-      res.status(201).json({
-          success: true,
-          data: savedSponsor,
-          message: 'Sponsor added successfully'
-      });
+    const savedSponsor = await newSponsor.save();
+
+    res.status(201).json({
+      success: true,
+      data: savedSponsor,
+      message: "Partnership or Supporter added successfully",
+    });
   } catch (error) {
-      // Clean up uploaded image if there's an error
-      if (req.file?.path) {
-          await deleteFromCloudinary(getPublicIdFromUrl(req.file.path));
-      }
-      console.log(error);
-      res.status(500).json({
-          success: false,
-          message: 'Error adding sponsor',
-          error: error.message
-      });
+    // Clean up uploaded image if there's an error
+    if (req.file?.path) {
+      await deleteFromCloudinary(getPublicIdFromUrl(req.file.path));
+    }
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "Error adding partnership or supporter",
+      error: error.message,
+    });
   }
 };
 
 export const updateSponsor = async (req, res) => {
   try {
-      const { id } = req.params;
+    const { id } = req.params;
 
-      if (!id) {
-          return res.status(400).json({ message: 'Invalid sponsor ID' });
+    if (!id) {
+      return res
+        .status(400)
+        .json({ message: "Invalid partnership or supporter ID" });
+    }
+
+    const existingSponsor = await Sponsor.findById(id);
+    if (!existingSponsor) {
+      return res
+        .status(404)
+        .json({ message: "Partnership or Supporter not found" });
+    }
+
+    let updateData = {
+      title: req.body.title,
+      subtitle: req.body.subtitle,
+      description: req.body.description,
+      type: req.body.type,
+    };
+
+    // Handle image update if new file is uploaded
+    if (req.file) {
+      // Delete old image from Cloudinary
+      if (existingSponsor.image) {
+        await deleteFromCloudinary(getPublicIdFromUrl(existingSponsor.image));
       }
+      updateData.image = req.file.path;
+    }
 
-      const existingSponsor = await Sponsor.findById(id);
-      if (!existingSponsor) {
-          return res.status(404).json({ message: 'Sponsor not found' });
-      }
+    const updatedSponsor = await Sponsor.findByIdAndUpdate(
+      id,
+      { $set: updateData },
+      { new: true, runValidators: true }
+    );
 
-      let updateData = {
-          title: req.body.title,
-          subtitle: req.body.subtitle,
-          description: req.body.description
-      };
-
-      // Handle image update if new file is uploaded
-      if (req.file) {
-          // Delete old image from Cloudinary
-          if (existingSponsor.image) {
-              await deleteFromCloudinary(getPublicIdFromUrl(existingSponsor.image));
-          }
-          updateData.image = req.file.path;
-      }
-
-      const updatedSponsor = await Sponsor.findByIdAndUpdate(
-          id,
-          { $set: updateData },
-          { new: true, runValidators: true }
-      );
-
-      res.json({
-          success: true,
-          data: updatedSponsor,
-          message: 'Sponsor updated successfully'
-      });
+    res.json({
+      success: true,
+      data: updatedSponsor,
+      message: "Partnership or Supporter updated successfully",
+    });
   } catch (error) {
-      // Clean up uploaded image if there's an error
-      if (req.file?.path) {
-          await deleteFromCloudinary(getPublicIdFromUrl(req.file.path));
-      }
+    // Clean up uploaded image if there's an error
+    if (req.file?.path) {
+      await deleteFromCloudinary(getPublicIdFromUrl(req.file.path));
+    }
 
-      res.status(500).json({
-          success: false,
-          message: 'Error updating sponsor',
-          error: error.message
-      });
+    res.status(500).json({
+      success: false,
+      message: "Error updating partnership or supporter",
+      error: error.message,
+    });
   }
 };
 
 export const deleteSponsor = async (req, res) => {
   try {
-      const { id } = req.params;
+    const { id } = req.params;
 
-      if (!id) {
-          return res.status(400).json({ message: 'Invalid sponsor ID' });
-      }
+    if (!id) {
+      return res
+        .status(400)
+        .json({ message: "Invalid partnership or supporter ID" });
+    }
 
-      const sponsor = await Sponsor.findById(id);
-      if (!sponsor) {
-          return res.status(404).json({ message: 'Sponsor not found' });
-      }
+    const sponsor = await Sponsor.findById(id);
+    if (!sponsor) {
+      return res
+        .status(404)
+        .json({ message: "Partnership or Supporter not found" });
+    }
 
-      // Delete image from Cloudinary first
-      if (sponsor.image) {
-          await deleteFromCloudinary(getPublicIdFromUrl(sponsor.image));
-      }
+    // Delete image from Cloudinary first
+    if (sponsor.image) {
+      await deleteFromCloudinary(getPublicIdFromUrl(sponsor.image));
+    }
 
-      // Delete the sponsor document
-      await sponsor.deleteOne();
+    // Delete the sponsor document
+    await sponsor.deleteOne();
 
-      res.json({
-          success: true,
-          message: 'Sponsor deleted successfully'
-      });
+    res.json({
+      success: true,
+      message: "Partnership or Supporter deleted successfully",
+    });
   } catch (error) {
-      res.status(500).json({
-          success: false,
-          message: 'Error deleting sponsor',
-          error: error.message
-      });
+    res.status(500).json({
+      success: false,
+      message: "Error deleting partnership or supporter",
+      error: error.message,
+    });
   }
 };
+
+
   
   export const createMember = async (req, res) => {
     try {

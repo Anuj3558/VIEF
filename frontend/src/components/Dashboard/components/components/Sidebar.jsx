@@ -26,7 +26,7 @@ const Sidebar = ({ setActiveSection, activeSection }) => {
     { title: 'Awards', key: 'awards' },
     { title: 'Schemes', key: 'Schemes' },
     { title: 'News and Articles', key: 'news' },
-    { title: 'Sponsors', key: 'sponsors' },
+    { title: 'Partnership and Supporters', key: 'sponsors' },
     { title: 'Gallery', key: 'Gallery' },
     { title: 'Contacted People', key: 'contacted' },
     { title: 'Add Coworking Places', key: 'Coworking' },

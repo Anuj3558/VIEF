@@ -12,6 +12,7 @@ import GallerySection from './sections/GallerySection';
 import ContactsSection from './sections/Contacted';
 import CoworkingSection from './sections/Coworking';
 import BlogSection from './sections/BlogSection';
+import PartnershipAndSupportersSection from './sections/SponsorsSection';
 
 const Dashboard = () => {
   const [activeSection, setActiveSection] = useState('events');
@@ -31,7 +32,7 @@ const Dashboard = () => {
       case 'news':
         return <NewsAndArticlesSection />;
       case 'sponsors':
-        return <SponsorsSection />;
+        return <PartnershipAndSupportersSection />;
       case 'Gallery':
         return <GallerySection />;
       case 'contacted':
