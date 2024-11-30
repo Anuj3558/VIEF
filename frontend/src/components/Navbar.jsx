@@ -40,12 +40,8 @@ const Navbar = () => {
     { name: "Schemes", href: "/apply-now" },
     {
       name: "Events",
-      href: " ",
-      hasDropdown: true,
-      dropdownItems: [
-        { name: "Our events", href: "/Events" },
-        { name: "VIIP", href: "" },
-      ],
+      href :"/Events"
+    
     },
     { name: "Achievements", href: "/achievements" },
     { name: "Blog", href: "/Blog" },
@@ -126,6 +122,13 @@ const Navbar = () => {
                 className="border border-orange-500 text-orange-500 px-4 py-2 rounded text-xs font-medium hover:bg-orange-100 transition duration-300"
               >
                 Event Ideathons
+              </Link>
+              <Link
+                to="https://www.vastavintellect.com"
+                target="blank"
+                className="border border-orange-500 text-orange-500 px-4 py-2 rounded text-xs font-medium hover:bg-orange-100 transition duration-300"
+              >
+                VIIP
               </Link>
             </motion.div>
           </div>
@@ -218,6 +221,13 @@ const Navbar = () => {
                 onClick={() => setIsOpen(false)}
               >
                 VIEF Scholar
+              </Link>
+              <Link
+                to="/event-ideathon"
+                className="border border-orange-500 text-orange-500 block px-4 py-3 rounded-md text-base font-medium hover:bg-orange-100 transition duration-300 mt-2"
+                onClick={() => setIsOpen(false)}
+              >
+                Event Ideathon
               </Link>
               <Link
                 to="/event-ideathon"
