@@ -110,8 +110,9 @@ const ContactPage = () => {
                 <div>
                   <p className="font-medium text-left">Our Location</p>
                   <p className="text-sm text-gray-600">
-                    1055 Arthur ave Elk Groot, 67,<br />
-                    New Palmas South Carolina.
+                  61-C Rajouri Garden,<br />
+                    New Delhi-110027
+
                   </p>
                 </div>
               </div>
@@ -122,7 +123,7 @@ const ContactPage = () => {
                 </div>
                 <div>
                   <p className="font-medium text-left">Phone Number</p>
-                  <p className="text-sm text-gray-600">+1 234 678 9108 99</p>
+                  <p className="text-sm text-gray-600">+91-9667576014</p>
                 </div>
               </div>
 
@@ -132,7 +133,7 @@ const ContactPage = () => {
                 </div>
                 <div>
                   <p className="font-medium text-left">Email Address</p>
-                  <p className="text-sm text-gray-600">Contact@moralizer.com</p>
+                  <p className="text-sm text-gray-600">info@vief.in,<br/> helpdesk@vief.in</p>
                 </div>
               </div>
             </div>
@@ -161,7 +162,7 @@ const ContactPage = () => {
                     }
                   ]}
                 >
-                  <Input placeholder="John Doe" />
+                  <Input placeholder="Vastav " />
                 </Form.Item>
 
                 <Form.Item
@@ -208,14 +209,14 @@ const ContactPage = () => {
                     }
                   ]}
                 >
-                  <Input placeholder="john@example.com" />
+                  <Input placeholder="vief@example.com" />
                 </Form.Item>
 
                 <Form.Item
                   name="phone"
                   label="Phone Number"
                 >
-                  <Input placeholder="+1 (555) 000-0000" />
+                  <Input placeholder="+5677-55-555" />
                 </Form.Item>
 
                 <Form.Item
