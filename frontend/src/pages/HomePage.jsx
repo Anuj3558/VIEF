@@ -22,9 +22,10 @@ const  HomePage =()=>{
         <TrendingEventOverlay />
         <Hero />
         <AnimatedCounters />
-        <CurrentStartups/>
+        
         <GlimpseOfWork />
         <HowToJoinSection />
+        <CurrentStartups/>
         <StoriesSection />
         <ImageCarousel />
         
