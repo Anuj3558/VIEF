@@ -27,22 +27,28 @@ const DetailPage = () => {
         <ArrowLeft className="mr-2" size={20} />
         <span className="text-sm sm:text-base">Back to Newsletter</span>
       </button>
-      <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">{selectedItem.title}</h1>
-      <p className="text-sm text-gray-500 mb-4">
-        {new Date(selectedItem.publishDate).toLocaleDateString()}
-      </p>
-      <img
-        src={selectedItem.image}
-        alt={selectedItem.title}
-        className="w-full h-48 sm:h-64 md:h-80 object-cover rounded-lg mb-6"
-      />
-      <div
-        className="text-gray-700 text-sm sm:text-base leading-relaxed space-y-4"
-        dangerouslySetInnerHTML={{ __html: selectedItem.description }}
-      />
+      
+      <div className="bg-white rounded-lg p-6 sm:p-8 shadow-sm">
+        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 text-left">
+          {selectedItem.title}
+        </h1>
+        <p className="text-sm text-gray-500 mb-4 text-left">
+          {new Date(selectedItem.publishDate).toLocaleDateString()}
+        </p>
+        
+        <img
+          src={selectedItem.image}
+          alt={selectedItem.title}
+          className="w-full h-48 sm:h-64 md:h-80 object-cover rounded-lg mb-6"
+        />
+        
+        <div
+          className="text-gray-700 text-sm sm:text-base leading-relaxed space-y-4 text-left"
+          dangerouslySetInnerHTML={{ __html: selectedItem.description }}
+        />
+      </div>
     </div>
   );
 };
 
 export default DetailPage;
-
