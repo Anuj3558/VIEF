@@ -1,26 +1,34 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const { Schema } = mongoose;
 
-const sponsorSchema = new Schema({
-  title: {
-    type: String,
-    required: true,
+const sponsorSchema = new Schema(
+  {
+    title: {
+      type: String,
+      required: true,
+    },
+    subtitle: {
+      type: String,
+      required: true,
+    },
+    description: {
+      type: String,
+      required: true,
+    },
+    image: {
+      type: String,
+      required: true,
+    },
+    type: {
+      type: String,
+      enum: ["partnership", "supporter"],
+      required: true,
+    },
   },
-  subtitle: {
-    type: String,
-    required: true,
-  },
-  description: {
-    type: String,
-    required: true,
-  },
-  image: {
-    type: String,
-    required: true,
-  },
-}, { timestamps: true });
+  { timestamps: true }
+);
 
-const Sponsor = mongoose.model('Sponsor', sponsorSchema);
+const Sponsor = mongoose.model("Sponsor", sponsorSchema);
 
 export default Sponsor;

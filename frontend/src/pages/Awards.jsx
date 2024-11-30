@@ -6,16 +6,15 @@ import { SponsorContext } from "../contexts/SponsorContext";
 // PartnershipGrid Component
 const PartnershipGrid = () => {
   const {
-    sponsors,
-    loading: sponsorLoading,
-    error: sponsorError,
-  } = useContext(SponsorContext); // Use SponsorContext
-  
-  const [showAll, setShowAll] = useState(false); // State to track if all sponsors are shown
+    partnerships,
+    loading: partnershipLoading,
+    error: partnershipError,
+  } = useContext(SponsorContext);
 
-  // Function to handle 'More' button click
+  const [showAll, setShowAll] = useState(false);
+
   const handleShowAll = () => {
-    setShowAll(true); // Show all sponsors
+    setShowAll(true);
   };
 
   return (
@@ -24,32 +23,34 @@ const PartnershipGrid = () => {
         Partnership Collaboration
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {sponsorLoading ? (
-          <div className="text-center text-xl">Loading sponsors...</div> // Loading state message
-        ) : sponsorError ? (
+        {partnershipLoading ? (
+          <div className="text-center text-xl">Loading partnerships...</div>
+        ) : partnershipError ? (
           <div className="text-center text-xl text-red-500">
-            Error loading sponsors
+            Error loading partnerships
           </div>
-        ) : sponsors.length === 0 ? (
-          <div className="text-center text-xl">No sponsors found</div> // Message if no sponsors are found
+        ) : partnerships.length === 0 ? (
+          <div className="text-center text-xl">No partnerships found</div>
         ) : (
-          (showAll ? sponsors : sponsors.slice(0, 6)).map((sponsor, index) => (
-            <div key={index} className="relative rounded-2xl overflow-hidden">
-              <img
-                src={sponsor.image}
-                alt={sponsor.title}
-                className="w-full h-[250px] object-cover"
-              />
-              <div className="absolute bottom-4 left-4">
-                <span className="bg-[#FF4D00] text-white px-4 py-2 rounded-lg">
-                  {sponsor.title}
-                </span>
+          (showAll ? partnerships : partnerships.slice(0, 6)).map(
+            (partnership, index) => (
+              <div key={index} className="relative rounded-2xl overflow-hidden">
+                <img
+                  src={partnership.image}
+                  alt={partnership.title}
+                  className="w-full h-[250px] object-cover"
+                />
+                <div className="absolute bottom-4 left-4">
+                  <span className="bg-[#FF4D00] text-white px-4 py-2 rounded-lg">
+                    {partnership.title}
+                  </span>
+                </div>
               </div>
-            </div>
-          ))
+            )
+          )
         )}
       </div>
-      {!showAll && sponsors.length > 6 && (
+      {!showAll && partnerships.length > 6 && (
         <div className="text-center mt-8">
           <button
             onClick={handleShowAll}
@@ -88,10 +89,10 @@ const AwardsSection = () => {
     awards,
     loading: awardLoading,
     error: awardError,
-  } = useContext(AwardContext); // Use AwardContext
+  } = useContext(AwardContext);
 
   return (
-    <div className=" mx-auto ">
+    <div className="mx-auto">
       {/* Hero Section */}
       <div className="relative h-[300px] mb-16 md:pt-[4%]">
         <img
@@ -102,7 +103,7 @@ const AwardsSection = () => {
         <div className="absolute inset-0 bg-black/20" />
         <div className="absolute inset-0 flex items-center">
           <div className="container mx-auto px-4 mt-16">
-            <h1 className="text-5xl text-left text-white font-bold ">Awards</h1>
+            <h1 className="text-5xl text-left text-white font-bold">Awards</h1>
           </div>
         </div>
       </div>
@@ -110,13 +111,13 @@ const AwardsSection = () => {
       {/* Awards Section */}
       <div className="space-y-8">
         {awardLoading ? (
-          <div className="text-center text-xl">Loading awards...</div> // Loading state message
+          <div className="text-center text-xl">Loading awards...</div>
         ) : awardError ? (
           <div className="text-center text-xl text-red-500">
             Error loading awards
           </div>
         ) : awards.length === 0 ? (
-          <div className="text-center text-xl">No awards found</div> // Message if no awards are found
+          <div className="text-center text-xl">No awards found</div>
         ) : (
           awards.map((award, index) => (
             <AwardCard
