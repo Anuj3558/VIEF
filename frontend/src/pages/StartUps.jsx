@@ -56,7 +56,7 @@ const StartupSection = ({ title, startups }) => {
   const handleShowAll = () => setShowAll(true);
 
   return (
-    <section className="my-16">
+    <section className="my-6">
       <motion.h2
         initial={{ opacity: 0, y: -20 }}
         whileInView={{ opacity: 1, y: 0 }}

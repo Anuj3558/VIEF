@@ -5,6 +5,7 @@ import { useLocation } from 'react-router-dom';
 
 const Footer = () => {
   const location = useLocation();
+  const currentYear = new Date().getFullYear();
   const isAdminPage = location.pathname === '/admin';
 
   const footerSections = [
@@ -98,7 +99,7 @@ const Footer = () => {
         {/* Bottom Section */}
         <div className="mt-8 pt-8 border-t flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
           <p className="text-sm text-gray-600 text-center sm:text-left">
-            Copyright © 2024 VIEF | All Rights Reserved
+            Copyright © {currentYear} VIEF | All Rights Reserved
           </p>
           <div className="flex space-x-4">
             {socialLinks.map((social) => (
@@ -121,4 +122,3 @@ const Footer = () => {
 };
 
 export default Footer;
-

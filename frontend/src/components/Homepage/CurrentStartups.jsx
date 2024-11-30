@@ -27,7 +27,7 @@ const StartupCard = ({ name, image, description }) => {
             className="w-full h-full object-cover"
           />
         </div>
-        <div className="bg-[#1a237e] py-2 px-4">
+        <div className="bg-[#1a237e]  px-4">
           <h3 className="text-center text-white font-medium">{name}</h3>
         </div>
         <motion.a
@@ -54,7 +54,7 @@ const StartupSection = ({ title, startups }) => {
   const handleShowAll = () => setShowAll(true);
 
   return (
-    <section className="my-16">
+    <section className="mb-4">
       <motion.h2
         initial={{ opacity: 0, y: -20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -99,8 +99,8 @@ const CurrentStartups = () => {
   const { currentStartups } = useContext(StartupContext);
 
   return (
-    <div className="bg-gray-50/50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div className="">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <StartupSection title="Current Startups" startups={currentStartups} />
       </div>
     </div>

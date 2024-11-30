@@ -66,7 +66,7 @@ export default function SchemeHomePage() {
   }
 
   return (
-    <div className=" bg-gray-50/50">
+    <div className=" ">
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ">
         <section className="py-6">
           <motion.h1

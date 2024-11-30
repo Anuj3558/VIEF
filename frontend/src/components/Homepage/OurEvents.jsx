@@ -146,7 +146,7 @@ export default function EventsSectionHome() {
   );
 
   return (
-    <main className=" bg-gray-50/50">
+    <main className=" ">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <EventSection title="Upcoming Events" events={upcomingEvents} />
       </div>
