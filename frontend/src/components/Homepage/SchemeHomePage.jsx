@@ -51,7 +51,7 @@ export default function SchemeHomePage() {
 
   if (loading) {
     return (
-      <div className=" bg-gray-50/50 flex items-center justify-center">
+      <div className="bg-gray-50/50 flex items-center justify-center">
         <p>Loading schemes...</p>
       </div>
     );
@@ -59,14 +59,14 @@ export default function SchemeHomePage() {
 
   if (error) {
     return (
-      <div className=" bg-gray-50/50 flex items-center justify-center">
+      <div className="bg-gray-50/50 flex items-center justify-center">
         <p className="text-red-500">{error}</p>
       </div>
     );
   }
 
   return (
-    <div className=" ">
+    <div className="">
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ">
         <section className="py-6">
           <motion.h1
@@ -135,6 +135,17 @@ export default function SchemeHomePage() {
               </motion.div>
             ))}
           </motion.div>
+
+          <div className="text-center mt-8">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="text-xl font-medium text-[#1a237e] hover:text-[#FF4D00] transition-colors"
+              onClick={() => navigate("/apply-now")}
+            >
+              More
+            </motion.button>
+          </div>
         </section>
       </main>
     </div>

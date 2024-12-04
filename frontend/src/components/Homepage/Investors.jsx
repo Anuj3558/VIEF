@@ -13,8 +13,12 @@ const Investors = () => {
   return (
     <main className=" ">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <TeamSection title="Investors" homePage={"true"} members={investors} />
-    </div>
+        <TeamSection
+          title="Partnerships and Collaborations"
+          homePage={"true"}
+          members={investors}
+        />
+      </div>
     </main>
   );
 };
