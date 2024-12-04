@@ -40,10 +40,10 @@ const PartnershipGrid = () => {
                   alt={partnership.title}
                   className="w-full h-[250px] object-cover"
                 />
-                <div className="absolute bottom-4 left-4">
-                  <span className="bg-[#FF4D00] text-white px-4 py-2 rounded-lg">
+                <div className="absolute bottom-4 px-3 text-center">
+                  <p className="bg-[#FF4D00] text-white px-4 py-2 text-sm  rounded-lg">
                     {partnership.title}
-                  </span>
+                  </p>
                 </div>
               </div>
             )

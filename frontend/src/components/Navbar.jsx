@@ -40,8 +40,7 @@ const Navbar = () => {
     { name: "Schemes", href: "/apply-now" },
     {
       name: "Events",
-      href :"/Events"
-    
+      href: "/Events",
     },
     { name: "Achievements", href: "/achievements" },
     { name: "Blog", href: "/Blog" },
@@ -223,18 +222,19 @@ const Navbar = () => {
                 VIEF Scholar
               </Link>
               <Link
-                to="/event-ideathon"
+                to="/ip"
                 className="border border-orange-500 text-orange-500 block px-4 py-3 rounded-md text-base font-medium hover:bg-orange-100 transition duration-300 mt-2"
                 onClick={() => setIsOpen(false)}
               >
-                Event Ideathon
+                Event Ideathons
               </Link>
               <Link
-                to="/event-ideathon"
+                to="https://www.vastavintellect.com"
+                target="blank"
                 className="border border-orange-500 text-orange-500 block px-4 py-3 rounded-md text-base font-medium hover:bg-orange-100 transition duration-300 mt-2"
                 onClick={() => setIsOpen(false)}
               >
-                Event Ideathon
+                VIIP
               </Link>
             </div>
           </motion.div>

@@ -111,7 +111,7 @@ export default function EventsSectionHome() {
                       </span>
                       {event.mode === "ONLINE" ? (
                         <span className="text-[#00C944] text-sm">Online</span>
-                      ): <span className="text-[#00C944] text-sm">Offline</span>}
+                      ): <span className="text-[#c90700] text-sm">Offline</span>}
                     </div>
                   </div>
 
