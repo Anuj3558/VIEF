@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { motion } from "framer-motion";
 import { ExternalLink } from "lucide-react";
 import { StartupContext } from "../../contexts/StartupContext.js";
+import { Link } from "react-router-dom";
 
 const StartupCard = ({ name, image, description }) => {
   const formatUrl = (url) => {
@@ -69,26 +70,26 @@ const StartupSection = ({ title, startups }) => {
             No startups found
           </div>
         ) : (
-          (showAll ? startups : startups.slice(0, 4)).map((startup, index) => (
+          (showAll ? startups : startups.slice(0, 3)).map((startup, index) => (
             <StartupCard key={index} {...startup} />
           ))
         )}
       </div>
-      {!showAll && startups.length > 4 && (
+      {!showAll && startups.length > 3 && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           className="text-center"
         >
+          <Link to={"/startup"} >
           <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={handleShowAll}
-            className="text-xl underline font-medium text-[#1a237e] hover:text-[#FF4D00] transition-colors"
+      
+            className=" underline font-medium text-[#1a237e] hover:text-[#FF4D00] transition-colors"
           >
             More
           </motion.button>
+          </Link>
         </motion.div>
       )}
     </section>

@@ -103,22 +103,22 @@ export default function EventsSectionHome() {
                 <div className="flex-1 flex flex-col p-4">
                   <div className="flex px-7 gap-4 border border-dashed border-gray-500 rounded-2xl p-2 mb-4">
                     <h3 className="text-[#1a237e] items-start flex text-center py-3 text-[16px] barlow-condensed-regular font-semibold flex-1">
-                      {event.title}
+                      {event.title.slice(0,30)}.......
                     </h3>
                     <div className="flex flex-col items-end gap-1 barlow-condensed-regular">
                       <span className="text-sm text-gray-600">
                         {new Date(event.date).toLocaleDateString()}
                       </span>
-                      {event.mode === "ONLINE" && (
+                      {event.mode === "ONLINE" ? (
                         <span className="text-[#00C944] text-sm">Online</span>
-                      )}
+                      ): <span className="text-[#00C944] text-sm">Offline</span>}
                     </div>
                   </div>
 
                   {/* Reduced height for the orange box */}
-                  <div className="flex-1 bg-[#FF4A11] items-center justify-center text-white rounded-[1rem] p-3">
-                    <p className="text-sm leading-relaxed">
-                      {event.description.split(" ").slice(0, 10).join(" ")}...
+                  <div className="flex-1 bg-[#FF4A11] items-center text-center align-middle justify-center text-white rounded-[1rem] p-3">
+                    <p className="text-sm  text-center items-center justify-center">
+                      {event.description.split(" ").slice(0, 23).join(" ")}...
                     </p>
                   </div>
                 </div>
@@ -136,7 +136,7 @@ export default function EventsSectionHome() {
                 to="/events"
                 className="text-[#1a237e] hover:text-[#FF4D00] transition-colors text-lg underline"
               >
-                View More Events
+               More 
               </Link>
             </div>
           )}
@@ -148,7 +148,7 @@ export default function EventsSectionHome() {
   return (
     <main className=" ">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <EventSection title="Upcoming Events" events={upcomingEvents} />
+        <EventSection title="Events" events={pastEvents} />
       </div>
     </main>
   );

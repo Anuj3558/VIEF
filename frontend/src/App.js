@@ -1,5 +1,5 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import React, { useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import "./App.css";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
@@ -27,13 +27,24 @@ import Coworking from "./pages/Coworking";
 import BlogContentPage from "./pages/BlogContentPage";
 import Investers from "./pages/InvestersPage";
 import Newsletter from "./pages/NewsLetter";
-import ArticleDetail from "./pages/ArticleDetail"
-import NewsDetail from "./pages/NewsDetails"
+import ArticleDetail from "./pages/ArticleDetail";
+import NewsDetail from "./pages/NewsDetails";
 import DetailPage from "./components/Newsletter/DetailPage";
+
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+}
 
 function App() {
   return (
     <Router>
+      <ScrollToTop />
       <Navbar />
       <div
         className="bg-center inset-3 bg-repeat"
@@ -48,7 +59,6 @@ function App() {
             <Route path="/contact" element={<ContactPage />} />
             <Route path="news-letter" element={<Newsletter />} />
             <Route path="/news-letter/:id" element={<DetailPage />} />
-
             <Route path="/event/past" element={<PastEventDetailsPage />} />
             <Route path="/event/:id" element={<EventDetailsPage />} />
             <Route path="/events" element={<EventsPage />} />
@@ -58,7 +68,6 @@ function App() {
             <Route path="/achievements" element={<Awards />} />
             <Route path="/Blog" element={<Blog />} />
             <Route path="/post/:id" element={<BlogContentPage />} />
-
             <Route path="/Coworking" element={<Coworking />} />
             <Route path="/investors" element={<Investers />} />
             <Route
@@ -80,3 +89,4 @@ function App() {
 }
 
 export default App;
+

@@ -7,7 +7,6 @@ const ImageCarousel = () => {
 
   // Fetch the gallery data from the context
   const { gallery } = useContext(GalleryContext);
-  
 
   // Ensure gallery is not undefined and is an array
   const images = gallery && Array.isArray(gallery) ? gallery : [];
@@ -62,9 +61,16 @@ const ImageCarousel = () => {
                   alt={image.title}
                   className="w-full h-[300px] md:h-[500px] lg:h-[600px] object-cover"
                 />
+                {/* Gradient overlay */}
+                <div 
+                  className="absolute inset-0 bg-gradient-to-t from-black via-black to-transparent"
+                  style={{ 
+                    background: 'linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.6) 30%, rgba(0,0,0,0) 100%)'
+                  }}
+                ></div>
                 {/* Text overlay that's always visible */}
                 <div className="absolute bottom-4 right-4 text-right text-white">
-                  <h3 className="text-xl md:text-2xl font-bold mb-1 drop-shadow-lg">
+                  <h3 className="md:text-[20px] ml-3 text-[10px] drop-shadow-lg">
                     {image.title}
                   </h3>
                   <p className="text-sm md:text-base mb-1 drop-shadow-lg">
@@ -83,7 +89,7 @@ const ImageCarousel = () => {
               key={index}
               onClick={() => setCurrentIndex(index)}
               className={`w-2 h-2 md:w-3 md:h-3 rounded-full mx-1 ${
-                index === currentIndex ? "bg-[#FF4D00]" : "bg-[#1a237e]/50"
+                index === currentIndex ? "bg-[#FF4D00]" : "bg-[#ffff]/50"
               }`}
               aria-label={`Go to slide ${index + 1}`}
             />
@@ -95,3 +101,4 @@ const ImageCarousel = () => {
 };
 
 export default ImageCarousel;
+
