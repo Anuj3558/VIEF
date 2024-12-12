@@ -537,8 +537,9 @@ export const deleteSponsor = async (req, res) => {
         const newMember = new Member({
             title: req.body.title,
             position: req.body.position,
-            linkedinUrl: req.body.description,
-            image:  req.file.path  // Use uploaded file path or provided URL
+            linkedinUrl: req.body.description?req.body.description:"Undfined",
+            image:  req.file.path,
+            Specialization:req.body.Specialization  // Use uploaded file path or provided URL
         });
 
         const savedMember = await newMember.save();
@@ -578,7 +579,8 @@ export const updateMember = async (req, res) => {
         let updateData = {
             title: req.body.title,
             position: req.body.position,
-            linkedinUrl: req.body.description
+            linkedinUrl: req.body.description?req.body.description:"Undfined",
+            Specialization:req.body.Specialization
         };
 
         // Handle image update
